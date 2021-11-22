@@ -1,1 +1,3 @@
-# Dubovitskiy_IVR-Where-is-my-coffee-
+# Dubovitskiy's HSE IT project
+
+#Where's my coffee
