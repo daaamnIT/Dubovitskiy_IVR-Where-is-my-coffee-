@@ -1,7 +1,7 @@
 # Дубовицкий Алексей – “Where’s my coffee?”
 
 ### Группа: 10И2
-### Электронная почта: Alexey.dubovitskiy2016@gmail.com
+### Электронная почта: alexey.dubovitskiy2016@gmail.com
 ### VK: https://vk.com/daamn_it
 ### Telefram: @daaamn1T
 
