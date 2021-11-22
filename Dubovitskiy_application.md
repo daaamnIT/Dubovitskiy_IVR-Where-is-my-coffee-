@@ -3,7 +3,7 @@
 ### Группа: 10И2
 ### Электронная почта: alexey.dubovitskiy2016@gmail.com
 ### VK: https://vk.com/daamn_it
-### Telefram: @daaamn1T
+### Telegram: @daaamn1T
 
 
 **[ НАЗВАНИЕ ПРОЕКТА ]**
