@@ -10,8 +10,6 @@ import { LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
-import { Margarine_400Regular } from '@expo-google-fonts/dev';
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -92,64 +90,82 @@ export default class LoginScreen extends Component {
 	else{Alert.alert("Вы вошли в свой профиль" )}
   }
 
-  render() {
-		return (
-			<SafeAreaView style={styles.container}>
-      			<ScrollView style={styles.scrollView}>
-				  <View style = {styles.row}>
-					<View style = {styles.svg}>
-						<Image
-							style={styles.tinyLogo}
-							source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
-						/>
+render() {
+	return (
+		<SafeAreaView style={styles.container}>
+			  <ScrollView style={styles.scrollView}>
+			  <View style = {styles.row}>
+				<View style = {styles.svg}>
+					<Image
+						style={styles.tinyLogo}
+						source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
+					/>
+					</View>
+					<View style = {styles.headers}>
+						<View>
+							<Text style = {styles.h1}>WHERE'S MY</Text>
 						</View>
-						<View style = {styles.headers}>
-							<View>
-								<Text style = {styles.h1}>WHERE'S MY</Text>
-							</View>
-							<View>
-								<Text style = {styles.h2}>COFFEE</Text>
-							</View>
+						<View>
+							<Text style = {styles.h2}>COFFEE</Text>
 						</View>
 					</View>
-				<View style = {styles.mainheader}>
-					<Text style = {styles.h3}>Авторизация</Text>
 				</View>
-				<View style = {styles.allinp}>
+			<View style = {styles.mainheader}>
+				<Text style = {styles.h3}>Авторизация</Text>
+			</View>
+			<View style = {styles.allinp}>
 
-					<View style = {styles.names}>
-						<Text style = {styles.names}>Адрес электронной почты</Text>
-					</View>
-
-					<View style = {styles.inputs}>
-						<TextInput
-							placeholder="Почта"
-							returnKeyType="next"
-							onChangeText={this.onChangeEmailInputHandler}
-							placeholderTextColor="lightgrey"
-						/>
-					</View>
-
-					<View style = {styles.names}>
-						<Text style = {styles.names}>Ваш пароль</Text>
-					</View>
-					
-					<View style = {styles.inputs}>
-						<TextInput
-							placeholder="Пароль"
-							returnKeyType="next"
-							onChangeText={this.onChangePasswordInputHandler}
-							placeholderTextColor="lightgrey"
-						/>
-					</View>
-
+				<View style = {styles.names}>
+					<Text style = {styles.names}>Адрес электронной почты</Text>
 				</View>
-				</ScrollView>
-    		</SafeAreaView>
-		);
-  }
+
+				<View style = {styles.inputs}>
+					<TextInput style = {styles.placeholder}
+						placeholder="Почта"
+						returnKeyType="next"
+						onChangeText={this.onChangeEmailInputHandler}
+						placeholderTextColor="lightgrey"
+					/>
+				</View>
+				<View
+						style={{
+							borderBottomColor: 'black',
+							borderBottomWidth: 2,
+							
+						}}
+					/>
+
+				<View style = {styles.names}>
+					<Text style = {styles.names}>Ваш пароль</Text>
+				</View>
+				
+				<View style = {styles.inputs}>
+					<TextInput style = {styles.placeholder}
+						placeholder="Пароль"
+						returnKeyType="next"
+						onChangeText={this.onChangePasswordInputHandler}
+						placeholderTextColor="lightgrey"
+					/>
+					<View
+						style={{
+							borderBottomColor: 'black',
+							borderBottomWidth: 2,
+							borderBottomRadius: 10,
+						}}
+					/>
+				</View>
+			</View>
+			<View style = {styles.button_main}>
+					<TouchableOpacity style = {styles.button_opac}>
+						<Text style = {styles.button_text}>Войти</Text>
+					</TouchableOpacity>
+				</View>
+			</ScrollView>
+		</SafeAreaView>
+	);
 }
-  
+}
+
 
 const styles = StyleSheet.create({
 	container: {
@@ -204,16 +220,42 @@ const styles = StyleSheet.create({
 		height: 50 * (entireScreenWidth / 380),
 	  },
 	  allinp:{
+		flex: 1,
 		flexDirection: 'column',
 		marginTop: '15%',
+		// backgroundColor: "#7cb48f",
+		alignSelf: 'center',
+		// justifyContent: 'center',
+		width: 280 * (entireScreenWidth / 380),
+		height: 110 * (entireScreenWidth / 380),
 	  },
 	  names:{
-		margin: 5,
+		marginTop: 7 * (entireScreenWidth / 380),
 		left: 0,
-		fontSize: 12 * (entireScreenWidth / 380)
+		fontSize:  12 * (entireScreenWidth / 380)
 	  },
 	  inputs: {
-		
+		  marginTop: 5 * (entireScreenWidth / 380)
+	  },
+	  placeholder: {
+		fontSize: 9 * (entireScreenWidth / 380),
+		// textDecorationLine: 'underline',
+		alignSelf: 'flex-start',
+	  },
+	  button_main:{
+		justifyContent: 'center',
+		alignItems: 'center',
+	  }, 
+	  button_opac:{
+		width: 280 * (entireScreenWidth / 380),
+		height: 20 * (entireScreenWidth / 380),
+		backgroundColor: "black",
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5 * (entireScreenWidth / 380),
+	  },
+	  button_text:{
+		fontSize: 10 * (entireScreenWidth / 380),
+		color: "rgba(255, 255, 255, 1)",
 	  },
   });
-  
