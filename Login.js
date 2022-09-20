@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View, Alert, Image } from 'react-native';
+import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View, Alert, Image, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Auth from './Token';
 import Login from './UserInfo';
@@ -94,74 +94,83 @@ render() {
 	return (
 		<SafeAreaView style={styles.container}>
 			  <ScrollView style={styles.scrollView}>
-			  <View style = {styles.row}>
-				<View style = {styles.svg}>
-					<Image
-						style={styles.tinyLogo}
-						source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
-					/>
-					</View>
-					<View style = {styles.headers}>
-						<View>
-							<Text style = {styles.h1}>WHERE'S MY</Text>
+				  <KeyboardAvoidingView
+					style={{ flex: 1 }}
+					keyboardVerticalOffset={100}
+					behavior={"position"}
+					>
+						<View style = {styles.row}>
+							<View style = {styles.svg}>
+								<Image
+									style={styles.tinyLogo}
+									source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
+								/>
+								</View>
+								<View style = {styles.headers}>
+									<View>
+										<Text style = {styles.h1}>WHERE'S MY</Text>
+									</View>
+									<View>
+										<Text style = {styles.h2}>COFFEE</Text>
+									</View>
+								</View>
+							</View>
+						<View style = {styles.mainheader}>
+							<Text style = {styles.h3}>Авторизация</Text>
 						</View>
-						<View>
-							<Text style = {styles.h2}>COFFEE</Text>
-						</View>
-					</View>
-				</View>
-			<View style = {styles.mainheader}>
-				<Text style = {styles.h3}>Авторизация</Text>
-			</View>
-			<View style = {styles.allinp}>
 
-				<View style = {styles.names}>
-					<Text style = {styles.names}>Адрес электронной почты</Text>
-				</View>
+						<View style = {styles.allinp}>
 
-				<View style = {styles.inputs}>
-					<TextInput style = {styles.placeholder}
-						placeholder="Почта"
-						returnKeyType="next"
-						onChangeText={this.onChangeEmailInputHandler}
-						placeholderTextColor="lightgrey"
-					/>
-				</View>
-				<View
-						style={{
-							borderBottomColor: 'black',
-							borderBottomWidth: 2,
+							<View style = {styles.names}>
+								<Text style = {styles.names}>Адрес электронной почты</Text>
+							</View>
+
+							<View style = {styles.inputs}>
+								<TextInput style = {styles.placeholder}
+									placeholder="Почта"
+									returnKeyType="next"
+									onChangeText={this.onChangeEmailInputHandler}
+									placeholderTextColor="lightgrey"
+								/>
+							</View>
+							<View
+									style={{
+										borderBottomColor: 'black',
+										borderBottomWidth: 2,
+										
+									}}
+								/>
+
+							<View style = {styles.names}>
+								<Text style = {styles.names}>Ваш пароль</Text>
+							</View>
 							
-						}}
-					/>
-
-				<View style = {styles.names}>
-					<Text style = {styles.names}>Ваш пароль</Text>
-				</View>
-				
-				<View style = {styles.inputs}>
-					<TextInput style = {styles.placeholder}
-						placeholder="Пароль"
-						returnKeyType="next"
-						onChangeText={this.onChangePasswordInputHandler}
-						placeholderTextColor="lightgrey"
-					/>
-					<View
-						style={{
-							borderBottomColor: 'black',
-							borderBottomWidth: 2,
-							borderBottomRadius: 10,
-						}}
-					/>
-				</View>
-			</View>
-			<View style = {styles.button_main}>
-					<TouchableOpacity style = {styles.button_opac}>
-						<Text style = {styles.button_text}>Войти</Text>
-					</TouchableOpacity>
-				</View>
+							<View style = {styles.inputs}>
+								<TextInput style = {styles.placeholder}
+									placeholder="Пароль"
+									returnKeyType="next"
+									onChangeText={this.onChangePasswordInputHandler}
+									placeholderTextColor="lightgrey"
+									secureTextEntry={true}
+								/>
+								<View
+									style={{
+										borderBottomColor: 'black',
+										borderBottomWidth: 2,
+										borderBottomRadius: 10,
+									}}
+								/>
+							</View>
+						</View>
+						<View style = {styles.button_main}>
+							<TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.submitPressed()}>
+								<Text style = {styles.button_text}>Войти</Text>
+							</TouchableOpacity>
+						</View>
+				</KeyboardAvoidingView>
 			</ScrollView>
 		</SafeAreaView>
+
 	);
 }
 }
@@ -241,6 +250,8 @@ const styles = StyleSheet.create({
 		fontSize: 9 * (entireScreenWidth / 380),
 		// textDecorationLine: 'underline',
 		alignSelf: 'flex-start',
+		// backgroundColor: 'green',
+		width: 280 * (entireScreenWidth / 380),
 	  },
 	  button_main:{
 		justifyContent: 'center',
