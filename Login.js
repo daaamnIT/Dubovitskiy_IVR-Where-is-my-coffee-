@@ -179,6 +179,7 @@ render() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: 'white'
 	  },
 	  scrollView: {
 		// marginHorizontal: 20,
