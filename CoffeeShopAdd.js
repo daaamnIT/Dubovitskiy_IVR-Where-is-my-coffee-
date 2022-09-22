@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Dimensions, StyleSheet, Text, View, Button, TextInput, SafeAreaView, Alert } from "react-native"
+import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Alert, Dimensions } from "react-native"
 import MapView, { Callout, Circle, Marker } from "react-native-maps"
 import {useState} from 'react'
 import FormData from 'form-data';
@@ -8,6 +8,9 @@ import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
+
+const entireScreenWidth = Dimensions.get('window').width;
+
 
 function _addMarker(pin, text, text2){
   console.log(pin.latitude)
@@ -50,7 +53,7 @@ export default function CoffeeShopAdd() {
 	return (
 		<View style={{flex: 1 }}> 
     <SafeAreaView>
-        <View style = {[styles.passwordStyle, {display: "flex", flexDirection: "row", alignItems: "center"}]}>
+        <View style = {[styles.inputs, {display: "flex", flexDirection: "row", alignItems: "center"}]}>
         <TextInput style = {[styles.passwordStyle, {position: "relative", flexGrow: 1, left: 0, top: 0, height: "auto", transform: [{translateX: 0}, {translateY: 0}],}]}
           value={text}
           onChangeText={(newValue)=> setText(newValue)}
@@ -61,7 +64,7 @@ export default function CoffeeShopAdd() {
         <View style = {styles._input_2}>
         </View>
 
-        <View style = {[styles.opisaniye, {display: "flex", flexDirection: "row", alignItems: "center"}]}>
+        <View style = {[styles.inputs, {display: "flex", flexDirection: "row", alignItems: "center"}]}>
         <TextInput style = {[styles.opisaniye, {position: "relative", flexGrow: 1, left: 0, top: 0, height: "auto", transform: [{translateX: 0}, {translateY: 0}],}]}
           value={text2}
           onChangeText={(newValue)=> setText2(newValue)}
@@ -113,15 +116,15 @@ export default function CoffeeShopAdd() {
 
 const styles = StyleSheet.create({
   _input_2: {
-		width: 380,
+		width: entireScreenWidth,
 		height: 0,
 		borderRadius: undefined,
 		borderWidth: 1,
     marginTop:3,
 		borderStyle: "solid",
 		borderColor: "rgba(0,0,0,1)",
-		left: 16,
-		right: "auto",
+		left: 2 * (entireScreenWidth / 380),
+		// right: 2 * (entireScreenWidth / 380),
 		bottom: "auto",
 		transform: [
 			{translateX: 0},
@@ -130,11 +133,12 @@ const styles = StyleSheet.create({
 		],
 	},
   passwordStyle:{
-		width: "auto",
+		width: entireScreenWidth,
 		height: "auto",
-		right: "auto",
-		bottom: "auto",
+		// right: "auto",
+		// bottom: "auto",
     marginLeft: 10,
+    // backgroundColor: 'green',
     marginTop:10,
 		transform: [
 			{translateX: 0},
@@ -151,13 +155,13 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.1,
   },
   _input_1: {
-		width: 380,
+		width: entireScreenWidth,
 		height: 0,
 		borderRadius: undefined,
 		borderWidth: 1,
 		borderStyle: "solid",
 		borderColor: "rgba(0,0,0,1)",
-		left: 16,
+		left: 2 * (entireScreenWidth / 380),
     marginBottom: 15,
 		right: "auto",
 		bottom: "auto",
