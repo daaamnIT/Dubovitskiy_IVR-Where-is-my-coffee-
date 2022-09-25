@@ -12,6 +12,7 @@ import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 
+
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -70,7 +71,7 @@ export default class LoginScreen extends Component {
     formData.append('username', this.state.email);
     formData.append('password', this.state.password);
 
-    const token = await fetch('https://zkb-coffee-app.herokuapp.com/api/auth/login/', {
+    const token = await fetch('http://127.0.0.1:8000/api/auth/login/', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -87,7 +88,7 @@ export default class LoginScreen extends Component {
 	if(typeof Auth.getToken() == 'undefined'){
 		Alert.alert("Не получилось войти", "Возможно вы ввели что-то не так" )
 	}
-	else{Alert.alert("Вы вошли в свой профиль" )}
+	else{Alert.alert("Вы вошли в свой профиль")}
   }
 
 render() {

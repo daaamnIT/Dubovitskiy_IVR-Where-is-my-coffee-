@@ -52,7 +52,7 @@ export default class Full_About_Coffee extends Component {
     async getComments() {
       try {
         console.log(Auth.getToken())
-        const response = await fetch("https://zkb-coffee-app.herokuapp.com/comments_list/" + this.state.coffee_id + "/",{
+        const response = await fetch("http://127.0.0.1:8000/comments_list/" + this.state.coffee_id + "/",{
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -71,7 +71,7 @@ export default class Full_About_Coffee extends Component {
       }
 
       async getUserInfo(){
-        const response = await fetch('https://zkb-coffee-app.herokuapp.com/api/me/', {
+        const response = await fetch('http://127.0.0.1:8000/api/me/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),
@@ -114,7 +114,7 @@ export default class Full_About_Coffee extends Component {
       formData.append('text', this.state.text1);
       formData.append('author', this.state.username);
       formData.append('coffee_shop_id', this.state.coffee_id);
-      fetch('https://zkb-coffee-app.herokuapp.com/comment_post/', {
+      fetch('http://127.0.0.1:8000/comment_post/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

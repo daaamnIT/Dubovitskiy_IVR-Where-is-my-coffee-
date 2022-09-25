@@ -34,7 +34,7 @@ export default class Profile_page extends Component {
 
       async Logout(){
         console.log(Auth.getToken())
-        const info = await fetch(`https://zkb-coffee-app.herokuapp.com/api/auth/logout/`, {
+        const info = await fetch(`http://127.0.0.1:8000/api/auth/logout/`, {
           method: 'GET',
           headers: {
             Authorization: 'Token ' + Auth.getToken(),
@@ -44,13 +44,14 @@ export default class Profile_page extends Component {
         this.setState({firstname: 'anonym'})
         this.setState({lastname: ''})
         this.setState({date_joined: ''})
-        Auth.setToken('')
+        Auth.setToken('noToken')
         console.log(this.state)
+		console.log(Auth.getToken())
         Alert.alert("Вы вышли из своего аккаунта")
       }
 
       async getUserInfo(){
-        const response = await fetch('https://zkb-coffee-app.herokuapp.com/api/me/', {
+        const response = await fetch('http://127.0.0.1:8000/api/me/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),
@@ -219,11 +220,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		marginTop: '10%',
-		backgroundColor: "#7cb48f",
+		// backgroundColor: "#7cb48f",
 		alignSelf: 'center',
 		// justifyContent: 'center',
 		width: 280 * (entireScreenWidth / 380),
-		height: 120 * (entireScreenWidth / 380),
+		height: 150 * (entireScreenWidth / 380),
 	  },
 	  names:{
 		marginTop: 7 * (entireScreenWidth / 380),

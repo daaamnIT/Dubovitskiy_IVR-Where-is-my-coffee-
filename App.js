@@ -19,6 +19,8 @@ import IpAdress from './getIP';
 import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 import { YellowBox } from 'react-native';
+import Auth from './Token';
+
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
@@ -53,7 +55,7 @@ function HomeScreen({navigation}) {
 
   const getCoffeeList = async () => {
      try {
-      const response = await fetch(`https://zkb-coffee-app.herokuapp.com/list`);
+      const response = await fetch(`http://127.0.0.1:8000/list`);
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -142,6 +144,7 @@ function AddMarker(){
 
  export default function App(){
 // export default class App extends React.Component{
+  if(Auth.getToken() == 'noToken'){
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -189,6 +192,53 @@ function AddMarker(){
     
 
     );
+      } else{
+        return (
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                headerShown: false,
+                
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+      
+                  if (route.name === 'Карта') {
+                    iconName = focused
+                      ? 'ios-information-circle'
+                      : 'ios-information-circle-outline';
+                  } else if (route.name === 'Профиль') {
+                    iconName = focused ? 'ios-list' : 'ios-list-outline';
+                  }
+                  if (route.name === 'Регистрация') {
+                    iconName = focused
+                      ? 'ios-lock-open'
+                      : 'ios-lock-closed';
+                  } else if (route.name === 'Авторизация') {
+                    iconName = focused
+                      ? 'person'
+                      : 'person-outline';
+                  } else if (route.name === 'Добавить') {
+                    iconName = focused
+                      ? 'add-circle'
+                      : 'add-circle-outline';
+                  } 
+        
+      
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: 'tomato',
+                tabBarInactiveTintColor: 'gray',
+              })}
+            >
+              <Tab.Screen name="Карта" component={HomeStack} />
+              <Tab.Screen name="Профиль" component={Profile_page} /> 
+              <Tab.Screen name="Добавить" component={AddMarker} /> 
+              <Tab.Screen name="Регистрация" component={RegisterScreen} />
+              <Tab.Screen name="Авторизация" component={LoginScreen} /> 
+             </Tab.Navigator> 
+           </NavigationContainer>
+        );      
+      }
   }
 
 

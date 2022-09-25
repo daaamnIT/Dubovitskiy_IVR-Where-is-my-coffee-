@@ -23,7 +23,7 @@ function _addMarker(pin, text, text2){
   formData.append('latitude', pin.latitude);
   formData.append('longitude', pin.longitude);
 
-  fetch(`https://zkb-coffee-app.herokuapp.com/requests/`, {
+  fetch(`http://127.0.0.1:8000/requests/`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
