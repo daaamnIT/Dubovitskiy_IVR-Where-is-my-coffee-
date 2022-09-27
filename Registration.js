@@ -9,6 +9,16 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { LogBox } from 'react-native';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {Picker} from '@react-native-picker/picker';
+import LoginScreen from "./Login";
+import { OwnerClicked } from './App.js';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+// import { createStackNavigator, createAppContainer } from 'react-navigation';
+
+
 
 
 
@@ -16,6 +26,8 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 const entireScreenWidth = Dimensions.get('window').width;
+// const [selectedLanguage, setSelectedLanguage] = useState();
+// const navigation = useNavigation(); 
 
 
 export default class RegistrationScreen extends Component {
@@ -29,7 +41,7 @@ export default class RegistrationScreen extends Component {
 	zipInputRef = React.createRef();
 	phoneInputRef = React.createRef();
 	scrollViewRef = React.createRef();
-  
+	
 	constructor(props) {
 	  super(props);
 	  this.state = {
@@ -52,7 +64,12 @@ export default class RegistrationScreen extends Component {
 	  };
 	  this.submitPressed = this.submitPressed.bind(this);
 	}
-  
+	
+	state = {user: ''}
+	updateUser = (user) => {
+	   this.setState({ user: user })
+	}
+
 	inputs = () => {
 	  return [
 		this.emailInputRef,
@@ -113,6 +130,7 @@ export default class RegistrationScreen extends Component {
 		  phone: value,
 	  });
 	}
+
   
 	async submitPressed() {
 	  console.log(this.state.email)
@@ -160,6 +178,8 @@ export default class RegistrationScreen extends Component {
 	}
 
   render() {
+	const { navigation } = this.props
+	// const navigation = useNavigation();
     return (
 		<SafeAreaView style={styles.container}>
 		<ScrollView style={styles.scrollView}>
@@ -272,25 +292,25 @@ export default class RegistrationScreen extends Component {
 						  <Text style = {styles.names}>Выберите тип аккаунта</Text>
 					  	</View>
 					  
-					  <View style = {styles.inputs}>
-						  <TextInput style = {styles.placeholder}
-							  placeholder="Тип аккаунта"
-							  returnKeyType="next"
-							  placeholderTextColor="lightgrey"
-						  />
-						  <View
-							  style={{
-								  borderBottomColor: 'black',
-								  borderBottomWidth: 2,
-								  borderBottomRadius: 10,
-							  }}
-						  />
+						{/* <View style = {styles.picker}>
+							<Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}>
+							<Picker.Item label = "User" value = "user" />
+							<Picker.Item label = "Owner" value = "owner" />
+							</Picker>
+							<Text style = {styles.text}>{this.state.user}</Text>
+						</View> */}
+
 					  </View>
+
+					  <View style={styles.owner}>
+						  <TouchableOpacity onPress={()=>OwnerClicked(this.props.navigation)}>
+							  <Text style={styles.ownerreg}>↓ Вы владелец? Зарагеструйтесь тут ↓</Text>
+						  </TouchableOpacity>
 					  </View>
 				  </View>
 				  <View style = {styles.button_main}>
 					  <TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.submitPressed()}>
-						  <Text style = {styles.button_text}>Войти</Text>
+						  <Text style = {styles.button_text}>Зарегестрироваться</Text>
 					  </TouchableOpacity>
 				  </View>
 		  </KeyboardAvoidingView>
@@ -394,5 +414,13 @@ const styles = StyleSheet.create({
 	  button_text:{
 		fontSize: 10 * (entireScreenWidth / 380),
 		color: "rgba(255, 255, 255, 1)",
+	  },
+	  owner:{
+		marginTop: 210 * (entireScreenWidth / 380),
+		justifyContent: 'center',
+		alignItems: 'center',
+	  },
+	  ownerreg:{
+		color:'purple'
 	  },
   });

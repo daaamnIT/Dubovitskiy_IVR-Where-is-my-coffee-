@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Profile_page from "./Profile2"
 import LoginScreen from "./Login"
 import { Component } from "react";
-import RegisterScreen from "./Registration"
+import RegistrationScreen from "./Registration"
 import Full_About_Coffee from './FullCoffeeInfo';
 import { useEffect, useState } from 'react';
 import CoffeeShopAdd from "./CoffeeShopAdd";
@@ -110,6 +110,32 @@ function HomeScreen({navigation}) {
 };
 
 const Stack = createNativeStackNavigator();
+const Stack2 = createNativeStackNavigator();
+
+function RegStack() {
+  return (
+  
+    <Stack2.Navigator
+    screenOptions={{
+    headerShown: false
+  }}
+   initialRouteName='RegComponent'>
+  
+    <Stack2.Screen name="RegComponent" component={RegistrationScreen} />
+     <Stack2.Screen name="LogComponent" component={LoginScreen} />  
+    </Stack2.Navigator>
+    
+  );
+}
+
+export const OwnerClicked = (navigation) => {
+  // const Stack = createStackNavigator();
+  // console.log("Owner was clicked");
+  navigation.navigate('RegComponent', {
+    screen: 'LogComponent',
+  })
+}
+
 function HomeStack() {
   return (
   
@@ -126,7 +152,7 @@ function HomeStack() {
   );
 }
 const Tab = createBottomTabNavigator();
-function markerClick(navigation, marker,id){
+function markerClick(navigation, marker, id){
   // const Stack = createStackNavigator();
    console.log("Marker was clicked");
   navigation.navigate('Карта', {
@@ -144,7 +170,6 @@ function AddMarker(){
 
  export default function App(){
 // export default class App extends React.Component{
-  if(Auth.getToken() == 'noToken'){
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -185,60 +210,13 @@ function AddMarker(){
         <Tab.Screen name="Карта" component={HomeStack} />
         <Tab.Screen name="Профиль" component={Profile_page} /> 
         <Tab.Screen name="Добавить" component={AddMarker} /> 
-        <Tab.Screen name="Регистрация" component={RegisterScreen} />
+        <Tab.Screen name="Регистрация" component={RegStack} />
         <Tab.Screen name="Авторизация" component={LoginScreen} /> 
        </Tab.Navigator> 
      </NavigationContainer>
     
 
     );
-      } else{
-        return (
-          <NavigationContainer>
-            <Tab.Navigator
-              screenOptions={({ route }) => ({
-                headerShown: false,
-                
-                tabBarIcon: ({ focused, color, size }) => {
-                  let iconName;
-      
-                  if (route.name === 'Карта') {
-                    iconName = focused
-                      ? 'ios-information-circle'
-                      : 'ios-information-circle-outline';
-                  } else if (route.name === 'Профиль') {
-                    iconName = focused ? 'ios-list' : 'ios-list-outline';
-                  }
-                  if (route.name === 'Регистрация') {
-                    iconName = focused
-                      ? 'ios-lock-open'
-                      : 'ios-lock-closed';
-                  } else if (route.name === 'Авторизация') {
-                    iconName = focused
-                      ? 'person'
-                      : 'person-outline';
-                  } else if (route.name === 'Добавить') {
-                    iconName = focused
-                      ? 'add-circle'
-                      : 'add-circle-outline';
-                  } 
-        
-      
-                  return <Ionicons name={iconName} size={size} color={color} />;
-                },
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
-              })}
-            >
-              <Tab.Screen name="Карта" component={HomeStack} />
-              <Tab.Screen name="Профиль" component={Profile_page} /> 
-              <Tab.Screen name="Добавить" component={AddMarker} /> 
-              <Tab.Screen name="Регистрация" component={RegisterScreen} />
-              <Tab.Screen name="Авторизация" component={LoginScreen} /> 
-             </Tab.Navigator> 
-           </NavigationContainer>
-        );      
-      }
   }
 
 
