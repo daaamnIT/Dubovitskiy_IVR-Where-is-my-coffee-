@@ -21,6 +21,8 @@ import IpAdress from './getIP';
 import Login from './UserInfo';
 import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
@@ -171,9 +173,16 @@ export default class Full_About_Coffee extends Component {
           </TouchableOpacity>
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
-
+          {/* <View style={styles.container}>
+            <Star score={4.5} style={styles.starStyle} />
+          </View> */}
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
-
+          <Rating
+            showRating
+            onFinishRating={this.ratingCompleted}
+            onFinishRating={console.log(1)}
+            style={{ paddingVertical: 10 }}
+          />
            <View style={styles.inputTextWrapper}>
               <TextInput
                   placeholder="Ваш комментарий"
@@ -288,5 +297,10 @@ export default class Full_About_Coffee extends Component {
       justifyContent: "flex-end",
       alignItems: "flex-end",
       marginTop: 30,
+    },
+    starStyle:{
+      width: 100,
+      height: 20,
+      marginBottom: 20,
     },
   });

@@ -11,7 +11,6 @@ import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Picker} from '@react-native-picker/picker';
 import LoginScreen from "./Login";
-import { OwnerClicked } from './App.js';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 // import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
+const Stack = createNativeStackNavigator();
 
 
 
@@ -63,6 +63,12 @@ export default class RegistrationScreen extends Component {
 		  showPhoneError: false,
 	  };
 	  this.submitPressed = this.submitPressed.bind(this);
+	  this.onChangeEmailInputHandler = this.onChangeEmailInputHandler.bind(this);
+	  this.onChangePasswordInputHandler = this.onChangePasswordInputHandler.bind(this);
+	  this.onChangeFirstNameInputHandler = this.onChangeFirstNameInputHandler.bind(this);
+	  this.onChangeLastNameInputHandler = this.onChangeLastNameInputHandler.bind(this);
+	  this.onChangeCountryInputHandler = this.onChangeCountryInputHandler.bind(this);
+	  this.Redirect = this.Redirect.bind(this);
 	}
 	
 	state = {user: ''}
@@ -82,13 +88,13 @@ export default class RegistrationScreen extends Component {
 		this.phoneInputRef,
 	  ];
 	};
-  
+	
 	onChangeEmailInputHandler = (value) => {
-	  this.setState({
-		email: value,
-	  });
-	}
-  
+		this.setState({
+		  email: value,
+		});
+	  }
+
 	onChangePasswordInputHandler = (value) => {
 	  this.setState({
 		password: value,
@@ -131,6 +137,19 @@ export default class RegistrationScreen extends Component {
 	  });
 	}
 
+	Redirect = (navigation) => {
+		// const Stack = createStackNavigator();
+		console.log("Marker was clicked");
+		navigation.navigate('Карта', {
+		  screen: 'FullInfo',
+		})
+	  }
+
+	OwnerReg(){
+		return(
+			<Text>Hello</Text>
+		);
+	}
   
 	async submitPressed() {
 	  console.log(this.state.email)
@@ -177,145 +196,158 @@ export default class RegistrationScreen extends Component {
 	  Keyboard.dismiss();
 	}
 
+	RegScreen(){
+		return(
+		<SafeAreaView style={styles.container}>
+			<ScrollView style={styles.scrollView}>
+				<KeyboardAvoidingView
+				  style={{ flex: 1 }}
+				  keyboardVerticalOffset={100}
+				  behavior={"position"}
+				  >
+					  <View style = {styles.row}>
+						  <View style = {styles.svg}>
+							  <Image
+								  style={styles.tinyLogo}
+								  source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
+							  />
+							  </View>
+							  <View style = {styles.headers}>
+								  <View>
+									  <Text style = {styles.h1}>WHERE'S MY</Text>
+								  </View>
+								  <View>
+									  <Text style = {styles.h2}>COFFEE</Text>
+								  </View>
+							  </View>
+						  </View>
+					  <View style = {styles.mainheader}>
+						  <Text style = {styles.h3}>Регистрация</Text>
+					  </View>
+	
+					  <View style = {styles.allinp}>
+	
+						  <View style = {styles.names}>
+							  <Text style = {styles.names}>Адрес электронной почты</Text>
+						  </View>
+	
+						  <View style = {styles.inputs}>
+							  <TextInput style = {styles.placeholder}
+								  placeholder="Почта"
+								  returnKeyType="next"
+								  onChangeText={() => this.onChangeEmailInputHandler}
+								  placeholderTextColor="lightgrey"
+							  />
+						  </View>
+						  <View
+								  style={{
+									  borderBottomColor: 'black',
+									  borderBottomWidth: 2,
+									  
+								  }}
+							  />
+	
+						  <View style = {styles.names}>
+							  <Text style = {styles.names}>Ваш пароль</Text>
+						  </View>
+						  
+						  <View style = {styles.inputs}>
+							  <TextInput style = {styles.placeholder}
+								  placeholder="Пароль"
+								  returnKeyType="next"
+								  onChangeText={() => this.onChangePasswordInputHandler}
+								  placeholderTextColor="lightgrey"
+								  secureTextEntry={true}
+							  />
+							  <View
+								  style={{
+									  borderBottomColor: 'black',
+									  borderBottomWidth: 2,
+									  borderBottomRadius: 10,
+								  }}
+							  />
+							<View style = {styles.names}>
+							  <Text style = {styles.names}>Имя</Text>
+							  </View>
+						  
+						  <View style = {styles.inputs}>
+							  <TextInput style = {styles.placeholder}
+								  placeholder="Ваше имя"
+								  returnKeyType="next"
+								  onChangeText={() => this.onChangeFirstNameInputHandler}
+								  placeholderTextColor="lightgrey"
+							  />
+							  <View
+								  style={{
+									  borderBottomColor: 'black',
+									  borderBottomWidth: 2,
+									  borderBottomRadius: 10,
+								  }}
+							  />
+						  </View>
+						  <View style = {styles.names}>
+							  <Text style = {styles.names}>Фамилия</Text>
+							  </View>
+						  
+						  <View style = {styles.inputs}>
+							  <TextInput style = {styles.placeholder}
+								  placeholder="Ваша фамилия"
+								  returnKeyType="next"
+								  onChangeText={() => this.onChangeLastNameInputHandler}
+								  placeholderTextColor="lightgrey"
+							  />
+							  <View
+								  style={{
+									  borderBottomColor: 'black',
+									  borderBottomWidth: 2,
+									  borderBottomRadius: 10,
+								  }}
+							  />
+						  </View>
+	
+						  <View style = {styles.names}>
+							  <Text style = {styles.names}>Выберите тип аккаунта</Text>
+							  </View>
+						  
+							{/* <View style = {styles.picker}>
+								<Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}>
+								<Picker.Item label = "User" value = "user" />
+								<Picker.Item label = "Owner" value = "owner" />
+								</Picker>
+								<Text style = {styles.text}>{this.state.user}</Text>
+							</View> */}
+	
+						  </View>
+	
+						  <View style={styles.owner}>
+							  <TouchableOpacity onPress= {()=>this.Redirect}>
+								  <Text style={styles.ownerreg}>↓ Вы владелец? Зарагеструйтесь тут ↓</Text>
+							  </TouchableOpacity>
+						  </View>
+					  </View>
+					  <View style = {styles.button_main}>
+						  <TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.submitPressed()}>
+							  <Text style = {styles.button_text}>Зарегестрироваться</Text>
+						  </TouchableOpacity>
+					  </View>
+			  </KeyboardAvoidingView>
+		  </ScrollView>
+	  </SafeAreaView>
+	  );
+	}
+
   render() {
 	const { navigation } = this.props
 	// const navigation = useNavigation();
     return (
-		<SafeAreaView style={styles.container}>
-		<ScrollView style={styles.scrollView}>
-			<KeyboardAvoidingView
-			  style={{ flex: 1 }}
-			  keyboardVerticalOffset={100}
-			  behavior={"position"}
-			  >
-				  <View style = {styles.row}>
-					  <View style = {styles.svg}>
-						  <Image
-							  style={styles.tinyLogo}
-							  source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
-						  />
-						  </View>
-						  <View style = {styles.headers}>
-							  <View>
-								  <Text style = {styles.h1}>WHERE'S MY</Text>
-							  </View>
-							  <View>
-								  <Text style = {styles.h2}>COFFEE</Text>
-							  </View>
-						  </View>
-					  </View>
-				  <View style = {styles.mainheader}>
-					  <Text style = {styles.h3}>Регистрация</Text>
-				  </View>
-
-				  <View style = {styles.allinp}>
-
-					  <View style = {styles.names}>
-						  <Text style = {styles.names}>Адрес электронной почты</Text>
-					  </View>
-
-					  <View style = {styles.inputs}>
-						  <TextInput style = {styles.placeholder}
-							  placeholder="Почта"
-							  returnKeyType="next"
-							  onChangeText={this.onChangeEmailInputHandler}
-							  placeholderTextColor="lightgrey"
-						  />
-					  </View>
-					  <View
-							  style={{
-								  borderBottomColor: 'black',
-								  borderBottomWidth: 2,
-								  
-							  }}
-						  />
-
-					  <View style = {styles.names}>
-						  <Text style = {styles.names}>Ваш пароль</Text>
-					  </View>
-					  
-					  <View style = {styles.inputs}>
-						  <TextInput style = {styles.placeholder}
-							  placeholder="Пароль"
-							  returnKeyType="next"
-							  onChangeText={this.onChangePasswordInputHandler}
-							  placeholderTextColor="lightgrey"
-							  secureTextEntry={true}
-						  />
-						  <View
-							  style={{
-								  borderBottomColor: 'black',
-								  borderBottomWidth: 2,
-								  borderBottomRadius: 10,
-							  }}
-						  />
-						<View style = {styles.names}>
-						  <Text style = {styles.names}>Имя</Text>
-					  	</View>
-					  
-					  <View style = {styles.inputs}>
-						  <TextInput style = {styles.placeholder}
-							  placeholder="Ваше имя"
-							  returnKeyType="next"
-							  onChangeText={this.onChangeFirstNameInputHandler}
-							  placeholderTextColor="lightgrey"
-						  />
-						  <View
-							  style={{
-								  borderBottomColor: 'black',
-								  borderBottomWidth: 2,
-								  borderBottomRadius: 10,
-							  }}
-						  />
-					  </View>
-					  <View style = {styles.names}>
-						  <Text style = {styles.names}>Фамилия</Text>
-					  	</View>
-					  
-					  <View style = {styles.inputs}>
-						  <TextInput style = {styles.placeholder}
-							  placeholder="Ваша фамилия"
-							  returnKeyType="next"
-							  onChangeText={this.onChangeLastNameInputHandler}
-							  placeholderTextColor="lightgrey"
-						  />
-						  <View
-							  style={{
-								  borderBottomColor: 'black',
-								  borderBottomWidth: 2,
-								  borderBottomRadius: 10,
-							  }}
-						  />
-					  </View>
-
-					  <View style = {styles.names}>
-						  <Text style = {styles.names}>Выберите тип аккаунта</Text>
-					  	</View>
-					  
-						{/* <View style = {styles.picker}>
-							<Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}>
-							<Picker.Item label = "User" value = "user" />
-							<Picker.Item label = "Owner" value = "owner" />
-							</Picker>
-							<Text style = {styles.text}>{this.state.user}</Text>
-						</View> */}
-
-					  </View>
-
-					  <View style={styles.owner}>
-						  <TouchableOpacity onPress={()=>OwnerClicked(this.props.navigation)}>
-							  <Text style={styles.ownerreg}>↓ Вы владелец? Зарагеструйтесь тут ↓</Text>
-						  </TouchableOpacity>
-					  </View>
-				  </View>
-				  <View style = {styles.button_main}>
-					  <TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.submitPressed()}>
-						  <Text style = {styles.button_text}>Зарегестрироваться</Text>
-					  </TouchableOpacity>
-				  </View>
-		  </KeyboardAvoidingView>
-	  </ScrollView>
-  </SafeAreaView>
+			<Stack.Navigator>
+				<Stack.Screen
+				name="RegScreen"
+				component={this.RegScreen}
+				options={{ headerShown: false }}
+				/>
+				<Stack.Screen name="OwnerReg" component={this.OwnerReg} />
+			</Stack.Navigator>
       );
   }
 }

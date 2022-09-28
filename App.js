@@ -22,6 +22,7 @@ import { YellowBox } from 'react-native';
 import Auth from './Token';
 
 
+
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
@@ -110,31 +111,6 @@ function HomeScreen({navigation}) {
 };
 
 const Stack = createNativeStackNavigator();
-const Stack2 = createNativeStackNavigator();
-
-function RegStack() {
-  return (
-  
-    <Stack2.Navigator
-    screenOptions={{
-    headerShown: false
-  }}
-   initialRouteName='RegComponent'>
-  
-    <Stack2.Screen name="RegComponent" component={RegistrationScreen} />
-     <Stack2.Screen name="LogComponent" component={LoginScreen} />  
-    </Stack2.Navigator>
-    
-  );
-}
-
-export const OwnerClicked = (navigation) => {
-  // const Stack = createStackNavigator();
-  // console.log("Owner was clicked");
-  navigation.navigate('RegComponent', {
-    screen: 'LogComponent',
-  })
-}
 
 function HomeStack() {
   return (
@@ -210,7 +186,7 @@ function AddMarker(){
         <Tab.Screen name="Карта" component={HomeStack} />
         <Tab.Screen name="Профиль" component={Profile_page} /> 
         <Tab.Screen name="Добавить" component={AddMarker} /> 
-        <Tab.Screen name="Регистрация" component={RegStack} />
+        <Tab.Screen name="Регистрация" component={RegistrationScreen} />
         <Tab.Screen name="Авторизация" component={LoginScreen} /> 
        </Tab.Navigator> 
      </NavigationContainer>
