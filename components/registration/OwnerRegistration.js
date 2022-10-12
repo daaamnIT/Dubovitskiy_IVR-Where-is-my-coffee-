@@ -16,6 +16,8 @@ import {EventRegister} from 'react-native-event-listeners'
 import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Auth from "../../Token";
+import Login from "../../UserInfo";
+
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -140,47 +142,44 @@ export default class RegistrationScreen extends Component {
       
     Redirect() {
         console.log("redirection to coffee shop adding");
-        Alert.alert("Теперь добавьте кофейню на карту")
+        Alert.alert("Вы успешно создали аккаунт!","Теперь добавьте кофейню на карту")
         this.props.navigation.navigate('Добавить', {
             screen: 'AddShop',
         })
     }
 
+  
     async submitPressed() {
-        // console.log(this.state)
-        // console.log(this.state.password)
-        // console.log(this.state.firstname)
-        // console.log(this.state.lastname)
-        // console.log(this.state.Country)
-        // console.log(this.state.address)
-        // console.log(this.state.zip)
-        // console.log(this.state.phone)
+        console.log(this.state.email)
+        console.log(this.state.password)
+        console.log(this.state.firstname)
+        console.log(this.state.lastname)
+        console.log(this.state.Country)
+        console.log(this.state.address)
+        console.log(this.state.zip)
+        console.log(this.state.phone)
 
-        // const formData = new FormData();
-        // formData.append('username', this.state.email);
-        // formData.append('password', this.state.password);
-        // formData.append('first_name', this.state.firstname)
-        // formData.append('last_name', this.state.lastname);
+        const formData = new FormData();
+        formData.append('username', this.state.email);
+        formData.append('password', this.state.password);
+        formData.append('first_name', this.state.firstname)
+        formData.append('last_name', this.state.lastname);
 
-        // fetch('https://127.0.0.1:8000/api/auth/register/', {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: formData,
-        // }).then(res => this.setToken(res));
-        console.log("Reg")
-    }
-
-    setToken(token) {
-        const json = token.json();
+        const token = await fetch('http://127.0.0.1:8000/api/auth/register/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: formData,
+        });
+        
+        const json = await token.json();
         console.log(token)
         Auth.setToken(json.token)
         EventRegister.emit('UserLogin', '')
         console.log("TOKEN:", Auth.getToken())
-        Alert.alert("Вы успешно создали аккаунт")
-
+    
         this.setState({
             showEmailError: this.state.email.length < 4,
             showPasswordError: this.state.password.length < 4,
@@ -190,10 +189,51 @@ export default class RegistrationScreen extends Component {
             showAddressError: this.state.address.length < 4,
             showZipError: this.state.zip.length < 4,
             showPhoneError: this.state.phone.length < 4,
-
+            
         });
         Keyboard.dismiss();
+
+        const formDataStatus = new FormData();
+        formDataStatus.append('username', this.state.email)
+        formDataStatus.append('is_Owner', 'True')
+        console.log(formDataStatus)
+
+        fetch('http://127.0.0.1:8000/setStatus/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: formDataStatus,
+        });
+
+        Login.setStatus('True');
+
+        this.Redirect();
     }
+
+
+    // setToken(token) {
+    //     const json = token.json();
+    //     console.log(token)
+    //     Auth.setToken(json.token)
+    //     EventRegister.emit('UserLogin', '')
+    //     console.log("TOKEN:", Auth.getToken())
+    //     Alert.alert("Вы успешно создали аккаунт")
+
+    //     this.setState({
+    //         showEmailError: this.state.email.length < 4,
+    //         showPasswordError: this.state.password.length < 4,
+    //         showFirstnameError: this.state.firstname.length < 4,
+    //         showLastnameError: this.state.lastname.length < 4,
+    //         showCountryError: this.state.Country.length < 4,
+    //         showAddressError: this.state.address.length < 4,
+    //         showZipError: this.state.zip.length < 4,
+    //         showPhoneError: this.state.phone.length < 4,
+
+    //     });
+    //     Keyboard.dismiss();
+    // }
 
     render() {
         return (
@@ -307,7 +347,7 @@ export default class RegistrationScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.button_main}>
-                            <TouchableOpacity style={styles.button_opac} onPress={this.Redirect}>
+                            <TouchableOpacity style={styles.button_opac} onPress={this.submitPressed}>
                                 <Text style={styles.button_text}>Зарегестрироваться</Text>
                             </TouchableOpacity>
                         </View>

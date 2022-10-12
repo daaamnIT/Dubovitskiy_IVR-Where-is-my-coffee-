@@ -16,6 +16,7 @@ import {EventRegister} from 'react-native-event-listeners'
 import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Auth from "../../Token";
+import Login from "../../UserInfo"
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -120,7 +121,7 @@ export default class RegistrationScreen extends Component {
     }
 
     async submitPressed() {
-        console.log(this.state)
+        console.log(this.state.email)
         console.log(this.state.password)
         console.log(this.state.firstname)
         console.log(this.state.lastname)
@@ -134,27 +135,23 @@ export default class RegistrationScreen extends Component {
         formData.append('password', this.state.password);
         formData.append('first_name', this.state.firstname)
         formData.append('last_name', this.state.lastname);
-        console.log(formData)
 
-        fetch('http://127.0.0.1:8000/api/auth/register/', {
+        const token = await fetch('http://127.0.0.1:8000/api/auth/register/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
             body: formData,
-        }).then(res => this.setToken(res));
+        });
 
-    }
-
-    setToken(token) {
-        const json = token.json();
+        const json = await token.json();
         console.log(token)
         Auth.setToken(json.token)
         EventRegister.emit('UserLogin', '')
         console.log("TOKEN:", Auth.getToken())
-        Alert.alert("Вы успешно создали аккаунт")
-
+        Alert.alert("Вы успешно создали аккаунт" )
+    
         this.setState({
             showEmailError: this.state.email.length < 4,
             showPasswordError: this.state.password.length < 4,
@@ -164,10 +161,48 @@ export default class RegistrationScreen extends Component {
             showAddressError: this.state.address.length < 4,
             showZipError: this.state.zip.length < 4,
             showPhoneError: this.state.phone.length < 4,
-
+            
         });
         Keyboard.dismiss();
+
+        const formDataStatus = new FormData();
+        formDataStatus.append('username', this.state.email)
+        formDataStatus.append('is_Owner', 'False')
+        console.log(formDataStatus)
+
+        fetch('http://127.0.0.1:8000/setStatus/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: formDataStatus,
+        });
+
+        Login.setStatus('False')
     }
+
+    // setToken(token) {
+    //     const json = await token.json();
+    //     console.log(token)
+    //     Auth.setToken(json.token)
+    //     EventRegister.emit('UserLogin', '')
+    //     console.log("TOKEN:", Auth.getToken())
+    //     Alert.alert("Вы успешно создали аккаунт")
+
+    //     this.setState({
+    //         showEmailError: this.state.email.length < 4,
+    //         showPasswordError: this.state.password.length < 4,
+    //         showFirstnameError: this.state.firstname.length < 4,
+    //         showLastnameError: this.state.lastname.length < 4,
+    //         showCountryError: this.state.Country.length < 4,
+    //         showAddressError: this.state.address.length < 4,
+    //         showZipError: this.state.zip.length < 4,
+    //         showPhoneError: this.state.phone.length < 4,
+
+    //     });
+    //     Keyboard.dismiss();
+    // }
 
     render() {
         return (
