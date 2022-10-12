@@ -67,7 +67,6 @@ export default class RegistrationScreen extends Component {
         this.onChangePasswordInputHandler = this.onChangePasswordInputHandler.bind(this);
         this.onChangeFirstNameInputHandler = this.onChangeFirstNameInputHandler.bind(this);
         this.onChangeLastNameInputHandler = this.onChangeLastNameInputHandler.bind(this);
-        this.onChangeCountryInputHandler = this.onChangeCountryInputHandler.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.Redirect = this.Redirect.bind(this);
     }
@@ -113,30 +112,6 @@ export default class RegistrationScreen extends Component {
         });
     }
 
-    onChangeCountryInputHandler = (value) => {
-        this.setState({
-            Country: value,
-        });
-    }
-
-    onChangeAddressInputHandler = (value) => {
-        this.setState({
-            address: value,
-        });
-    }
-
-    onChangeZipcodeInputHandler = (value) => {
-        this.setState({
-            zipcode: value,
-        });
-    }
-
-    onChangePhoneInputHandler = (value) => {
-        this.setState({
-            phone: value,
-        });
-    }
-
     Redirect() {
         console.log("redirection to owner registration");
         this.props.navigation.navigate('Регистрация', {
@@ -159,6 +134,7 @@ export default class RegistrationScreen extends Component {
         formData.append('password', this.state.password);
         formData.append('first_name', this.state.firstname)
         formData.append('last_name', this.state.lastname);
+        console.log(formData)
 
         fetch('http://127.0.0.1:8000/api/auth/register/', {
             method: 'POST',
@@ -252,7 +228,7 @@ export default class RegistrationScreen extends Component {
                                 <TextInput style={styles.placeholder}
                                            placeholder="Пароль"
                                            returnKeyType="next"
-                                           onChangeText={() => this.onChangePasswordInputHandler}
+                                           onChangeText={this.onChangePasswordInputHandler}
                                            placeholderTextColor="lightgrey"
                                            secureTextEntry={true}
                                 />
@@ -271,7 +247,7 @@ export default class RegistrationScreen extends Component {
                                     <TextInput style={styles.placeholder}
                                                placeholder="Ваше имя"
                                                returnKeyType="next"
-                                               onChangeText={() => this.onChangeFirstNameInputHandler}
+                                               onChangeText={this.onChangeFirstNameInputHandler}
                                                placeholderTextColor="lightgrey"
                                     />
                                     <View
@@ -290,7 +266,7 @@ export default class RegistrationScreen extends Component {
                                     <TextInput style={styles.placeholder}
                                                placeholder="Ваша фамилия"
                                                returnKeyType="next"
-                                               onChangeText={() => this.onChangeLastNameInputHandler}
+                                               onChangeText={this.onChangeLastNameInputHandler}
                                                placeholderTextColor="lightgrey"
                                     />
                                     <View

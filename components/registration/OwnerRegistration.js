@@ -254,7 +254,7 @@ export default class RegistrationScreen extends Component {
                                 <TextInput style={styles.placeholder}
                                            placeholder="Пароль"
                                            returnKeyType="next"
-                                           onChangeText={() => this.onChangePasswordInputHandler}
+                                           onChangeText={this.onChangePasswordInputHandler}
                                            placeholderTextColor="lightgrey"
                                            secureTextEntry={true}
                                 />
@@ -273,7 +273,7 @@ export default class RegistrationScreen extends Component {
                                     <TextInput style={styles.placeholder}
                                                placeholder="Ваше имя"
                                                returnKeyType="next"
-                                               onChangeText={() => this.onChangeFirstNameInputHandler}
+                                               onChangeText={this.onChangeFirstNameInputHandler}
                                                placeholderTextColor="lightgrey"
                                     />
                                     <View
@@ -292,7 +292,7 @@ export default class RegistrationScreen extends Component {
                                     <TextInput style={styles.placeholder}
                                                placeholder="Ваша фамилия"
                                                returnKeyType="next"
-                                               onChangeText={() => this.onChangeLastNameInputHandler}
+                                               onChangeText={this.onChangeLastNameInputHandler}
                                                placeholderTextColor="lightgrey"
                                     />
                                     <View
