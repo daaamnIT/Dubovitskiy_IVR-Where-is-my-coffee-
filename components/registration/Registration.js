@@ -160,7 +160,7 @@ export default class RegistrationScreen extends Component {
         formData.append('first_name', this.state.firstname)
         formData.append('last_name', this.state.lastname);
 
-        fetch('https://127.0.0.1:8000/api/auth/register/', {
+        fetch('http://127.0.0.1:8000/api/auth/register/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
