@@ -30,6 +30,8 @@ function reportPostNotExist(coffee_id_1){
   console.log(coffee_id_1)
 }
 
+var rate = null
+
 export default class Full_About_Coffee extends Component {
 
   commentInputRef = React.createRef();
@@ -44,11 +46,13 @@ export default class Full_About_Coffee extends Component {
         data: [],
         isLoading: true,
         reportReason: '',
-        username: ''
+        username: '',
       };
       console.log(this.state.coffee_id)
       console.log(Login.getInfoFirstname())
       this.submitPressed = this.submitPressed.bind(this);
+      this.ratingCompleted = this.ratingCompleted.bind(this);
+      this.ratingPas = this.ratingPas.bind(this);
     }
 
     async getComments() {
@@ -127,6 +131,26 @@ export default class Full_About_Coffee extends Component {
       Keyboard.dismiss();
     }
 
+    ratingCompleted(rating) {
+      rate = rating
+      console.log(rate)
+    }
+
+    ratingPas(){
+      Alert.alert("Спасибо, что оставляете оценки", "Вы делаете наш мир лучше!")
+      const formData = new FormData();
+      formData.append('rate', rate);
+      formData.append('coffee_shop_id', this.state.coffee_id);
+      fetch('http://127.0.0.1:8000/setRating/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: formData,
+      });
+    }
+
     reportPressed() {
       Alert.alert(
         "Жалоба на эту кофейню",
@@ -156,13 +180,12 @@ export default class Full_About_Coffee extends Component {
         ]
       );
     }
-  
 
     render() {  
       const { data, isLoading } = this.state;
       return (
         
-        <View style={{ flex: 1, padding: 24 }}>
+        <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
           <TouchableOpacity
             onPress={this.reportPressed}
             style={styles.Button}
@@ -173,16 +196,15 @@ export default class Full_About_Coffee extends Component {
           </TouchableOpacity>
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
-          {/* <View style={styles.container}>
-            <Star score={4.5} style={styles.starStyle} />
-          </View> */}
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
           <Rating
             showRating
             onFinishRating={this.ratingCompleted}
-            onFinishRating={console.log(1)}
             style={{ paddingVertical: 10 }}
           />
+          <View style={styles.btnContainer}>
+            <Button color='#000' title="Подтвердить" onPress={this.ratingPas} />
+          </View>
            <View style={styles.inputTextWrapper}>
               <TextInput
                   placeholder="Ваш комментарий"
