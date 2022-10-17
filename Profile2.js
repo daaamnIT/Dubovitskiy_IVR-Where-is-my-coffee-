@@ -27,6 +27,7 @@ export default class Profile_page extends Component {
             firstname: 'anonym',
             lastname: '',
             date_joined: '',
+			is_owner: 'none',
             data: [],
             isLoading: true,
         };
@@ -44,6 +45,7 @@ export default class Profile_page extends Component {
         this.setState({firstname: 'anonym'})
         this.setState({lastname: ''})
         this.setState({date_joined: ''})
+		this.setState({is_owner: 'none'})
         Auth.setToken('noToken')
         console.log(this.state)
 		console.log(Auth.getToken())
@@ -65,11 +67,34 @@ export default class Profile_page extends Component {
         this.setState({firstname: json[0].fields.first_name})
         this.setState({lastname: json[0].fields.last_name})
         this.setState({date_joined: json[0].fields.date_joined.slice(0, 10)})
+
+
+		const response2 = await fetch('http://127.0.0.1:8000/api/status/', {
+            method: 'GET',
+            headers: {
+              Authorization: 'Token ' + Auth.getToken(),
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+          })
+		const json2 = await response2.json()
+		this.setState({is_owner: json2[0].fields.is_Owner})
+		console.log(this.state.is_owner)
       }
       
       componentDidMount() {
         this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getUserInfo())
     }
+
+	Error = () => {
+		if (this.state.is_owner == "True"){
+			return <Text>Вы владелец</Text>
+		}else if (this.state.is_owner == "False"){
+			return <Text>Вы раб</Text>
+		}else{
+			return <Text>Ты никто</Text>
+		}
+	}
 
   render() {
     return (
@@ -149,7 +174,21 @@ export default class Profile_page extends Component {
 							borderBottomWidth: 2,	
 						}}
 						/>
-						
+
+						<View style = {styles.names}>
+						  <Text style = {styles.names}>Ваш статус:</Text>
+					  </View>
+
+					  <View style = {styles.inputs}>
+						  <this.Error />
+					  </View>
+					  <View
+						style={{
+							borderBottomColor: 'black',
+							borderBottomWidth: 2,	
+						}}
+						/>
+
 				  </View>
 				  <View style = {styles.button_main}>
 					  <TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.Logout()}>
@@ -224,7 +263,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		// justifyContent: 'center',
 		width: 280 * (entireScreenWidth / 380),
-		height: 150 * (entireScreenWidth / 380),
+		height: 200 * (entireScreenWidth / 380),
 	  },
 	  names:{
 		marginTop: 7 * (entireScreenWidth / 380),
