@@ -20,6 +20,7 @@ import {LogBox} from 'react-native';
 import {YellowBox} from 'react-native';
 import Auth from './Token';
 import RegistrationNav from "./components/registration/navigation";
+import Rating from "./Rating"
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -175,8 +176,11 @@ export default function App() {
                             iconName = focused
                                 ? 'add-circle'
                                 : 'add-circle-outline';
+                        } else if (route.name === 'Рейтинг') {
+                          iconName = focused
+                              ? 'ios-star'
+                              : 'ios-star-outline';
                         }
-
 
                         return <Ionicons name={iconName} size={size} color={color}/>;
                     },
@@ -189,6 +193,7 @@ export default function App() {
                 <Tab.Screen name="Добавить" component={AddMarker}/>
                 <Tab.Screen name="Регистрация" component={RegistrationNav}/>
                 <Tab.Screen name="Авторизация" component={LoginScreen}/>
+                <Tab.Screen name="Рейтинг" component={Rating}/>
             </Tab.Navigator>
         </NavigationContainer>
 
