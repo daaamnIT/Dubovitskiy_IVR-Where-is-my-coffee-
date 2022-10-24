@@ -52,16 +52,6 @@ export default class ShopOnMap extends Component {
                     </MapView>
                 </SafeAreaView>
             </View>
-            // <SafeAreaView>
-            //     <Text>ID = {this.state.coffee_id}</Text>
-            //     <Text>Name = {this.state.info.fields.name}</Text>
-            //     <Text>longitude = {this.state.info.fields.longitude}</Text>
-            //     <Text>latitude = {this.state.info.fields.latitude}</Text>
-
-            //     <View style={styles.Map}>
-                
-            //     </View>
-            // </SafeAreaView>
         );
     }
 }
