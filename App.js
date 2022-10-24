@@ -20,7 +20,7 @@ import {LogBox} from 'react-native';
 import {YellowBox} from 'react-native';
 import Auth from './Token';
 import RegistrationNav from "./components/registration/navigation";
-import Rating from "./Rating"
+import ListNav from "./components/ShopList/navigation"
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -193,7 +193,7 @@ export default function App() {
                 <Tab.Screen name="Добавить" component={AddMarker}/>
                 <Tab.Screen name="Регистрация" component={RegistrationNav}/>
                 <Tab.Screen name="Авторизация" component={LoginScreen}/>
-                <Tab.Screen name="Рейтинг" component={Rating}/>
+                <Tab.Screen name="Рейтинг" component={ListNav}/>
             </Tab.Navigator>
         </NavigationContainer>
 
