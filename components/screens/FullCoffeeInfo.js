@@ -16,24 +16,28 @@ import FormData from 'form-data';
 import TouchHistoryMath from 'react-native/Libraries/Interaction/TouchHistoryMath';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ModalDropdown from 'react-native-modal-dropdown';
-import Auth from './Token';
-import IpAdress from './getIP';
-import Login from './UserInfo';
+import Auth from '../../Token';
+import IpAdress from '../../getIP';
+import Login from '../../UserInfo';
 import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-function reportPostNotExist(coffee_id_1){
+function reportPostNotExist(coffee_id_1){     //useless
   console.log(coffee_id_1)
 }
 
-export default class Full_About_Coffee extends Component {
+var rate = null //переменная рейтинга
+
+export default class Full_About_Coffee extends Component {    //класс экрана
 
   commentInputRef = React.createRef();
 
 
-    constructor(props) {
+    constructor(props) {    //конструктор
       super(props);
       this.state = {
         info: props.route.info,
@@ -42,17 +46,19 @@ export default class Full_About_Coffee extends Component {
         data: [],
         isLoading: true,
         reportReason: '',
-        username: ''
+        username: '',
       };
       console.log(this.state.coffee_id)
       console.log(Login.getInfoFirstname())
       this.submitPressed = this.submitPressed.bind(this);
+      this.ratingCompleted = this.ratingCompleted.bind(this);
+      this.ratingPas = this.ratingPas.bind(this);
     }
 
-    async getComments() {
+    async getComments() {   //функция получения комментов
       try {
         console.log(Auth.getToken())
-        const response = await fetch("https://zkb-coffee-app.herokuapp.com/comments_list/" + this.state.coffee_id + "/",{
+        const response = await fetch("http://127.0.0.1:8000/comments_list/" + this.state.coffee_id + "/",{
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -70,8 +76,8 @@ export default class Full_About_Coffee extends Component {
         }
       }
 
-      async getUserInfo(){
-        const response = await fetch('https://zkb-coffee-app.herokuapp.com/api/me/', {
+      async getUserInfo(){    //ф-ия получения информации о пользователе
+        const response = await fetch('http://127.0.0.1:8000/api/me/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),
@@ -84,37 +90,37 @@ export default class Full_About_Coffee extends Component {
         this.setState({username: json[0].fields.first_name})
       }
       
-      componentDidMount() {
+      componentDidMount() {       //ф-ии, которые должны выполнятся при первом запуске экрана
         this.getComments();
         this.getUserInfo();
       }
      
 
-    inputs = () => {
+    inputs = () => {      //ф-ия для ввода данных
       return [
         this.commentInputRef,  
       ];
     };
 
-    onChangeCommentlInputHandler = (value) => {
+    onChangeCommentlInputHandler = (value) => {     //ф-ия сохранения комментов в стейт
       this.setState({
         text1: value,
       });
     }
 
-    reportSystem(){
+    reportSystem(){       //система репортов
       console.log("Test")
     }
 
 
-    submitPressed() {
+    submitPressed() {           //ф-ия записи коммента в бд
       console.log(this.state.text1)
       console.log(this.state.coffee_id)
       const formData = new FormData();
       formData.append('text', this.state.text1);
       formData.append('author', this.state.username);
       formData.append('coffee_shop_id', this.state.coffee_id);
-      fetch('https://zkb-coffee-app.herokuapp.com/comment_post/', {
+      fetch('http://127.0.0.1:8000/comment_post/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -125,7 +131,27 @@ export default class Full_About_Coffee extends Component {
       Keyboard.dismiss();
     }
 
-    reportPressed() {
+    ratingCompleted(rating) {
+      rate = rating
+      console.log(rate)
+    }
+
+    ratingPas(){        //ф-ия записи рейтинга
+      Alert.alert("Спасибо, что оставляете оценки", "Вы делаете наш мир лучше!")
+      const formData = new FormData();
+      formData.append('rate', rate);
+      formData.append('coffee_shop_id', this.state.coffee_id);
+      fetch('http://127.0.0.1:8000/setRating/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: formData,
+      });
+    }
+
+    reportPressed() {     //ф-ия обрабатывающая окно репортов
       Alert.alert(
         "Жалоба на эту кофейню",
         "Выберите причину",
@@ -154,13 +180,12 @@ export default class Full_About_Coffee extends Component {
         ]
       );
     }
-  
 
-    render() {  
+    render() {      //рендер страницы
       const { data, isLoading } = this.state;
       return (
         
-        <View style={{ flex: 1, padding: 24 }}>
+        <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
           <TouchableOpacity
             onPress={this.reportPressed}
             style={styles.Button}
@@ -171,9 +196,15 @@ export default class Full_About_Coffee extends Component {
           </TouchableOpacity>
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
-
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
-
+          <Rating
+            showRating
+            onFinishRating={this.ratingCompleted}
+            style={{ paddingVertical: 10 }}
+          />
+          <View style={styles.btnContainer}>
+            <Button color='#000' title="Подтвердить" onPress={this.ratingPas} />
+          </View>
            <View style={styles.inputTextWrapper}>
               <TextInput
                   placeholder="Ваш комментарий"
@@ -207,6 +238,8 @@ export default class Full_About_Coffee extends Component {
     }
   };
 
+
+  //стили
   const styles = StyleSheet.create({
     postComment:{
       textAlign:'center',
@@ -288,5 +321,10 @@ export default class Full_About_Coffee extends Component {
       justifyContent: "flex-end",
       alignItems: "flex-end",
       marginTop: 30,
+    },
+    starStyle:{
+      width: 100,
+      height: 20,
+      marginBottom: 20,
     },
   });
