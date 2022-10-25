@@ -7,7 +7,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 
-export default class RegistrationNav extends Component {
+export default class RegistrationNav extends Component {        //класс отдельного навигатора для регитсрации
     constructor(props) {
         super(props);
         const {navigation} = this.props

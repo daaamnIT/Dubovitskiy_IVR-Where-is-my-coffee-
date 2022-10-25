@@ -27,7 +27,7 @@ const entireScreenWidth = Dimensions.get('window').width;
 // const navigation = useNavigation();
 
 
-export default class RegistrationScreen extends Component {
+export default class RegistrationScreen extends Component {         //класс регистарции пользователя 
 
     state = {
         email: '',
@@ -59,8 +59,8 @@ export default class RegistrationScreen extends Component {
     phoneInputRef = React.createRef();
     scrollViewRef = React.createRef();
 
-    constructor(props) {
-        super(props);
+    constructor(props) {            //конструктор
+        super(props);   
         const {navigation} = this.props
 
         this.submitPressed = this.submitPressed.bind(this);
@@ -72,11 +72,11 @@ export default class RegistrationScreen extends Component {
         this.Redirect = this.Redirect.bind(this);
     }
 
-    updateUser = (user) => {
+    updateUser = (user) => {            //апдейтер
         this.setState({user: user})
     }
 
-    inputs = () => {
+    inputs = () => {            //обработка ввода
         return [
             this.emailInputRef,
             this.passwordInputRef,
@@ -89,38 +89,38 @@ export default class RegistrationScreen extends Component {
         ];
     };
 
-    onChangeEmailInputHandler = (value) => {
+    onChangeEmailInputHandler = (value) => {            //изменение стейта вводимых данных
         this.setState({
             email: value,
         });
     }
 
-    onChangePasswordInputHandler = (value) => {
+    onChangePasswordInputHandler = (value) => {            //изменение стейта вводимых данных
         this.setState({
             password: value,
         });
     }
 
-    onChangeFirstNameInputHandler = (value) => {
+    onChangeFirstNameInputHandler = (value) => {            //изменение стейта вводимых данных
         this.setState({
             firstname: value,
         });
     }
 
-    onChangeLastNameInputHandler = (value) => {
+    onChangeLastNameInputHandler = (value) => {            //изменение стейта вводимых данных
         this.setState({
             lastname: value,
         });
     }
 
-    Redirect() {
+    Redirect() {                                            //переход на другу страницу
         console.log("redirection to owner registration");
         this.props.navigation.navigate('Регистрация', {
             screen: 'OwnerReg',
         })
     }
 
-    async submitPressed() {
+    async submitPressed() {                 //ф-ия обработки регестрации
         console.log(this.state.email)
         console.log(this.state.password)
         console.log(this.state.firstname)
@@ -182,28 +182,8 @@ export default class RegistrationScreen extends Component {
         Login.setStatus('False')
     }
 
-    // setToken(token) {
-    //     const json = await token.json();
-    //     console.log(token)
-    //     Auth.setToken(json.token)
-    //     EventRegister.emit('UserLogin', '')
-    //     console.log("TOKEN:", Auth.getToken())
-    //     Alert.alert("Вы успешно создали аккаунт")
 
-    //     this.setState({
-    //         showEmailError: this.state.email.length < 4,
-    //         showPasswordError: this.state.password.length < 4,
-    //         showFirstnameError: this.state.firstname.length < 4,
-    //         showLastnameError: this.state.lastname.length < 4,
-    //         showCountryError: this.state.Country.length < 4,
-    //         showAddressError: this.state.address.length < 4,
-    //         showZipError: this.state.zip.length < 4,
-    //         showPhoneError: this.state.phone.length < 4,
-
-    //     });
-    //     Keyboard.dismiss();
-    // }
-
+    //рендер страницы
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -345,6 +325,8 @@ export default class RegistrationScreen extends Component {
     }
 }
 
+
+//стили
 const styles = StyleSheet.create({
     container: {
         flex: 1,

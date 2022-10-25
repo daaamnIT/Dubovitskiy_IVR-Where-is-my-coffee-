@@ -15,9 +15,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenWidth = Dimensions.get('window').width;			//получение разрешения экрана
 
-export default class LoginScreen extends Component {
+export default class LoginScreen extends Component {				//класс страницы входа в аккаунт
 
   emailInputRef = React.createRef();
   passwordInputRef = React.createRef();
@@ -29,7 +29,7 @@ export default class LoginScreen extends Component {
   phoneInputRef = React.createRef();
   scrollViewRef = React.createRef();
 
-  constructor(props) {
+  constructor(props) {				//конструктор
     super(props);
     this.state = {
         email: '',
@@ -42,7 +42,7 @@ export default class LoginScreen extends Component {
     this.submitPressed = this.submitPressed.bind(this);
   }
 
-  inputs = () => {
+  inputs = () => {				//ф-ия ввода данных
     return [
       this.emailInputRef,
       this.passwordInputRef,
@@ -50,21 +50,21 @@ export default class LoginScreen extends Component {
     ];
   };
 
-  onChangeEmailInputHandler = (value) => {
+  onChangeEmailInputHandler = (value) => {			//ф-ия изменения данных в стейте
     
     this.setState({
       email: value,
     });
   }
 
-  onChangePasswordInputHandler = (value) => {
+  onChangePasswordInputHandler = (value) => {		//ф-ия изменения данных в стейте
   
     this.setState({
       password: value,
     });
   }
 
-  async submitPressed() {
+  async submitPressed() {							//ф-ия входа в аккаунт
     console.log(this.state.email)
     console.log(this.state.password)
     const formData = new FormData();
@@ -91,7 +91,7 @@ export default class LoginScreen extends Component {
 	else{Alert.alert("Вы вошли в свой профиль")}
   }
 
-render() {
+render() {			//рендер информации на странице
 	return (
 		<SafeAreaView style={styles.container}>
 			  <ScrollView style={styles.scrollView}>
@@ -177,6 +177,7 @@ render() {
 }
 
 
+//стили
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

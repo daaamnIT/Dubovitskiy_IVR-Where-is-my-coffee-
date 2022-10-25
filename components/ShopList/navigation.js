@@ -6,7 +6,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 const Stack2 = createNativeStackNavigator();
 
 
-export default class ListNav extends Component {
+export default class ListNav extends Component {        //класс отдельного навигатора для рейнтинг листа
     constructor(props) {
         super(props);
         const {navigation} = this.props

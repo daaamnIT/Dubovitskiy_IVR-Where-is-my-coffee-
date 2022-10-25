@@ -15,12 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
-const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenWidth = Dimensions.get('window').width;			//получение разрешения экрана
 
 
-export default class Profile_page extends Component {
+export default class Profile_page extends Component {				//класс профиля
 
-    constructor(props) {
+    constructor(props) {											//конструктор
         super(props);
         this.state = {
             email: '',
@@ -33,7 +33,7 @@ export default class Profile_page extends Component {
         };
       }
 
-      async Logout(){
+      async Logout(){												//ф-ия выхода из аккаунта
         console.log(Auth.getToken())
         const info = await fetch(`http://127.0.0.1:8000/api/auth/logout/`, {
           method: 'GET',
@@ -52,7 +52,7 @@ export default class Profile_page extends Component {
         Alert.alert("Вы вышли из своего аккаунта")
       }
 
-      async getUserInfo(){
+      async getUserInfo(){											//ф-ия получения информации о юзере
         const response = await fetch('http://127.0.0.1:8000/api/me/', {
             method: 'GET',
             headers: {
@@ -82,11 +82,11 @@ export default class Profile_page extends Component {
 		console.log(this.state.is_owner)
       }
       
-      componentDidMount() {
+      componentDidMount() {			//то, что должно выполнятся при первом создании страницы
         this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getUserInfo())
     }
 
-	Error = () => {
+	Error = () => {			//обработка статуса пользователя
 		if (this.state.is_owner == "True"){
 			return <Text>Вы владелец</Text>
 		}else if (this.state.is_owner == "False"){
@@ -96,7 +96,7 @@ export default class Profile_page extends Component {
 		}
 	}
 
-  render() {
+  render() {		//рендер информации страницы
     return (
 		<SafeAreaView style={styles.container}>
 		<ScrollView style={styles.scrollView}>
@@ -202,6 +202,8 @@ export default class Profile_page extends Component {
   }
 }
 
+
+//стили
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

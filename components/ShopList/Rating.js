@@ -18,7 +18,7 @@ import {EventRegister} from 'react-native-event-listeners'
 import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenWidth = Dimensions.get('window').width;   //получение разрешения экрана
 
 
 export default class Rating extends Component {
@@ -28,13 +28,13 @@ export default class Rating extends Component {
         isLoading: true,
     }
 
-    constructor(props) {
+    constructor(props) {      //конструктор
       super(props);
       const {navigation} = this.props
       this.onPressShop = this.onPressShop.bind(this);
   }
 
-      async getRateInfo(){
+      async getRateInfo(){        //получение рейтинга
         const response = await fetch('http://127.0.0.1:8000/rate_list/', {
             method: 'GET',
             headers: {
@@ -51,7 +51,7 @@ export default class Rating extends Component {
         this.getRateInfo()
     } 
 
-    onPressShop(id) {
+    onPressShop(id) {     //ф-ия перехода на другую страницу
         this.setState({selectedId: id.pk})
         console.log(id)
         this.props.navigation.navigate('Рейтинг', {
@@ -63,7 +63,7 @@ export default class Rating extends Component {
       })
     }
 
-    render(){
+    render(){       //рендер информации
         const Item = ({ item, onPress, backgroundColor, textColor }) => (
             <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
               <Text style={[styles.title, textColor]}>{item.fields.name} - {item.fields.rating}</Text>
@@ -98,6 +98,8 @@ export default class Rating extends Component {
     }
 };
 
+
+//стили
 const styles = StyleSheet.create({
     container: {
       flex: 1,

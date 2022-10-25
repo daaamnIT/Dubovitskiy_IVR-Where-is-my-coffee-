@@ -25,35 +25,35 @@ import ListNav from "../ShopList/navigation"
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
-const staticData = [
+const staticData = [                                                //Тестовые данные
     {coordinates: {latitude: 55.751244, longitude: 37.618423}},
     {coordinates: {latitude: 55.741244, longitude: 37.628423}},
     {coordinates: {latitude: 55.731244, longitude: 37.608423}},
 ];
 
-function arrowClick() {
+function arrowClick() {                                             //useless function
     console.log("Arrow was clicked")
 }
 
-function editInfoClick() {
+function editInfoClick() {                                          //useless function
     console.log("Edit Info Button was clicked")
 }
 
-function AuthScreen() {
+function AuthScreen() {                                             //useless function
     return <LoginScreen/>
 }
 
-function SendRequest() {
+function SendRequest() {                                            //useless function
     var XHR = new XMLHttpRequest();
     var params = [App.state.login, App.state.password]
     XHR.send(params, 'http://localhost:19003')
 }
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation}) {                                 //Функция домашней страницы
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    const getCoffeeList = async () => {
+    const getCoffeeList = async () => {                             //Запрос на сервер для получения информации о кофейнях
         try {
             const response = await fetch(`http://127.0.0.1:8000/list`);
             const json = await response.json();
@@ -70,11 +70,11 @@ function HomeScreen({navigation}) {
         ();
     }, []);
 
-    const listener = EventRegister.addEventListener('UpdateMarker', (data) => {
+    const listener = EventRegister.addEventListener('UpdateMarker', (data) => {     //принятие сигнала на обновление информации
         getCoffeeList();
     })
 
-    return (
+    return (                                                                        //функция рендера информации на странице
         <View>
             {isLoading ? <ActivityIndicator/> : (
                 <MapView style={styles.map}
@@ -109,11 +109,10 @@ function HomeScreen({navigation}) {
     );
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();         //создание стека навигатора
 
-function HomeStack() {
+function HomeStack() {                              //инициализация экранов
     return (
-
         <Stack.Navigator
             screenOptions={{
                 headerShown: false
@@ -127,32 +126,33 @@ function HomeStack() {
     );
 }
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();         //создание  нижниего навигатора
 
-function markerClick(navigation, marker, id) {
+function markerClick(navigation, marker, id) {      //функция перенаправления на страницу информации о кофейни после нажатия на маркер
     // const Stack = createStackNavigator();
     console.log("Marker was clicked");
     navigation.navigate('Карта', {
         screen: 'FullInfo',
-        params: {
+        params: {                                   //В параметры передает всю информацию о маркере и его id
             info: marker,
             shop_id: id
         }
     })
 }
 
-function AddMarker() {
+function AddMarker() {                              //функция вызывающая экран добавления маркера
     return <CoffeeShopAdd/>
 }
 
-export default function App() {
+export default function App() {                     //оcнованая функция
 // export default class App extends React.Component{
     return (
-        <NavigationContainer>
+                                                    //создание навигатор функция
+        <NavigationContainer>                        
             <Tab.Navigator
                 screenOptions={({route}) => ({
                     headerShown: false,
-
+                    //Добавление иконок к ботом навигатору
                     tabBarIcon: ({focused, color, size}) => {
                         let iconName;
 
@@ -200,7 +200,7 @@ export default function App() {
     );
 }
 
-
+//Стили
 const styles = StyleSheet.create({
     coffeeName: {
         fontWeight: "bold"

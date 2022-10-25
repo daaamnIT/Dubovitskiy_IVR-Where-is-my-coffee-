@@ -8,12 +8,12 @@ import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 
 
-const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenWidth = Dimensions.get('window').width;       //получение разрешения экрана
 
 
 export default class ShopOnMap extends Component {
 
-    constructor(props) {
+    constructor(props) {            //конструктор
         super(props);
         const {navigation} = this.props
         this.state = {
@@ -22,7 +22,7 @@ export default class ShopOnMap extends Component {
           };
     }
 
-
+    //рендер информации
     render() {
         return (
             <View style={{flex: 1, backgroundColor:'white' }}> 
@@ -56,6 +56,8 @@ export default class ShopOnMap extends Component {
     }
 }
 
+
+//стили
 const styles = StyleSheet.create({
 Map:{
     width: entireScreenWidth,

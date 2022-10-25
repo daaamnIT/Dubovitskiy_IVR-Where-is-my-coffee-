@@ -26,18 +26,18 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-function reportPostNotExist(coffee_id_1){
+function reportPostNotExist(coffee_id_1){     //useless
   console.log(coffee_id_1)
 }
 
-var rate = null
+var rate = null //переменная рейтинга
 
-export default class Full_About_Coffee extends Component {
+export default class Full_About_Coffee extends Component {    //класс экрана
 
   commentInputRef = React.createRef();
 
 
-    constructor(props) {
+    constructor(props) {    //конструктор
       super(props);
       this.state = {
         info: props.route.info,
@@ -55,7 +55,7 @@ export default class Full_About_Coffee extends Component {
       this.ratingPas = this.ratingPas.bind(this);
     }
 
-    async getComments() {
+    async getComments() {   //функция получения комментов
       try {
         console.log(Auth.getToken())
         const response = await fetch("http://127.0.0.1:8000/comments_list/" + this.state.coffee_id + "/",{
@@ -76,7 +76,7 @@ export default class Full_About_Coffee extends Component {
         }
       }
 
-      async getUserInfo(){
+      async getUserInfo(){    //ф-ия получения информации о пользователе
         const response = await fetch('http://127.0.0.1:8000/api/me/', {
             method: 'GET',
             headers: {
@@ -90,30 +90,30 @@ export default class Full_About_Coffee extends Component {
         this.setState({username: json[0].fields.first_name})
       }
       
-      componentDidMount() {
+      componentDidMount() {       //ф-ии, которые должны выполнятся при первом запуске экрана
         this.getComments();
         this.getUserInfo();
       }
      
 
-    inputs = () => {
+    inputs = () => {      //ф-ия для ввода данных
       return [
         this.commentInputRef,  
       ];
     };
 
-    onChangeCommentlInputHandler = (value) => {
+    onChangeCommentlInputHandler = (value) => {     //ф-ия сохранения комментов в стейт
       this.setState({
         text1: value,
       });
     }
 
-    reportSystem(){
+    reportSystem(){       //система репортов
       console.log("Test")
     }
 
 
-    submitPressed() {
+    submitPressed() {           //ф-ия записи коммента в бд
       console.log(this.state.text1)
       console.log(this.state.coffee_id)
       const formData = new FormData();
@@ -136,7 +136,7 @@ export default class Full_About_Coffee extends Component {
       console.log(rate)
     }
 
-    ratingPas(){
+    ratingPas(){        //ф-ия записи рейтинга
       Alert.alert("Спасибо, что оставляете оценки", "Вы делаете наш мир лучше!")
       const formData = new FormData();
       formData.append('rate', rate);
@@ -151,7 +151,7 @@ export default class Full_About_Coffee extends Component {
       });
     }
 
-    reportPressed() {
+    reportPressed() {     //ф-ия обрабатывающая окно репортов
       Alert.alert(
         "Жалоба на эту кофейню",
         "Выберите причину",
@@ -181,7 +181,7 @@ export default class Full_About_Coffee extends Component {
       );
     }
 
-    render() {  
+    render() {      //рендер страницы
       const { data, isLoading } = this.state;
       return (
         
@@ -238,6 +238,8 @@ export default class Full_About_Coffee extends Component {
     }
   };
 
+
+  //стили
   const styles = StyleSheet.create({
     postComment:{
       textAlign:'center',
