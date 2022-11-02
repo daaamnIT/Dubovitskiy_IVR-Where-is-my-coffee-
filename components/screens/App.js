@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Profile_page from "./Profile2"
 import LoginScreen from "./Login"
 import {Component} from "react";
-import Full_About_Coffee from './FullCoffeeInfo';
+import Full_About_Coffee from '../InfoAdd/FullCoffeeInfo';
 import {useEffect, useState} from 'react';
 import CoffeeShopAdd from "./CoffeeShopAdd";
 import {EventRegister} from 'react-native-event-listeners'
@@ -20,8 +20,9 @@ import {YellowBox} from 'react-native';
 import Auth from '../../Token';
 import RegistrationNav from "../registration/navigation";
 import ListNav from "../ShopList/navigation"
-import DropDown from "./dropdowntest"
+import DropDown from "../InfoAdd/dropdowntest"
 import Login from '../../UserInfo';
+import ShopNav from '../InfoAdd/navigation'
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -123,6 +124,7 @@ function HomeStack() {                              //инициализация
 
             <Stack.Screen name="MapComponent" component={HomeScreen}/>
             <Stack.Screen name="FullInfo" component={Full_About_Coffee}/>
+            <Stack.Screen name="Информация" component={ShopNav}/>
         </Stack.Navigator>
 
     );

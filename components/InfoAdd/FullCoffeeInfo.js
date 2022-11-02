@@ -23,6 +23,7 @@ import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import MultiSelect from 'react-native-multiple-select';
+import ShopNav from './navigation'
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -41,7 +42,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
     constructor(props) {    //конструктор
       super(props);
       this.state = {
-        info: props.route.info,
+        info: props.route.params.info,
         coffee_id: props.route.params.shop_id,
         text1: '',
         data: [],
@@ -61,6 +62,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       this.ratingCompleted = this.ratingCompleted.bind(this);
       this.ratingPas = this.ratingPas.bind(this);
       this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
+      this.AddInfo = this.AddInfo.bind(this);
     }
 
     async getComments() {   //функция получения комментов
@@ -159,6 +161,17 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       });
     }
 
+    AddInfo(){
+      console.log(1)
+      this.props.navigation.navigate('Информация', {
+        screen: 'AddInfo',
+        params: {                                   //В параметры передает всю информацию о маркере и его id
+          info: this.state.info,
+          shop_id: this.state.coffee_id,
+      }
+    })
+    }
+
     reportPressed() {     //ф-ия обрабатывающая окно репортов
       Alert.alert(
         "Жалоба на эту кофейню",
@@ -213,35 +226,6 @@ export default class Full_About_Coffee extends Component {    //класс эк�
             </View>
           </TouchableOpacity>
 
-
-          <View style={styles.MainContainer}>
- 
-            <Text style={styles.text}> React Native Multiple Select </Text>
-
-            <MultiSelect
-              hideTags
-              items={this.state.infodata}
-              uniqueKey="id"
-              onSelectedItemsChange={this.onSelectedItemsChange}
-              selectedItems={this.selectedItems}
-              selectText="Select Items"
-              searchInputPlaceholderText="Search Items Here..."
-              onChangeInput={(text) => console.log(text)}
-              tagRemoveIconColor="#CCC"
-              tagBorderColor="#CCC"
-              tagTextColor="#CCC"
-              selectedItemTextColor="#CCC"
-              selectedItemIconColor="#CCC"
-              itemTextColor="#000"
-              displayKey="name"
-              searchInputStyle={{ color: '#CCC' }}
-              submitButtonColor="#00BFA5"
-              submitButtonText="Submit"
-            />
-
-          </View>
-
-
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
@@ -252,6 +236,9 @@ export default class Full_About_Coffee extends Component {    //класс эк�
           />
           <View style={styles.btnContainer}>
             <Button color='#000' title="Подтвердить" onPress={this.ratingPas} />
+          </View>
+          <View style={styles.btnContainer}>
+            <Button color='#000' title="Add Info" onPress={this.AddInfo} />
           </View>
            <View style={styles.inputTextWrapper}>
               <TextInput
@@ -315,6 +302,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       padding: 24,
       margin: 12,
       textAlign: "center",
+      fontWeight: 'bold',
     },
     text:{
       fontSize: 14,
@@ -383,9 +371,8 @@ export default class Full_About_Coffee extends Component {    //класс эк�
    
     text: {
       padding: 12,
-      fontSize: 22,
+      fontSize: 15,
       textAlign: 'center',
-      fontWeight: 'bold',
       color: 'black'
     },
   });

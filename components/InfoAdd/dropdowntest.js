@@ -12,10 +12,14 @@ import {
   Dimensions,
   LayoutAnimation,
   Image,
-  Appearance
+  Appearance,
+  Button,
 } from 'react-native'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import FormData from 'form-data';
+import Auth from '../../Token'
+
 
 
 // Sorry for the mess
@@ -193,8 +197,8 @@ const Toggle = (props) => (
 )
 
 export default class DropDown extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       items: null,
       loading: false,
@@ -209,10 +213,13 @@ export default class DropDown extends Component {
       selectChildren: false,
       hideChipRemove: false,
       hasErrored: false,
-      isDarkMode: false
+      isDarkMode: false,
+      shop_id: props.route.params.shop_id,
+      shop_info: props.route.params.info,
     }
     this.termId = 100
     this.maxItems = 5
+    this.SubmitPressed = this.SubmitPressed.bind(this);
   }
 
   componentDidMount() {
@@ -222,6 +229,7 @@ export default class DropDown extends Component {
       // Use dark color scheme
       this.setState({ isDarkMode: true })
     }
+    console.log(this.props.route.params)
     // programatically opening the select
     // this.SectionedMultiSelect._toggleSelector()
   }
@@ -304,6 +312,25 @@ export default class DropDown extends Component {
         break
     }
     return <View style={styles}>{iconComponent}</View>
+  }
+
+  SubmitPressed(){
+    console.log("SUBMIT PRESSED")
+    console.log(this.state.selectedItemObjects)
+
+    const formData = new FormData();
+    formData.append("shop_id", this.state.shop_id);
+    for (let i = 0; i < this.state.selectedItemObjects.length; i++) { 
+      formData.append(`info_${i}`, this.state.selectedItemObjects[i].title);
+    }
+    console.log(formData)
+    fetch('http://127.0.0.1:8000/add_info/', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Token ' + Auth.getToken(),
+        },
+        body: formData,
+      })
   }
 
   getProp = (object, key) => object && this.removerAcentos(object[key])
@@ -571,7 +598,7 @@ export default class DropDown extends Component {
           autoFocus
           modalWithTouchable
           modalWithSafeAreaView
-          showCancelButton
+          // showCancelButton
           // headerComponent={this.SelectOrRemoveAll}
           // hideConfirm
           loading={this.state.loading}
@@ -651,58 +678,13 @@ export default class DropDown extends Component {
           }}
           // cancelIconComponent={<Icon size={20} name="close" style={{ color: 'white' }} />}
         />
-        {/* <View>
-          <View style={styles.border}>
-            <Text style={styles.heading}>Settings</Text>
-          </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Button title="Добавить свойства" onPress={() => this.SubmitPressed()} />
+        </View>
 
-          <Toggle
-            name="Single"
-            onPress={() => this.onSwitchToggle('single')}
-            val={this.state.single}
-          />
-          <Toggle
-            name="Read only headings"
-            onPress={() => this.onSwitchToggle('readOnlyHeadings')}
-            val={this.state.readOnlyHeadings}
-          />
-          <Toggle
-            name="Expand dropdowns"
-            onPress={() => this.onSwitchToggle('expandDropDowns')}
-            val={this.state.expandDropDowns}
-            disabled={!this.state.showDropDowns}
-          />
-          <Toggle
-            name="Show dropdown toggles"
-            onPress={() => this.onSwitchToggle('showDropDowns')}
-            val={this.state.showDropDowns}
-          />
-          <Toggle
-            name="Auto-highlight children"
-            onPress={() => this.onSwitchToggle('highlightChildren')}
-            val={this.state.highlightChildren}
-            disabled={this.state.selectChildren}
-          />
-          <Toggle
-            name="Auto-select children"
-            onPress={() => this.onSwitchToggle('selectChildren')}
-            disabled={this.state.highlightChildren}
-            val={this.state.selectChildren}
-          />
-          <Toggle
-            name="Hide Chip Remove Buttons"
-            onPress={() => this.onSwitchToggle('hideChipRemove')}
-            val={this.state.hideChipRemove}
-          />
-
-          <TouchableWithoutFeedback
-            onPress={() => this.SectionedMultiSelect._removeAllItems()}
-          >
-            <View style={styles.switch}>
-              <Text style={styles.label}>Remove All</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View> */}
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Button title="Go back" onPress={() => this.props.navigation.goBack()} />
+        </View>
       </ScrollView>
     )
   }
