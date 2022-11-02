@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         marginTop: '10%',
-        backgroundColor: "#7cb48f",
+        // backgroundColor: "#7cb48f",
         alignSelf: 'center',
         // justifyContent: 'center',
         width: 280 * (entireScreenWidth / 380),

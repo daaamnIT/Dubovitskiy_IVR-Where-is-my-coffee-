@@ -1,9 +1,9 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
 
- import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Text, View, TouchableHighlight, TextInput, FlatList, ActivityIndicator, Keyboard } from 'react-native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapView from 'react-native-maps';
 import { StyleSheet, Dimensions, Button, Alert } from 'react-native';
@@ -11,7 +11,7 @@ import { Marker, Callout } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Component } from 'react/cjs/react.production.min';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import FormData from 'form-data';
 import TouchHistoryMath from 'react-native/Libraries/Interaction/TouchHistoryMath';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -22,6 +22,7 @@ import Login from '../../UserInfo';
 import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import MultiSelect from 'react-native-multiple-select';
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -47,12 +48,19 @@ export default class Full_About_Coffee extends Component {    //класс эк�
         isLoading: true,
         reportReason: '',
         username: '',
+        infodata: [
+          {id: 1, name: 'WiFi'},
+          {id: 1, name: 'Еда'},
+          {id: 1, name: 'Dog friendly'},
+        ],
+        selectedItems: [],
       };
       console.log(this.state.coffee_id)
       console.log(Login.getInfoFirstname())
       this.submitPressed = this.submitPressed.bind(this);
       this.ratingCompleted = this.ratingCompleted.bind(this);
       this.ratingPas = this.ratingPas.bind(this);
+      this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
     }
 
     async getComments() {   //функция получения комментов
@@ -181,10 +189,20 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       );
     }
 
+    onSelectedItemsChange = (selectedItems) => {
+ 
+      this.setState({selectedItems: selectedItems});
+   
+      for (let i = 0; i < this.state.selectedItems.length; i++) {
+        var tempItem = DATA.find(item => item.id === this.state.selectedItems[i]);
+        console.log(tempItem);
+      }
+   
+    };
+
     render() {      //рендер страницы
       const { data, isLoading } = this.state;
       return (
-        
         <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
           <TouchableOpacity
             onPress={this.reportPressed}
@@ -194,6 +212,36 @@ export default class Full_About_Coffee extends Component {    //класс эк�
               <Text style={styles.Txt265}>Report</Text>
             </View>
           </TouchableOpacity>
+
+
+          <View style={styles.MainContainer}>
+ 
+            <Text style={styles.text}> React Native Multiple Select </Text>
+
+            <MultiSelect
+              hideTags
+              items={this.state.infodata}
+              uniqueKey="id"
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.selectedItems}
+              selectText="Select Items"
+              searchInputPlaceholderText="Search Items Here..."
+              onChangeInput={(text) => console.log(text)}
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="name"
+              searchInputStyle={{ color: '#CCC' }}
+              submitButtonColor="#00BFA5"
+              submitButtonText="Submit"
+            />
+
+          </View>
+
+
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
@@ -326,5 +374,18 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       width: 100,
       height: 20,
       marginBottom: 20,
+    },
+    MainContainer: {
+      flex: 1,
+      padding: 12,
+      backgroundColor: 'white'
+    },
+   
+    text: {
+      padding: 12,
+      fontSize: 22,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      color: 'black'
     },
   });

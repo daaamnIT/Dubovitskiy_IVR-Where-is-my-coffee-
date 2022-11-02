@@ -90,9 +90,9 @@ export default class Profile_page extends Component {				//класс профи
 		if (this.state.is_owner == "True"){
 			return <Text>Вы владелец</Text>
 		}else if (this.state.is_owner == "False"){
-			return <Text>Вы раб</Text>
+			return <Text>Вы пользователь</Text>
 		}else{
-			return <Text>Ты никто</Text>
+			return <Text>Вы не вошли</Text>
 		}
 	}
 

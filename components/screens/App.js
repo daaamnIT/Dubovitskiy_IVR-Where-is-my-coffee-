@@ -20,6 +20,8 @@ import {YellowBox} from 'react-native';
 import Auth from '../../Token';
 import RegistrationNav from "../registration/navigation";
 import ListNav from "../ShopList/navigation"
+import DropDown from "./dropdowntest"
+import Login from '../../UserInfo';
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -193,6 +195,7 @@ export default function App() {                     //оcнованая функ
                 <Tab.Screen name="Регистрация" component={RegistrationNav}/>
                 <Tab.Screen name="Авторизация" component={LoginScreen}/>
                 <Tab.Screen name="Рейтинг" component={ListNav}/>
+                <Tab.Screen name="Drop" component={DropDown}/>
             </Tab.Navigator>
         </NavigationContainer>
 
@@ -401,7 +404,6 @@ const styles = StyleSheet.create({
     },
     Ellipse1: {
         backgroundColor: "white",
-        /*  linear-gradient(131.36deg, rgba(53,195,204,1) 2%, rgba(244,166,48,0.17) 100%, )  */
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: "rgba(24,71,141,1)",
