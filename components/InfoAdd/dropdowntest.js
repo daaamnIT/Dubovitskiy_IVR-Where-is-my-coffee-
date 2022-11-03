@@ -19,6 +19,8 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import FormData from 'form-data';
 import Auth from '../../Token'
+import { EventRegister } from 'react-native-event-listeners'
+
 
 
 
@@ -330,7 +332,7 @@ export default class DropDown extends Component {
           Authorization: 'Token ' + Auth.getToken(),
         },
         body: formData,
-      })
+      }).then(()=> EventRegister.emit('FullCoffeeInfo', ''));
   }
 
   getProp = (object, key) => object && this.removerAcentos(object[key])

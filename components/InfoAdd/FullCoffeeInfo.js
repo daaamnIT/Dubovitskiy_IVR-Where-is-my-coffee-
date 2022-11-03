@@ -55,13 +55,13 @@ export default class Full_About_Coffee extends Component {    //класс эк�
           {id: 1, name: 'Dog friendly'},
         ],
         selectedItems: [],
+        infodata: []
       };
       console.log(this.state.coffee_id)
       console.log(Login.getInfoFirstname())
       this.submitPressed = this.submitPressed.bind(this);
       this.ratingCompleted = this.ratingCompleted.bind(this);
       this.ratingPas = this.ratingPas.bind(this);
-      this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
       this.AddInfo = this.AddInfo.bind(this);
     }
 
@@ -99,10 +99,36 @@ export default class Full_About_Coffee extends Component {    //класс эк�
         console.log(json)
         this.setState({username: json[0].fields.first_name})
       }
+
+      async getInfo() {   //функция получения комментов
+        try {
+          console.log(Auth.getToken())
+          const response = await fetch("http://127.0.0.1:8000/info_list/" + this.state.coffee_id + "/",{
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+          });
+          var json = await response.json();
+          json = json.reverse();
+          console.log(json)
+          this.setState({ infodata: json });
+          } catch (error) {
+            console.log(error);
+          } finally {
+            this.setState({ isLoading: false });
+          }
+          console.log("INFOOOOOOO")
+          console.log(this.state.infodata)
+        }
+  
       
       componentDidMount() {       //ф-ии, которые должны выполнятся при первом запуске экрана
+        this.listener = EventRegister.addEventListener('FullCoffeeInfo', (infodata) => this.getInfo())
         this.getComments();
         this.getUserInfo();
+        this.getInfo();
       }
      
 
@@ -202,19 +228,19 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       );
     }
 
-    onSelectedItemsChange = (selectedItems) => {
- 
-      this.setState({selectedItems: selectedItems});
-   
-      for (let i = 0; i < this.state.selectedItems.length; i++) {
-        var tempItem = DATA.find(item => item.id === this.state.selectedItems[i]);
-        console.log(tempItem);
-      }
-   
-    };
 
     render() {      //рендер страницы
       const { data, isLoading } = this.state;
+      const { infodata, isLoading2 } = this.state;
+      // const Item = ({ info }) => (
+      //   <View>
+      //     <Text style={styles.textinfo}>{info}</Text>
+      //   </View>
+      // );
+
+      // const renderItem = ({ item }) => (
+      //   <Item info={item.fields.info} />
+      // );
       return (
         <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
           <TouchableOpacity
@@ -225,9 +251,19 @@ export default class Full_About_Coffee extends Component {    //класс эк�
               <Text style={styles.Txt265}>Report</Text>
             </View>
           </TouchableOpacity>
-
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
+          <View style={styles.info}>
+          {isLoading2 ? <ActivityIndicator/> : (
+            <FlatList
+              data={infodata}
+              renderItem={({ item }) => (
+                <Text style={styles.textinfo}>{item.fields.info}</Text>
+              )}
+              keyExtractor={item => item.pk}
+            />
+          )}
+          </View>
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
           <Rating
             showRating
@@ -374,5 +410,13 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       fontSize: 15,
       textAlign: 'center',
       color: 'black'
+    },
+    info:{
+      flex: 1,
+      alignItems: 'center',
+    },
+    textinfo:{
+      flex: 1,
+      justifyContent: 'center',
     },
   });
