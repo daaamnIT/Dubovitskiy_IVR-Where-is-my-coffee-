@@ -23,6 +23,8 @@ import ListNav from "../ShopList/navigation"
 import DropDown from "../InfoAdd/dropdowntest"
 import Login from '../../UserInfo';
 import ShopNav from '../InfoAdd/navigation'
+import Path from './Path'
+import * as Location from 'expo-location';
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -53,6 +55,31 @@ function SendRequest() {                                            //useless fu
 }
 
 function HomeScreen({navigation}) {                                 //Функция домашней страницы
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      })();
+    }, []);
+  
+    let text = 'Waiting..';
+    if (errorMsg) {
+      text = errorMsg;
+    } else if (location) {
+      text = JSON.stringify(location);
+    }
+
+
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
@@ -84,10 +111,10 @@ function HomeScreen({navigation}) {                                 //Функц
                          initialRegion={{
                              latitude: 55.751244,
                              longitude: 37.618423,
-                             latitudeDelta: 0.65,
-                             longitudeDelta: 0.0421,
+                             latitudeDelta: 0.2,
+                             longitudeDelta: 0.2,
                          }}
-                         provider="google" //comment this to use ios maps
+                        //  provider="google" //comment this to use ios maps
                          showsUserLocation={true}
                 >
                     {data.map((marker, index) => (
@@ -96,7 +123,7 @@ function HomeScreen({navigation}) {                                 //Функц
                             coordinate={{latitude: marker.fields.latitude, longitude: marker.fields.longitude}}
                             title="Test"
                         >
-                            <Callout tooltip onPress={() => markerClick(navigation, marker.fields, marker.pk)}>
+                            <Callout tooltip onPress={() => markerClick(navigation, marker.fields, marker.pk, text)}>
                                 <View style={styles.bubble}>
                                     <Text style={styles.coffeeName}>{marker.fields.name}</Text>
                                     <Text>{marker.fields.description}</Text>
@@ -132,8 +159,9 @@ function HomeStack() {                              //инициализация
 
 const Tab = createBottomTabNavigator();         //создание  нижниего навигатора
 
-function markerClick(navigation, marker, id) {      //функция перенаправления на страницу информации о кофейни после нажатия на маркер
+function markerClick(navigation, marker, id, text) {      //функция перенаправления на страницу информации о кофейни после нажатия на маркер
     // const Stack = createStackNavigator();
+    console.log(text)
     console.log("Marker was clicked");
     navigation.navigate('Карта', {
         screen: 'FullInfo',
@@ -149,6 +177,7 @@ function AddMarker() {                              //функция вызыв�
 }
 
 export default function App() {                     //оcнованая функция
+
 // export default class App extends React.Component{
     return (
                                                     //создание навигатор функция
@@ -197,7 +226,7 @@ export default function App() {                     //оcнованая функ
                 <Tab.Screen name="Регистрация" component={RegistrationNav}/>
                 <Tab.Screen name="Авторизация" component={LoginScreen}/>
                 <Tab.Screen name="Рейтинг" component={ListNav}/>
-                <Tab.Screen name="Drop" component={DropDown}/>
+                <Tab.Screen name="Path" component={Path}/>
             </Tab.Navigator>
         </NavigationContainer>
 

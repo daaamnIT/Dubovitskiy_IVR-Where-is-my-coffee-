@@ -23,7 +23,6 @@ import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import MultiSelect from 'react-native-multiple-select';
-import ShopNav from './navigation'
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
