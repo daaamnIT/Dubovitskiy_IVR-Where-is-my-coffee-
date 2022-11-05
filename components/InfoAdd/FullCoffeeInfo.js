@@ -64,6 +64,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       this.ratingCompleted = this.ratingCompleted.bind(this);
       this.ratingPas = this.ratingPas.bind(this);
       this.AddInfo = this.AddInfo.bind(this);
+      this.addToFavourite = this.addToFavourite.bind(this);
     }
 
     async getComments() {   //функция получения комментов
@@ -229,6 +230,24 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       );
     }
 
+    addToFavourite(){
+      if (Auth.getToken() != 'noToken'){
+        const formData = new FormData();
+        formData.append('shop_id', this.state.coffee_id);
+        formData.append('username', this.state.username);
+        fetch(apiurl + 'add_to_favourite/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: formData,
+        }).then(Alert.alert("Кофейня добавлена в список избранных"));
+      }else{
+        Alert.alert("Пожалуйста авторизуйтесь")
+      }
+    }
+
 
     render() {      //рендер страницы
       const { data, isLoading } = this.state;
@@ -250,6 +269,15 @@ export default class Full_About_Coffee extends Component {    //класс эк�
           >
             <View style={styles.Component1}>
               <Text style={styles.Txt265}>Report</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={this.addToFavourite}
+            style={styles.Button}
+          >
+            <View style={styles.Component1}>
+              <Text style={styles.Txt265}>Love it!</Text>
             </View>
           </TouchableOpacity>
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>

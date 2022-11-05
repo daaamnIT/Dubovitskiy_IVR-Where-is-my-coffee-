@@ -11,10 +11,10 @@ import {
     TextInput,
     View,
     TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import FormData from 'form-data';
 import {EventRegister} from 'react-native-event-listeners'
-import {ScrollView} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Auth from "../../Token";
 import Login from "../../UserInfo"
