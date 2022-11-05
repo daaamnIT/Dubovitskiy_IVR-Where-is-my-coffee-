@@ -189,7 +189,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
           'Content-Type': 'application/json'
         },
         body: formData,
-      });
+      }).then(()=>EventRegister.emit('Rate', ''));
     }
 
     AddInfo(){

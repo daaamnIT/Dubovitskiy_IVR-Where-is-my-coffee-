@@ -105,6 +105,8 @@ export default class Profile_page extends Component {				//класс профи
 	  }
       
       componentDidMount() {			//то, что должно выполнятся при первом создании страницы
+		this.getUserInfo()
+		this.getFavourite()
         this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getUserInfo())
 		this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getFavourite())
     }

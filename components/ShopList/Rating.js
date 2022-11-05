@@ -66,10 +66,15 @@ export default class Rating extends Component {
       })
     }
 
+    componentDidMount(){
+      this.getRateInfo()
+      this.listener = EventRegister.addEventListener('Rate', (data) => this.getRateInfo())
+    }
+
     render(){       //рендер информации
         const Item = ({ item, onPress, backgroundColor, textColor }) => (
             <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-              <Text style={[styles.title, textColor]}>{item.fields.name} - {item.fields.rating}</Text>
+              <Text style={[styles.title, textColor]}>{item.fields.name} - {item.fields.rating.toFixed(1)}</Text>
             </TouchableOpacity>
           );
         
