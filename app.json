@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Coffee",
-    "slug": "Coffee",
+    "name": "Where's my coffee",
+    "slug": "wheres-my-coffee",
+    "description": "This is an app to find coffee shops near you",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

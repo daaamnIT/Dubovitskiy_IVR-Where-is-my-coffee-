@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import FormData from 'form-data';
 import Auth from '../../Token'
 import { EventRegister } from 'react-native-event-listeners'
+import { apiurl } from '../../URL';
 
 
 
@@ -326,7 +327,7 @@ export default class DropDown extends Component {
       formData.append(`info_${i}`, this.state.selectedItemObjects[i].title);
     }
     console.log(formData)
-    fetch('http://127.0.0.1:8000/add_info/', {
+    fetch(apiurl + 'add_info/', {
         method: 'POST',
         headers: {
           Authorization: 'Token ' + Auth.getToken(),

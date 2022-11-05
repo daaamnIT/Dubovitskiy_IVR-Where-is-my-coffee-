@@ -10,6 +10,7 @@ import { LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { apiurl } from '../../URL';
 
 
 
@@ -71,7 +72,7 @@ export default class LoginScreen extends Component {				//класс стран�
     formData.append('username', this.state.email);
     formData.append('password', this.state.password);
 
-    const token = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+    const token = await fetch(apiurl + 'api/auth/login/', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

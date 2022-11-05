@@ -25,6 +25,8 @@ import Login from '../../UserInfo';
 import ShopNav from '../InfoAdd/navigation'
 import Path from './Path'
 import * as Location from 'expo-location';
+import { apiurl } from '../../URL';
+
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -85,7 +87,7 @@ function HomeScreen({navigation}) {                                 //Функц
 
     const getCoffeeList = async () => {                             //Запрос на сервер для получения информации о кофейнях
         try {
-            const response = await fetch(`http://127.0.0.1:8000/list`);
+            const response = await fetch(apiurl + `list`);
             const json = await response.json();
             setData(json);
         } catch (error) {
@@ -114,7 +116,7 @@ function HomeScreen({navigation}) {                                 //Функц
                              latitudeDelta: 0.2,
                              longitudeDelta: 0.2,
                          }}
-                        //  provider="google" //comment this to use ios maps
+                         provider="google" //comment this to use ios maps
                          showsUserLocation={true}
                 >
                     {data.map((marker, index) => (

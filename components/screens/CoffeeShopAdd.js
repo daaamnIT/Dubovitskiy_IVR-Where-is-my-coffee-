@@ -5,6 +5,8 @@ import {useState} from 'react'
 import FormData from 'form-data';
 import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
+import { apiurl } from '../../URL';
+
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
@@ -22,7 +24,7 @@ function _addMarker(pin, text, text2){ //функция добавления м�
   formData.append('latitude', pin.latitude);
   formData.append('longitude', pin.longitude);
 
-  fetch(`http://127.0.0.1:8000/requests/`, {    //post завпрос к бэку
+  fetch(apiurl + `requests/`, {    //post завпрос к бэку
     method: 'POST',
     headers: {
       Accept: 'application/json',

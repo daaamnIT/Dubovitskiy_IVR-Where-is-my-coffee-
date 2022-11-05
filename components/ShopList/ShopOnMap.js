@@ -9,6 +9,7 @@ import { LogBox } from 'react-native';
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from "../../ApiGoogle";
+import { apiurl } from '../../URL';
 
 
 
@@ -110,7 +111,7 @@ export default class ShopOnMap extends Component {
                             latitudeDelta: 0.02,
                             longitudeDelta: 0.01,
                         }}
-                        // provider = "google" //comment this to use ios maps
+                        provider = "google" //comment this to use ios maps
                         showsUserLocation={true}
                     >
                          {this.state.showDirection && (<MapViewDirections

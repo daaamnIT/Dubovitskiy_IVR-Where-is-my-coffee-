@@ -17,6 +17,7 @@ import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Auth from "../../Token";
 import Login from "../../UserInfo"
+import { apiurl } from '../../URL';
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -136,7 +137,7 @@ export default class RegistrationScreen extends Component {         //класс
         formData.append('first_name', this.state.firstname)
         formData.append('last_name', this.state.lastname);
 
-        const token = await fetch('http://127.0.0.1:8000/api/auth/register/', {
+        const token = await fetch(apiurl + 'api/auth/register/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -170,7 +171,7 @@ export default class RegistrationScreen extends Component {         //класс
         formDataStatus.append('is_Owner', 'False')
         console.log(formDataStatus)
 
-        fetch('http://127.0.0.1:8000/setStatus/', {
+        fetch(apiurl + 'setStatus/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

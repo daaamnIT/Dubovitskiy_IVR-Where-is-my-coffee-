@@ -9,6 +9,7 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { LogBox } from 'react-native';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { apiurl } from '../../URL';
 
 
 
@@ -35,7 +36,7 @@ export default class Profile_page extends Component {				//класс профи
 
       async Logout(){												//ф-ия выхода из аккаунта
         console.log(Auth.getToken())
-        const info = await fetch(`http://127.0.0.1:8000/api/auth/logout/`, {
+        const info = await fetch(apiurl + `api/auth/logout/`, {
           method: 'GET',
           headers: {
             Authorization: 'Token ' + Auth.getToken(),
@@ -53,7 +54,7 @@ export default class Profile_page extends Component {				//класс профи
       }
 
       async getUserInfo(){											//ф-ия получения информации о юзере
-        const response = await fetch('http://127.0.0.1:8000/api/me/', {
+        const response = await fetch(apiurl + 'api/me/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),
@@ -69,7 +70,7 @@ export default class Profile_page extends Component {				//класс профи
         this.setState({date_joined: json[0].fields.date_joined.slice(0, 10)})
 
 
-		const response2 = await fetch('http://127.0.0.1:8000/api/status/', {
+		const response2 = await fetch(apiurl + 'api/status/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),

@@ -23,6 +23,8 @@ import { EventRegister } from 'react-native-event-listeners'
 import { LogBox } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import MultiSelect from 'react-native-multiple-select';
+import { apiurl } from '../../URL';
+
 
 
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -67,7 +69,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
     async getComments() {   //функция получения комментов
       try {
         console.log(Auth.getToken())
-        const response = await fetch("http://127.0.0.1:8000/comments_list/" + this.state.coffee_id + "/",{
+        const response = await fetch(apiurl + "comments_list/" + this.state.coffee_id + "/",{
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -86,7 +88,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       }
 
       async getUserInfo(){    //ф-ия получения информации о пользователе
-        const response = await fetch('http://127.0.0.1:8000/api/me/', {
+        const response = await fetch(apiurl + 'api/me/', {
             method: 'GET',
             headers: {
               Authorization: 'Token ' + Auth.getToken(),
@@ -102,7 +104,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       async getInfo() {   //функция получения комментов
         try {
           console.log(Auth.getToken())
-          const response = await fetch("http://127.0.0.1:8000/info_list/" + this.state.coffee_id + "/",{
+          const response = await fetch(apiurl + "info_list/" + this.state.coffee_id + "/",{
             method: 'GET',
             headers: {
               Accept: 'application/json',
@@ -155,7 +157,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       formData.append('text', this.state.text1);
       formData.append('author', this.state.username);
       formData.append('coffee_shop_id', this.state.coffee_id);
-      fetch('http://127.0.0.1:8000/comment_post/', {
+      fetch(apiurl + 'comment_post/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -176,7 +178,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       const formData = new FormData();
       formData.append('rate', rate);
       formData.append('coffee_shop_id', this.state.coffee_id);
-      fetch('http://127.0.0.1:8000/setRating/', {
+      fetch(apiurl + 'setRating/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

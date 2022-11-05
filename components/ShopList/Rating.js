@@ -17,6 +17,8 @@ import FormData from 'form-data';
 import {EventRegister} from 'react-native-event-listeners'
 import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { apiurl } from '../../URL';
+
 
 const entireScreenWidth = Dimensions.get('window').width;   //получение разрешения экрана
 
@@ -35,7 +37,7 @@ export default class Rating extends Component {
   }
 
       async getRateInfo(){        //получение рейтинга
-        const response = await fetch('http://127.0.0.1:8000/rate_list/', {
+        const response = await fetch(apiurl + 'rate_list/', {
             method: 'GET',
             headers: {
               Accept: 'application/json',
