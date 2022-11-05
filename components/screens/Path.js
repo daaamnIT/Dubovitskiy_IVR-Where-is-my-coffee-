@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { Platform, Text, View, StyleSheet } from 'react-native'
 
-import * as Location from 'expo-location';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import GetLocation from 'react-native-get-location';
+import * as Location from 'expo-location'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import GetLocation from 'react-native-get-location'
 
 export var text2 = ''
 
-export default function Path() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+export default function Path () {
+  const [location, setLocation] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     (async () => {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
+        setErrorMsg('Permission to access location was denied')
+        return
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
+      const location = await Location.getCurrentPositionAsync({})
+      setLocation(location)
+    })()
+  }, [])
 
-  let text = 'Waiting..';
+  let text = 'Waiting..'
   if (errorMsg) {
-    text = errorMsg;
+    text = errorMsg
   } else if (location) {
-    text = JSON.stringify(location);
+    text = JSON.stringify(location)
     text2 = text
     console.log(text2)
   }
@@ -40,5 +39,5 @@ export default function Path() {
             <Text>{text}</Text>
         </View>
     </SafeAreaView>
-  );
+  )
 }

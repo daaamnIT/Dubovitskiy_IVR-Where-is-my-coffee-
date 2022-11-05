@@ -13,17 +13,14 @@ import {
   LayoutAnimation,
   Image,
   Appearance,
-  Button,
+  Button
 } from 'react-native'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import FormData from 'form-data';
+import FormData from 'form-data'
 import Auth from '../../Token'
 import { EventRegister } from 'react-native-event-listeners'
-import { apiurl } from '../../URL';
-
-
-
+import { apiurl } from '../../URL'
 
 // Sorry for the mess
 
@@ -62,7 +59,7 @@ const items = [
         id: 18
       }
     ]
-  },
+  }
 
 ]
 console.log(items)
@@ -170,17 +167,19 @@ const accentMap = {
 const tintColor = '#174A87'
 
 const Loading = (props) =>
-  props.hasErrored ? (
+  props.hasErrored
+    ? (
     <TouchableWithoutFeedback onPress={props.fetchCategories}>
       <View style={styles.center}>
         <Text>oops... something went wrong. Tap to reload</Text>
       </View>
     </TouchableWithoutFeedback>
-  ) : (
+      )
+    : (
     <View style={styles.center}>
       <ActivityIndicator size="large" />
     </View>
-  )
+      )
 
 const Toggle = (props) => (
   <TouchableWithoutFeedback
@@ -200,7 +199,7 @@ const Toggle = (props) => (
 )
 
 export default class DropDown extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       items: null,
@@ -218,14 +217,14 @@ export default class DropDown extends Component {
       hasErrored: false,
       isDarkMode: false,
       shop_id: props.route.params.shop_id,
-      shop_info: props.route.params.info,
+      shop_info: props.route.params.info
     }
     this.termId = 100
     this.maxItems = 5
-    this.SubmitPressed = this.SubmitPressed.bind(this);
+    this.SubmitPressed = this.SubmitPressed.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.pretendToLoad()
     const colorScheme = Appearance.getColorScheme()
     if (colorScheme === 'dark') {
@@ -317,23 +316,23 @@ export default class DropDown extends Component {
     return <View style={styles}>{iconComponent}</View>
   }
 
-  SubmitPressed(){
-    console.log("SUBMIT PRESSED")
+  SubmitPressed () {
+    console.log('SUBMIT PRESSED')
     console.log(this.state.selectedItemObjects)
 
-    const formData = new FormData();
-    formData.append("shop_id", this.state.shop_id);
-    for (let i = 0; i < this.state.selectedItemObjects.length; i++) { 
-      formData.append(`info_${i}`, this.state.selectedItemObjects[i].title);
+    const formData = new FormData()
+    formData.append('shop_id', this.state.shop_id)
+    for (let i = 0; i < this.state.selectedItemObjects.length; i++) {
+      formData.append(`info_${i}`, this.state.selectedItemObjects[i].title)
     }
     console.log(formData)
     fetch(apiurl + 'add_info/', {
-        method: 'POST',
-        headers: {
-          Authorization: 'Token ' + Auth.getToken(),
-        },
-        body: formData,
-      }).then(()=> EventRegister.emit('FullCoffeeInfo', ''));
+      method: 'POST',
+      headers: {
+        Authorization: 'Token ' + Auth.getToken()
+      },
+      body: formData
+    }).then(() => EventRegister.emit('FullCoffeeInfo', ''))
   }
 
   getProp = (object, key) => object && this.removerAcentos(object[key])
@@ -411,8 +410,9 @@ export default class DropDown extends Component {
 
   onConfirm = () => {
     this.setState({ currentItems: this.state.selectedItems })
-    console.log("CONFIRMMMMMM")
+    console.log('CONFIRMMMMMM')
   }
+
   onCancel = () => {
     this.SectionedMultiSelect._removeAllItems()
 
@@ -421,6 +421,7 @@ export default class DropDown extends Component {
     })
     console.log(this.state.selectedItems)
   }
+
   onSelectedItemObjectsChange = (selectedItemObjects) => {
     this.setState({ selectedItemObjects })
     console.log(selectedItemObjects)
@@ -445,6 +446,7 @@ export default class DropDown extends Component {
         throw error.message
       })
   }
+
   filterDuplicates = (items) =>
     items.sort().reduce((accumulator, current) => {
       const length = accumulator.length
@@ -499,8 +501,7 @@ export default class DropDown extends Component {
       ? `Вы Выбрали: ${selectedItemObjects
           .map((item, i) => {
             let label = `${item.title}, `
-            if (i === selectedItemObjects.length - 2)
-              label = `${item.title} и `
+            if (i === selectedItemObjects.length - 2) { label = `${item.title} и ` }
             if (i === selectedItemObjects.length - 1) label = `${item.title}.`
             return label
           })
@@ -544,6 +545,7 @@ export default class DropDown extends Component {
   onToggleSelector = (toggled) => {
     console.log('selector is ', toggled ? 'open' : 'closed')
   }
+
   customChipsRenderer = (props) => {
     console.log('props', props)
     return (
@@ -577,7 +579,8 @@ export default class DropDown extends Component {
       </View>
     )
   }
-  render() {
+
+  render () {
     return (
       <ScrollView
         keyboardShouldPersistTaps="always"
