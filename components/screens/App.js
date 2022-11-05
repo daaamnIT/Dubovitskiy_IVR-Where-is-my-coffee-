@@ -110,12 +110,12 @@ function HomeScreen({navigation}) {                                 //Функц
         <View>
             {isLoading ? <ActivityIndicator/> : (
                 <MapView style={styles.map}
-                         initialRegion={{
-                             latitude: 55.751244,
-                             longitude: 37.618423,
-                             latitudeDelta: 0.2,
-                             longitudeDelta: 0.2,
-                         }}
+                        //  initialRegion={{
+                        //      latitude: 55.751244,
+                        //      longitude: 37.618423,
+                        //      latitudeDelta: 0.2,
+                        //      longitudeDelta: 0.2,
+                        //  }}
                          provider="google" //comment this to use ios maps
                          showsUserLocation={true}
                 >

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View, Alert, Image, KeyboardAvoidingView } from 'react-native';
+import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, View, Alert, Image, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Auth from '../../Token';
 import Login from '../../UserInfo';
 import { EventRegister } from 'react-native-event-listeners'
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import Svg, { Path, SvgUri } from "react-native-svg";
 import { LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

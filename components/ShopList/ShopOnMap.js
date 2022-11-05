@@ -105,12 +105,12 @@ export default class ShopOnMap extends Component {
                     </View>
                     <MapView
                         style={styles.Map}
-                        initialRegion={{
-                            latitude: this.state.info.fields.latitude,
-                            longitude: this.state.info.fields.longitude,
-                            latitudeDelta: 0.02,
-                            longitudeDelta: 0.01,
-                        }}
+                        // initialRegion={{
+                        //     latitude: this.state.info.fields.latitude,
+                        //     longitude: this.state.info.fields.longitude,
+                        //     latitudeDelta: 0.02,
+                        //     longitudeDelta: 0.01,
+                        // }}
                         provider = "google" //comment this to use ios maps
                         showsUserLocation={true}
                     >

@@ -12,10 +12,11 @@ import {
     View,
     FlatList,
     StatusBar,
+    TouchableOpacity,
 } from 'react-native';
 import FormData from 'form-data';
 import {EventRegister} from 'react-native-event-listeners'
-import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
+import {ScrollView} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { apiurl } from '../../URL';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { Text, View, TouchableHighlight, TextInput, FlatList, ActivityIndicator, Keyboard } from 'react-native';
+import { Text, View, TouchableHighlight, TextInput, FlatList, ActivityIndicator, Keyboard, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapView from 'react-native-maps';
@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {useState, useEffect} from 'react'
 import FormData from 'form-data';
 import TouchHistoryMath from 'react-native/Libraries/Interaction/TouchHistoryMath';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Auth from '../../Token';
 import IpAdress from '../../getIP';

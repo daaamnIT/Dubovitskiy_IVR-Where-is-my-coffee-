@@ -77,12 +77,12 @@ export default function CoffeeShopAdd() { //основная функция на
         </View>
 			<MapView
 				style={styles.map}
-				initialRegion={{
-          latitude: 55.751244,
-          longitude: 37.618423,
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.01,
-				}}
+				// initialRegion={{
+        //   latitude: 55.751244,
+        //   longitude: 37.618423,
+        //   latitudeDelta: 0.02,
+        //   longitudeDelta: 0.01,
+				// }}
 				provider = "google" //comment this to use ios maps
         showsUserLocation={true}
         >

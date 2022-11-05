@@ -9,11 +9,12 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    View
+    View,
+    TouchableOpacity,
 } from 'react-native';
 import FormData from 'form-data';
 import {EventRegister} from 'react-native-event-listeners'
-import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
+import {ScrollView} from "react-native-gesture-handler";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Auth from "../../Token";
 import Login from "../../UserInfo"
