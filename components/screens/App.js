@@ -228,7 +228,7 @@ export default function App() {                     //оcнованая функ
                 <Tab.Screen name="Регистрация" component={RegistrationNav}/>
                 <Tab.Screen name="Авторизация" component={LoginScreen}/>
                 <Tab.Screen name="Рейтинг" component={ListNav}/>
-                <Tab.Screen name="Path" component={Path}/>
+                {/* <Tab.Screen name="Path" component={Path}/> */}
             </Tab.Navigator>
         </NavigationContainer>
 
