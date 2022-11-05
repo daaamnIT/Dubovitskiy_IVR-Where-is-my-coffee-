@@ -260,34 +260,27 @@ export default class Full_About_Coffee extends Component {    //класс эк�
     render() {      //рендер страницы
       const { data, isLoading } = this.state;
       const { infodata, isLoading2 } = this.state;
-      // const Item = ({ info }) => (
-      //   <View>
-      //     <Text style={styles.textinfo}>{info}</Text>
-      //   </View>
-      // );
-
-      // const renderItem = ({ item }) => (
-      //   <Item info={item.fields.info} />
-      // );
       return (
         <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
-          <TouchableOpacity
-            onPress={this.reportPressed}
-            style={styles.Button}
-          >
-            <View style={styles.Component1}>
-              <Text style={styles.Txt265}>Report</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.upBut}>
+            <TouchableOpacity
+              onPress={this.reportPressed}
+              style={styles.Button}
+            >
+              <View style={styles.Component1}>
+                <Text style={styles.Txt265}>Report</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={this.addToFavourite}
-            style={styles.Button}
-          >
-            <View style={styles.Component1}>
-              <Text style={styles.Txt265}>Love it!</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.addToFavourite}
+              style={styles.Button}
+            >
+              <View style={styles.Component1}>
+                <Text style={styles.Txt265}>Love it!</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
           <Text style={styles.header}>{this.props.route.params.info.name}</Text>
           <Text style={styles.text}>{this.props.route.params.info.description}</Text>
           <View style={styles.info}>
@@ -427,8 +420,8 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       color: '#000'
     },
     Button:{
-      justifyContent: "flex-end",
-      alignItems: "flex-end",
+      justifyContent: "flex-start",
+      alignItems: "flex-start",
       marginTop: 30,
     },
     starStyle:{
@@ -455,5 +448,12 @@ export default class Full_About_Coffee extends Component {    //класс эк�
     textinfo:{
       flex: 1,
       justifyContent: 'center',
+    },
+    upBut:{
+      flex: 1,
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      flexDirection: 'row',
     },
   });
