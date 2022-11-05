@@ -43,6 +43,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
     constructor(props) {    //конструктор
       super(props);
       this.state = {
+        email: "",
         info: props.route.params.info,
         coffee_id: props.route.params.shop_id,
         text1: '',
@@ -56,7 +57,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
           {id: 1, name: 'Dog friendly'},
         ],
         selectedItems: [],
-        infodata: []
+        infodata: [],
       };
       console.log(this.state.coffee_id)
       console.log(Login.getInfoFirstname())
@@ -65,6 +66,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       this.ratingPas = this.ratingPas.bind(this);
       this.AddInfo = this.AddInfo.bind(this);
       this.addToFavourite = this.addToFavourite.bind(this);
+      this.getUserInfo = this.getUserInfo.bind(this);
     }
 
     async getComments() {   //функция получения комментов
@@ -100,6 +102,7 @@ export default class Full_About_Coffee extends Component {    //класс эк�
         const json = await response.json()
         console.log(json)
         this.setState({username: json[0].fields.first_name})
+        this.setState({email: json[0].fields.username})
       }
 
       async getInfo() {   //функция получения комментов
@@ -234,7 +237,8 @@ export default class Full_About_Coffee extends Component {    //класс эк�
       if (Auth.getToken() != 'noToken'){
         const formData = new FormData();
         formData.append('shop_id', this.state.coffee_id);
-        formData.append('username', this.state.username);
+        formData.append('username', this.state.email);
+        formData.append('shop_name', this.props.route.params.info.name);
         fetch(apiurl + 'add_to_favourite/', {
           method: 'POST',
           headers: {
@@ -242,7 +246,11 @@ export default class Full_About_Coffee extends Component {    //класс эк�
             'Content-Type': 'application/json'
           },
           body: formData,
-        }).then(Alert.alert("Кофейня добавлена в список избранных"));
+        }).then(
+          console.log("added"),
+          Alert.alert("Кофейня добавлена в список избранных"),
+          EventRegister.emit('UserLogin', '')
+          );
       }else{
         Alert.alert("Пожалуйста авторизуйтесь")
       }

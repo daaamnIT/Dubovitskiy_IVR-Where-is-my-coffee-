@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, TextInputBase, View, Alert, KeyboardAvoidingView, Image, TouchableOpacity } from 'react-native';
+import { Button, Keyboard, Platform, StyleSheet, Text, TextInput, TextInputBase, View, Alert, KeyboardAvoidingView, Image, TouchableOpacity, FlatList } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FormData from 'form-data';
 import Auth from '../../Token'
@@ -10,6 +10,7 @@ import { LogBox } from 'react-native';
 import { Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiurl } from '../../URL';
+import TouchHistoryMath from 'react-native/Libraries/Interaction/TouchHistoryMath';
 
 
 
@@ -31,6 +32,7 @@ export default class Profile_page extends Component {				//класс профи
 			is_owner: 'none',
             data: [],
             isLoading: true,
+			favourite: []
         };
       }
 
@@ -82,9 +84,28 @@ export default class Profile_page extends Component {				//класс профи
 		this.setState({is_owner: json2[0].fields.is_Owner})
 		console.log(this.state.is_owner)
       }
+
+	  async getFavourite(){
+		  if(Auth.getToken != 'noToken'){
+			const response = await fetch(apiurl + 'api/get_favourite/', {
+				method: 'GET',
+				headers: {
+				  Authorization: 'Token ' + Auth.getToken(),
+				  Accept: 'application/json',
+				  'Content-Type': 'application/json'
+				},
+			  })
+			const json = await response.json()
+			console.log(json)
+			this.setState({favourite: json})
+		  }
+		console.log('Favourite')
+		console.log(this.state.favourite)
+	  }
       
       componentDidMount() {			//то, что должно выполнятся при первом создании страницы
         this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getUserInfo())
+		this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getFavourite())
     }
 
 	Error = () => {			//обработка статуса пользователя
@@ -94,6 +115,39 @@ export default class Profile_page extends Component {				//класс профи
 			return <Text>Вы пользователь</Text>
 		}else{
 			return <Text>Вы не вошли</Text>
+		}
+	}
+
+	// ShopList = () => {
+	// 	if(Auth.getToken() != 'noToken'){
+	// 		return (
+	// 			<Text>Тут что-то должно быть</Text>
+	// 			// <FlatList
+	// 			// 	data={this.state.favourite}
+	// 			// 	renderItem={({ item }) => (
+	// 			// 		<Text style={styles.textinfo}>{item.fields.shop_name}</Text>
+	// 			// 	)}
+	// 			// 	keyExtractor={item => item.pk}
+	// 			// />
+	// 		)
+	// 	}else{
+	// 		return <Text>Авторизуйтесь для просмотра подробной информации</Text>
+	// 	}
+	// }
+
+	ShopList = () => {			//обработка статуса пользователя
+		if(Auth.getToken() != 'noToken'){
+		return (
+			<FlatList
+				data={this.state.favourite}
+				renderItem={({ item }) => (
+					<Text style={styles.textinfo}>{item.fields.shop_name}</Text>
+				)}
+				keyExtractor={item => item.pk}
+			/>
+		)
+		}else{
+			return <Text>Авторизуйтесь для просмотра подробной информации</Text>
 		}
 	}
 
@@ -112,16 +166,16 @@ export default class Profile_page extends Component {				//класс профи
 							  style={styles.tinyLogo}
 							  source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
 						  />
-						  </View>
-						  <View style = {styles.headers}>
-							  <View>
-								  <Text style = {styles.h1}>C возвращением!</Text>
-							  </View>
-							  <View>
-								  <Text style = {styles.h2}>{this.state.firstname}</Text>
-							  </View>
-						  </View>
-					  </View>
+						</View>
+						<View style = {styles.headers}>
+							<View>
+								<Text style = {styles.h1}>C возвращением!</Text>
+							</View>
+							<View>
+								<Text style = {styles.h2}>{this.state.firstname}</Text>
+							</View>
+						</View>
+					</View>
 				  <View style = {styles.mainheader}>
 					  <Text style = {styles.h3}>Информация о Вас</Text>
 				  </View>
@@ -160,7 +214,7 @@ export default class Profile_page extends Component {				//класс профи
 						}}
 						/>
 
-					<View style = {styles.names}>
+					  <View style = {styles.names}>
 						  <Text style = {styles.names}>Вы присоединились к нам:</Text>
 					  </View>
 
@@ -178,7 +232,7 @@ export default class Profile_page extends Component {				//класс профи
 
 						<View style = {styles.names}>
 						  <Text style = {styles.names}>Ваш статус:</Text>
-					  </View>
+					    </View>
 
 					  <View style = {styles.inputs}>
 						  <this.Error />
@@ -189,13 +243,18 @@ export default class Profile_page extends Component {				//класс профи
 							borderBottomWidth: 2,	
 						}}
 						/>
-
+						<View style = {styles.button_main}>
+							<TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.Logout()}>
+								<Text style = {styles.button_text}>Выйти</Text>
+							</TouchableOpacity>
+						</View>	
+						<View>
+							<this.ShopList />
+						</View>
 				  </View>
-				  <View style = {styles.button_main}>
-					  <TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.Logout()}>
-						  <Text style = {styles.button_text}>Выйти</Text>
-					  </TouchableOpacity>
-				  </View>
+				  {/* <View>
+					  <this.ShopList />.
+				  </View> */}
 		  </KeyboardAvoidingView>
 	  </ScrollView>
   </SafeAreaView>
