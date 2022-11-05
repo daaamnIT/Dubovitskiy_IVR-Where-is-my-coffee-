@@ -49,6 +49,7 @@ export default class Profile_page extends Component {				//класс профи
         this.setState({lastname: ''})
         this.setState({date_joined: ''})
 		this.setState({is_owner: 'none'})
+		this.setState({favourite: []})
         Auth.setToken('noToken')
         console.log(this.state)
 		console.log(Auth.getToken())
