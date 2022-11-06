@@ -287,12 +287,13 @@ export default class Full_About_Coffee extends Component { // класс экр�
             />
               )}
           </View>
-          <Text style={styles.postComment}>Оставьте свой комментарий</Text>
           <Rating
             showRating
             onFinishRating={this.ratingCompleted}
-            style={{ paddingVertical: 10 }}
+            // style={{ paddingVertical: 10 }}
+            imageSize={30}
           />
+          <Text style={styles.postComment}>Оставьте свой комментарий</Text>
           <View style={styles.btnContainer}>
             <Button color='#000' title="Подтвердить" onPress={this.ratingPas} />
           </View>

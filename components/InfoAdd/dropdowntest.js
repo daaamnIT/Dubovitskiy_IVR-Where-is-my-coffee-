@@ -13,7 +13,8 @@ import {
   LayoutAnimation,
   Image,
   Appearance,
-  Button
+  Button,
+  Alert
 } from 'react-native'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -229,7 +230,7 @@ export default class DropDown extends Component {
     const colorScheme = Appearance.getColorScheme()
     if (colorScheme === 'dark') {
       // Use dark color scheme
-      this.setState({ isDarkMode: true })
+      this.setState({ isDarkMode: false })
     }
     console.log(this.props.route.params)
     // programatically opening the select
@@ -333,6 +334,8 @@ export default class DropDown extends Component {
       },
       body: formData
     }).then(() => EventRegister.emit('FullCoffeeInfo', ''))
+
+    Alert.alert("Свойства добавлены!", "Спасибо вам за развитие нашего приложения!")
   }
 
   getProp = (object, key) => object && this.removerAcentos(object[key])
@@ -584,8 +587,11 @@ export default class DropDown extends Component {
     return (
       <ScrollView
         keyboardShouldPersistTaps="always"
+        // style={{
+        //   backgroundColor: this.state.isDarkMode ? '#333' : '#f8f8f8'
+        // }}
         style={{
-          backgroundColor: this.state.isDarkMode ? '#333' : '#f8f8f8'
+          backgroundColor: 'white'
         }}
         contentContainerStyle={styles.container}
       >
