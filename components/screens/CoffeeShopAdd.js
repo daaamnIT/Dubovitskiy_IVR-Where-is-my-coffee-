@@ -5,12 +5,26 @@ import { useState } from 'react'
 import FormData from 'form-data'
 import { EventRegister } from 'react-native-event-listeners'
 import { apiurl } from '../../URL'
+import Auth from '../../Token'
 
 LogBox.ignoreAllLogs()// Ignore all log notifications
 
 const entireScreenWidth = Dimensions.get('window').width // получение разрешения экрана
 
-function _addMarker (pin, text, text2) { // функция добавления маркера на карту
+
+
+async function _addMarker (pin, text, text2) { // функция добавления маркера на карту
+  const response = await fetch(apiurl + 'api/status/', {
+    method: 'GET',
+    headers: {
+      Authorization: 'Token ' + Auth.getToken(),
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+  const json2 = await response.json()
+  console.log(response)
+
   console.log(pin.latitude)
   console.log(pin.longitude)
   console.log(text)
@@ -20,6 +34,11 @@ function _addMarker (pin, text, text2) { // функция добавления 
   formData.append('description', text2)
   formData.append('latitude', pin.latitude)
   formData.append('longitude', pin.longitude)
+  if (json2[0].fields.is_Owner == 'True'){
+  formData.append('hasOwner', 'True')
+  }else{
+    formData.append('hasOwner', 'False')
+  }
 
   fetch(apiurl + 'requests/', { // post завпрос к бэку
     method: 'POST',
@@ -32,6 +51,8 @@ function _addMarker (pin, text, text2) { // функция добавления 
 
   Alert.alert('Точка добавлена')
 }
+
+
 
 export default function CoffeeShopAdd () { // основная функция на экране
   const [text, setText] = useState('')
@@ -256,6 +277,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop:'5%',
     marginLeft:'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
   }
 })

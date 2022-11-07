@@ -27,6 +27,8 @@ export default class Profile_page extends Component {				// класс проф�
       isLoading: true,
       favourite: []
     }
+    this.menuadd = this.menuadd.bind(this)
+    // this.Error = this.Error.bind(this)
   }
 
   async Logout () {												// ф-ия выхода из аккаунта
@@ -116,25 +118,22 @@ export default class Profile_page extends Component {				// класс проф�
     }
   }
 
-  // ShopList = () => {
-  // 	if(Auth.getToken() != 'noToken'){
-  // 		return (
-  // 			<Text>Тут что-то должно быть</Text>
-  // 			// <FlatList
-  // 			// 	data={this.state.favourite}
-  // 			// 	renderItem={({ item }) => (
-  // 			// 		<Text style={styles.textinfo}>{item.fields.shop_name}</Text>
-  // 			// 	)}
-  // 			// 	keyExtractor={item => item.pk}
-  // 			// />
-  // 		)
-  // 	}else{
-  // 		return <Text>Авторизуйтесь для просмотра подробной информации</Text>
-  // 	}
-  // }
+  menuadd(){
+    if (Auth.getToken() != 'noToken') {
+      console.log('preorder')
+      this.props.navigation.navigate('Profile', {
+        screen: 'Добавлению меню',
+        params: { // В параметры передает всю информацию о маркере и его id
+          username: this.state.email
+        }
+      })
+    }else{
+      Alert.alert("Пожалуйста, авторизуйтесь")
+    }
+  }
 
   ShopList = () => {			// обработка статуса пользователя
-    if (Auth.getToken() != 'noToken') {
+    if (Auth.getToken() != 'noToken' && this.state.is_owner == 'False') {
       return (
       <View>
         <Text style={styles.hinfo}>Ибранные кофейни</Text>
@@ -147,7 +146,16 @@ export default class Profile_page extends Component {				// класс проф�
         />
       </View>
       )
-    } else {
+    } else if(Auth.getToken() != 'noToken' && this.state.is_owner == 'True'){
+      return(
+        <View>
+						<TouchableOpacity onPress= {() => this.menuadd()}>
+							<Text style = {styles.menubut}>Добавить меню</Text>
+						</TouchableOpacity>
+          <Text style={styles.hinfo}>Предзаказы</Text>
+        </View>
+      )
+    }else {
       return <Text style={styles.infonot}>Авторизуйтесь для просмотра подробной информации</Text>
     }
   }
@@ -368,5 +376,11 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       textDecorationLine: 'underline',
       marginBottom: 5 * (entireScreenWidth / 380)
+    },
+    menubut:{
+      textAlign: 'center',
+      margin: '5%',
+      borderRadius: 10,
+      borderWidth: 2,
     }
 })

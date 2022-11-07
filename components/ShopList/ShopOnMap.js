@@ -86,7 +86,7 @@ export default class ShopOnMap extends Component {
                         <Text style={styles.rating}>Рейтинг: {this.state.info.fields.rating.toFixed(1)}</Text>
                         <View>
                         <TouchableOpacity style={styles.trace} onPress={() => this.traceRoute()}>
-                            <Text style={styles.tracetext}>Trace Root</Text>
+                            <Text style={styles.tracetext}>Построить маршрут</Text>
                         </TouchableOpacity>
                     </View>
                     {this.state.distance && this.state.duration

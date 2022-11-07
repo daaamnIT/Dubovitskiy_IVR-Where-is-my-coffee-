@@ -76,6 +76,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
     this.addToFavourite = this.addToFavourite.bind(this)
     this.getUserInfo = this.getUserInfo.bind(this)
     this.InfoList = this.InfoList.bind(this)
+    this.preorder = this.preorder.bind(this)
   }
 
   async getComments () { // функция получения комментов
@@ -258,6 +259,25 @@ export default class Full_About_Coffee extends Component { // класс экр�
     )
   }
 
+  preorder(){
+    if (Auth.getToken() != 'noToken') {
+      if(this.props.route.params.info.hasOwner == 'True'){
+        console.log('preorder')
+        this.props.navigation.navigate('Информация', {
+          screen: 'Предзаказ',
+          params: { // В параметры передает всю информацию о маркере и его id
+            info: this.state.info,
+            shop_id: this.state.coffee_id
+          }
+        })
+      }else{
+        Alert.alert("У этой кофейи нет владельца")
+      }
+    }else{
+      Alert.alert("Пожалуйста, авторизуйтесь")
+    }
+  }
+
   addToFavourite () {
     if (Auth.getToken() != 'noToken') {
       const formData = new FormData()
@@ -326,6 +346,14 @@ export default class Full_About_Coffee extends Component { // класс экр�
             >
               <View style={styles.Component1}>
                 <Text style={styles.Txt265}>Love it!</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.preorder}
+              style={styles.Button}
+            >
+              <View style={styles.Component1}>
+                <Text style={styles.Txt265}>Заказ</Text>
               </View>
             </TouchableOpacity>
           </View>
