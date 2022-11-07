@@ -153,11 +153,6 @@ export default class Profile_page extends Component {				// класс проф�
     return (
 		<SafeAreaView style={styles.container}>
 		<ScrollView style={styles.scrollView}>
-			<KeyboardAvoidingView
-			  style={{ flex: 1 }}
-			  keyboardVerticalOffset={100}
-			  behavior={'position'}
-			  >
 				  <View style = {styles.row}>
 					  <View style = {styles.svg}>
 						  <Image
@@ -250,10 +245,7 @@ export default class Profile_page extends Component {				// класс проф�
 							<this.ShopList />
 						</View>
 				  </View>
-				  {/* <View>
-					  <this.ShopList />.
-				  </View> */}
-		  </KeyboardAvoidingView>
+
 	  </ScrollView>
   </SafeAreaView>
     )

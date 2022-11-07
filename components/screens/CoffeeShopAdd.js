@@ -49,9 +49,10 @@ export default function CoffeeShopAdd () { // основная функция н
   })
   // рендер страницы
   return (
-		<View style={{ flex: 1 }}>
+		<View style={{ flex: 1, backgroundColor: 'white' }}>
     <SafeAreaView>
-        <View style = {[styles.inputs, { display: 'flex', flexDirection: 'row', alignItems: 'center' }]}>
+      <View style={styles.great}>
+        <View style = {[styles.inputs, { display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop:'5%' }]}>
         <TextInput style = {[styles.passwordStyle, { position: 'relative', flexGrow: 1, left: 0, top: 0, height: 'auto', transform: [{ translateX: 0 }, { translateY: 0 }] }]}
           value={text}
           onChangeText={(newValue) => setText(newValue)}
@@ -72,6 +73,7 @@ export default function CoffeeShopAdd () { // основная функция н
         </View>
         <View style = {styles._input_1}>
         </View>
+      </View>
 			<MapView
 				style={styles.map}
 				initialRegion={{
@@ -115,7 +117,7 @@ export default function CoffeeShopAdd () { // основная функция н
 // стили
 const styles = StyleSheet.create({
   _input_2: {
-    width: entireScreenWidth,
+    width: "90%",
     height: 0,
     borderRadius: undefined,
     borderWidth: 1,
@@ -132,11 +134,11 @@ const styles = StyleSheet.create({
     ]
   },
   passwordStyle: {
-    width: entireScreenWidth,
+    width: "90%",
     height: 'auto',
     // right: "auto",
     // bottom: "auto",
-    marginLeft: 10,
+    marginLeft: 20 * (entireScreenWidth/ 380),
     // backgroundColor: 'green',
     marginTop: 10,
     transform: [
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.1
   },
   _input_1: {
-    width: entireScreenWidth,
+    width: "90%",
     height: 0,
     borderRadius: undefined,
     borderWidth: 1,
@@ -171,12 +173,12 @@ const styles = StyleSheet.create({
     ]
   },
   opisaniye: {
-    width: 'auto',
+    width: '90%',
     height: 'auto',
     right: 'auto',
     bottom: 'auto',
     marginTop: 10,
-    marginLeft: 10,
+    marginLeft: 20 * (entireScreenWidth/ 380),
     marginBottom: 3,
     transform: [
       { translateX: 0 },
@@ -237,5 +239,23 @@ const styles = StyleSheet.create({
     margin: 15,
     borderColor: 'black',
     borderWidth: 1
+  },
+  great:{
+    position: "relative",
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    width: "90%",
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 4,
+    padding: 8,
+    borderRadius: 8,
+    marginTop:'5%',
+    marginLeft:'auto',
+    marginRight: 'auto'
   }
 })

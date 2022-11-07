@@ -20,7 +20,7 @@ export default class RegistrationNav extends Component { // класс отде�
                     component={RegistrationScreen}
                     options={{ headerShown: false }}
                 />
-                <Stack.Screen name="OwnerReg" component={OwnerRegistration}/>
+                <Stack.Screen name="Регистрация владельца" component={OwnerRegistration}/>
             </Stack.Navigator>
     )
   }

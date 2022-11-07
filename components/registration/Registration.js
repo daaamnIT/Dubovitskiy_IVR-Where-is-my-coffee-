@@ -115,7 +115,7 @@ export default class RegistrationScreen extends Component { // класс рег
   Redirect () { // переход на другу страницу
     console.log('redirection to owner registration')
     this.props.navigation.navigate('Регистрация', {
-      screen: 'OwnerReg'
+      screen: 'Регистрация владельца'
     })
   }
 
@@ -139,7 +139,7 @@ export default class RegistrationScreen extends Component { // класс рег
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formData
     })

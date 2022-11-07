@@ -237,7 +237,7 @@ export default class RegistrationScreen extends Component { // класс рег
                             </View>
                         </View>
                         <View style={styles.mainheader}>
-                            <Text style={styles.h3}>Регистрация Владельца</Text>
+                            <Text style={styles.h3}>Регистрация</Text>
                         </View>
 
                         <View style={styles.allinp}>
