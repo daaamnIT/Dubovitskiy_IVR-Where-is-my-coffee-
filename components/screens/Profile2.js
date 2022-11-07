@@ -36,6 +36,8 @@ export default class Profile_page extends Component {				// класс проф�
       headers: {
         Authorization: 'Token ' + Auth.getToken()
       }
+    }).then({
+      
     })
     this.setState({ email: '' })
     this.setState({ firstname: 'anonym' })
@@ -47,6 +49,7 @@ export default class Profile_page extends Component {				// класс проф�
     console.log(this.state)
     console.log(Auth.getToken())
     Alert.alert('Вы вышли из своего аккаунта')
+    EventRegister.emit('UpdateTab', '')
   }
 
   async getUserInfo () {											// ф-ия получения информации о юзере
@@ -245,7 +248,6 @@ export default class Profile_page extends Component {				// класс проф�
 							<this.ShopList />
 						</View>
 				  </View>
-
 	  </ScrollView>
   </SafeAreaView>
     )

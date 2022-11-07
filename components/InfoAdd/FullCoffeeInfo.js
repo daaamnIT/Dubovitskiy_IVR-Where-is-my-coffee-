@@ -161,21 +161,29 @@ export default class Full_About_Coffee extends Component { // класс экр�
   }
 
   submitPressed () { // ф-ия записи коммента в бд
-    console.log(this.state.text1)
-    console.log(this.state.coffee_id)
-    const formData = new FormData()
-    formData.append('text', this.state.text1)
-    formData.append('author', this.state.username)
-    formData.append('coffee_shop_id', this.state.coffee_id)
-    fetch(apiurl + 'comment_post/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': "multipart/form-data"
-      },
-      body: formData
-    }).then(() => this.getComments())
-    Keyboard.dismiss()
+    if (Auth.getToken() != 'noToken') {
+      if(this.state.text1.length > 0){
+        console.log(this.state.text1)
+        console.log(this.state.coffee_id)
+        const formData = new FormData()
+        formData.append('text', this.state.text1)
+        formData.append('author', this.state.username)
+        formData.append('coffee_shop_id', this.state.coffee_id)
+        fetch(apiurl + 'comment_post/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': "multipart/form-data"
+          },
+          body: formData
+        }).then(() => this.getComments())
+        Keyboard.dismiss()
+      }else{
+        Alert.alert("Пожалуйста, введите коммантарий")
+      }
+  }else{
+    Alert.alert("Пожалуйста, авторизуйтесь")
+  }
   }
 
   ratingCompleted (rating) {
@@ -184,6 +192,8 @@ export default class Full_About_Coffee extends Component { // класс экр�
   }
 
   ratingPas () { // ф-ия записи рейтинга
+    if (Auth.getToken() != 'noToken') {
+
     Alert.alert('Спасибо, что оставляете оценки', 'Вы делаете наш мир лучше!')
     const formData = new FormData()
     formData.append('rate', rate)
@@ -196,9 +206,13 @@ export default class Full_About_Coffee extends Component { // класс экр�
       },
       body: formData
     }).then(() => EventRegister.emit('Rate', ''))
+  }else{
+    Alert.alert("Пожалуйста, авторизуйтесь")
+  }
   }
 
   AddInfo () {
+    if (Auth.getToken() != 'noToken') {
     console.log(1)
     this.props.navigation.navigate('Информация', {
       screen: 'AddInfo',
@@ -207,6 +221,9 @@ export default class Full_About_Coffee extends Component { // класс экр�
         shop_id: this.state.coffee_id
       }
     })
+  }else{
+    Alert.alert("Пожалуйста, авторизуйтесь")
+  }
   }
 
   reportPressed () { // ф-ия обрабатывающая окно репортов
@@ -260,7 +277,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
         EventRegister.emit('UserLogin', '')
       )
     } else {
-      Alert.alert('Пожалуйста авторизуйтесь')
+      Alert.alert('Пожалуйста, авторизуйтесь')
     }
   }
 

@@ -78,6 +78,7 @@ export default class LoginScreen extends Component {				// класс стран
     Auth.setToken(jsonToken.token)
     console.log('TOKEN:', Auth.getToken())
     EventRegister.emit('UserLogin', '')
+    EventRegister.emit('UpdateTab', '')
     Keyboard.dismiss()
     if (typeof Auth.getToken() === 'undefined') {
       Alert.alert('Не получилось войти', 'Возможно вы ввели что-то не так')

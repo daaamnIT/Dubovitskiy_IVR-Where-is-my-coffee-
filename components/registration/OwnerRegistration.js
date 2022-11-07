@@ -173,6 +173,7 @@ export default class RegistrationScreen extends Component { // класс рег
     console.log(token)
     Auth.setToken(json.token)
     EventRegister.emit('UserLogin', '')
+    EventRegister.emit('UpdateTab', '')
     console.log('TOKEN:', Auth.getToken())
 
     this.setState({

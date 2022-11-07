@@ -169,8 +169,20 @@ function AddMarker () { // функция вызывающая экран доб
   return <CoffeeShopAdd/>
 }
 
+// functi 
 export default function App () { // оcнованая функция
 // export default class App extends React.Component{
+  const [status, setStatus] = useState(false)
+  function sets(){
+    if (Auth.getToken() == 'noToken'){
+      setStatus(false)
+    }else{
+      setStatus(true)
+    }
+    console.log("Status: ", status)
+  }
+  const listener = EventRegister.addEventListener('UpdateTab', (data) => sets())
+  if (status == true){
   return (
   // создание навигатор функция
         <NavigationContainer>
@@ -215,14 +227,66 @@ export default function App () { // оcнованая функция
                 <Tab.Screen name="Карта" component={HomeStack}/>
                 <Tab.Screen name="Профиль" component={Profile_page}/>
                 <Tab.Screen name="Добавить" component={AddMarker}/>
-                <Tab.Screen name="Регистрация" component={RegistrationNav}/>
-                <Tab.Screen name="Авторизация" component={LoginScreen}/>
+                {/* <Tab.Screen name="Регистрация" component={RegistrationNav}/> */}
+                {/* <Tab.Screen name="Авторизация" component={LoginScreen}/> */}
                 <Tab.Screen name="Рейтинг" component={ListNav}/>
                 {/* <Tab.Screen name="Path" component={Path}/> */}
             </Tab.Navigator>
         </NavigationContainer>
-
   )
+  }else if(status == false){
+    return (
+      // создание навигатор функция
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                      headerShown: false,
+                      // Добавление иконок к ботом навигатору
+                      tabBarIcon: ({ focused, color, size }) => {
+                        let iconName
+    
+                        if (route.name === 'Карта') {
+                          iconName = focused
+                            ? 'ios-information-circle'
+                            : 'ios-information-circle-outline'
+                        } else if (route.name === 'Профиль') {
+                          iconName = focused ? 'ios-list' : 'ios-list-outline'
+                        }
+                        if (route.name === 'Регистрация') {
+                          iconName = focused
+                            ? 'ios-lock-open'
+                            : 'ios-lock-closed'
+                        } else if (route.name === 'Авторизация') {
+                          iconName = focused
+                            ? 'person'
+                            : 'person-outline'
+                        } else if (route.name === 'Добавить') {
+                          iconName = focused
+                            ? 'add-circle'
+                            : 'add-circle-outline'
+                        } else if (route.name === 'Рейтинг') {
+                          iconName = focused
+                            ? 'ios-star'
+                            : 'ios-star-outline'
+                        }
+    
+                        return <Ionicons name={iconName} size={size} color={color}/>
+                      },
+                      tabBarActiveTintColor: 'tomato',
+                      tabBarInactiveTintColor: 'gray'
+                    })}
+                >
+                    <Tab.Screen name="Карта" component={HomeStack}/>
+                    {/* <Tab.Screen name="Профиль" component={Profile_page}/> */}
+                    {/* <Tab.Screen name="Добавить" component={AddMarker}/> */}
+                    <Tab.Screen name="Регистрация" component={RegistrationNav}/>
+                    <Tab.Screen name="Авторизация" component={LoginScreen}/>
+                    {/* <Tab.Screen name="Рейтинг" component={ListNav}/> */}
+                    {/* <Tab.Screen name="Path" component={Path}/> */}
+                </Tab.Navigator>
+            </NavigationContainer>
+      )
+  }
 }
 
 // Стили
