@@ -25,7 +25,8 @@ export default class Profile_page extends Component {				// класс проф�
       is_owner: 'none',
       data: [],
       isLoading: true,
-      favourite: []
+      favourite: [],
+      preorders: [],
     }
     this.menuadd = this.menuadd.bind(this)
     // this.Error = this.Error.bind(this)
@@ -104,6 +105,7 @@ export default class Profile_page extends Component {				// класс проф�
   componentDidMount () {			// то, что должно выполнятся при первом создании страницы
     this.getUserInfo()
     this.getFavourite()
+    this._getPreOrders()
     this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getUserInfo())
     this.listener = EventRegister.addEventListener('UserLogin', (data) => this.getFavourite())
   }
@@ -132,6 +134,24 @@ export default class Profile_page extends Component {				// класс проф�
     }
   }
 
+  async _getPreOrders () {
+    if (Auth.getToken != 'noToken') {
+    const response = await fetch(apiurl + 'api/get_orders/', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Token ' + Auth.getToken(),
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+      })
+    const json = await response.json()
+    console.log(json)
+    this.setState({ preorders: json })
+    }
+  console.log('Preorders')
+  console.log(this.state.preorders)
+  }
+
   ShopList = () => {			// обработка статуса пользователя
     if (Auth.getToken() != 'noToken' && this.state.is_owner == 'False') {
       return (
@@ -152,8 +172,29 @@ export default class Profile_page extends Component {				// класс проф�
 						<TouchableOpacity onPress= {() => this.menuadd()}>
 							<Text style = {styles.menubut}>Добавить меню</Text>
 						</TouchableOpacity>
+            <TouchableOpacity onPress= {() => this._getPreOrders()}>
+							<Text style = {styles.menubut2}>Обновить предзаказы</Text>
+						</TouchableOpacity>
           <Text style={styles.hinfo}>Предзаказы</Text>
-        </View>
+          <FlatList
+            data={this.state.preorders}
+            renderItem={({ item }) => (
+              <View  style={styles.textinfo}>
+                <Text style={styles.ttt}>Заказ: {item.fields.time}</Text>
+                <Text style={styles.ttt}>Время: {item.fields.position}</Text>
+              </View>
+            )}
+            keyExtractor={item => item.pk}
+          />
+          <Text style={styles.hinfo}>Ибранные кофейни</Text>
+          <FlatList
+            data={this.state.favourite}
+            renderItem={({ item }) => (
+              <Text style={styles.textinfo}>{item.fields.shop_name}</Text>
+            )}
+            keyExtractor={item => item.pk}
+          />
+          </View>
       )
     }else {
       return <Text style={styles.infonot}>Авторизуйтесь для просмотра подробной информации</Text>
@@ -324,7 +365,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // justifyContent: 'center',
     width: 280 * (entireScreenWidth / 380),
-    height: 500 * (entireScreenWidth / 380)
+    height: 1000 * (entireScreenWidth / 380)
 	  },
 	  names: {
     marginTop: 7 * (entireScreenWidth / 380),
@@ -382,5 +423,14 @@ const styles = StyleSheet.create({
       margin: '5%',
       borderRadius: 10,
       borderWidth: 2,
+    },
+    menubut2:{
+      textAlign: 'center',
+      marginTop: '5%',
+      borderRadius: 10,
+      borderWidth: 2,
+    },
+    ttt:{
+      textAlign:'center'
     }
 })
