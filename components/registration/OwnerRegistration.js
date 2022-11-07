@@ -1,232 +1,231 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import {
-    Alert,
-    Dimensions,
-    Image,
-    Keyboard,
-    KeyboardAvoidingView,
-    LogBox,
-    StyleSheet,
-    Text,
-    TextInput,
-    View
-} from 'react-native';
-import FormData from 'form-data';
-import {EventRegister} from 'react-native-event-listeners'
-import {ScrollView, TouchableOpacity} from "react-native-gesture-handler";
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Auth from "../../Token";
-import Login from "../../UserInfo";
+  Alert,
+  Dimensions,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  LogBox,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity
+} from 'react-native'
+import FormData from 'form-data'
+import { EventRegister } from 'react-native-event-listeners'
+import { ScrollView } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Auth from '../../Token'
+import Login from '../../UserInfo'
+import { apiurl } from '../../URL'
 
+LogBox.ignoreAllLogs()// Ignore all log notifications
 
-
-LogBox.ignoreAllLogs();//Ignore all log notifications
-
-
-const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenWidth = Dimensions.get('window').width
 // const [selectedLanguage, setSelectedLanguage] = useState();
 // const navigation = useNavigation();
 
+export default class RegistrationScreen extends Component { // класс регистарции владельца кофейни
+  state = {
+    email: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    Country: '',
+    address: '',
+    zip: '',
+    phone: '',
+    showEmailError: false,
+    showPasswordError: false,
+    showFirstnameError: false,
+    showLastnameError: false,
+    showCountryError: false,
+    showAddressError: false,
+    showZipError: false,
+    showPhoneError: false,
+    user: ''
+  }
 
-export default class RegistrationScreen extends Component {         //класс регистарции владельца кофейни
+  emailInputRef = React.createRef()
+  passwordInputRef = React.createRef()
+  firstnameInputRef = React.createRef()
+  lastnameInputRef = React.createRef()
+  CountryInputRef = React.createRef()
+  addressInputRef = React.createRef()
+  zipInputRef = React.createRef()
+  phoneInputRef = React.createRef()
+  scrollViewRef = React.createRef()
 
-    state = {
-        email: '',
-        password: '',
-        firstname: '',
-        lastname: '',
-        Country: '',
-        address: '',
-        zip: '',
-        phone: '',
-        showEmailError: false,
-        showPasswordError: false,
-        showFirstnameError: false,
-        showLastnameError: false,
-        showCountryError: false,
-        showAddressError: false,
-        showZipError: false,
-        showPhoneError: false,
-        user: '',
-    }
+  constructor (props) { // конструктор
+    super(props)
+    const { navigation } = this.props
 
-    emailInputRef = React.createRef();
-    passwordInputRef = React.createRef();
-    firstnameInputRef = React.createRef();
-    lastnameInputRef = React.createRef();
-    CountryInputRef = React.createRef();
-    addressInputRef = React.createRef();
-    zipInputRef = React.createRef();
-    phoneInputRef = React.createRef();
-    scrollViewRef = React.createRef();
+    this.submitPressed = this.submitPressed.bind(this)
+    this.onChangeEmailInputHandler = this.onChangeEmailInputHandler.bind(this)
+    this.onChangePasswordInputHandler = this.onChangePasswordInputHandler.bind(this)
+    this.onChangeFirstNameInputHandler = this.onChangeFirstNameInputHandler.bind(this)
+    this.onChangeLastNameInputHandler = this.onChangeLastNameInputHandler.bind(this)
+    this.onChangeCountryInputHandler = this.onChangeCountryInputHandler.bind(this)
+    this.updateUser = this.updateUser.bind(this)
+    this.Redirect = this.Redirect.bind(this)
+  }
 
-    constructor(props) {            //конструктор
-        super(props);
-        const {navigation} = this.props
+  updateUser = (user) => { // апдейтер
+    this.setState({ user })
+  }
 
-        this.submitPressed = this.submitPressed.bind(this);
-        this.onChangeEmailInputHandler = this.onChangeEmailInputHandler.bind(this);
-        this.onChangePasswordInputHandler = this.onChangePasswordInputHandler.bind(this);
-        this.onChangeFirstNameInputHandler = this.onChangeFirstNameInputHandler.bind(this);
-        this.onChangeLastNameInputHandler = this.onChangeLastNameInputHandler.bind(this);
-        this.onChangeCountryInputHandler = this.onChangeCountryInputHandler.bind(this);
-        this.updateUser = this.updateUser.bind(this);
-        this.Redirect = this.Redirect.bind(this);
-    }
+  inputs = () => { // обработка ввода
+    return [
+      this.emailInputRef,
+      this.passwordInputRef,
+      this.firstnameInputRef,
+      this.lastnameInputRef,
+      this.CountryInputRef,
+      this.addressInputRef,
+      this.zipInputRef,
+      this.phoneInputRef
+    ]
+  }
 
-    updateUser = (user) => {            //апдейтер
-        this.setState({user: user})
-    }
+  onChangeEmailInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      email: value
+    })
+  }
 
-    inputs = () => {            //обработка ввода
-        return [
-            this.emailInputRef,
-            this.passwordInputRef,
-            this.firstnameInputRef,
-            this.lastnameInputRef,
-            this.CountryInputRef,
-            this.addressInputRef,
-            this.zipInputRef,
-            this.phoneInputRef,
-        ];
-    };
+  onChangePasswordInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      password: value
+    })
+  }
 
-    onChangeEmailInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            email: value,
-        });
-    }
+  onChangeFirstNameInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      firstname: value
+    })
+  }
 
-    onChangePasswordInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            password: value,
-        });
-    }
+  onChangeLastNameInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      lastname: value
+    })
+  }
 
-    onChangeFirstNameInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            firstname: value,
-        });
-    }
+  onChangeCountryInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      Country: value
+    })
+  }
 
-    onChangeLastNameInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            lastname: value,
-        });
-    }
+  onChangeAddressInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      address: value
+    })
+  }
 
-    onChangeCountryInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            Country: value,
-        });
-    }
+  onChangeZipcodeInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      zipcode: value
+    })
+  }
 
-    onChangeAddressInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            address: value,
-        });
-    }
+  onChangePhoneInputHandler = (value) => { // изменение стейта вводимых данных
+    this.setState({
+      phone: value
+    })
+  }
 
-    onChangeZipcodeInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            zipcode: value,
-        });
-    }
+  Redirect () { // ф-ия перехода на другую старцу
+    console.log('redirection to coffee shop adding')
+    Alert.alert('Вы успешно создали аккаунт!', 'Теперь добавьте кофейню на карту')
+    this.props.navigation.navigate('Добавить', {
+      screen: 'AddShop'
+    })
+  }
 
-    onChangePhoneInputHandler = (value) => {            //изменение стейта вводимых данных
-        this.setState({
-            phone: value,
-        });
-    }
+  async submitPressed () { // ф-ия регестрации
+    console.log(this.state.email)
+    console.log(this.state.password)
+    console.log(this.state.firstname)
+    console.log(this.state.lastname)
+    console.log(this.state.Country)
+    console.log(this.state.address)
+    console.log(this.state.zip)
+    console.log(this.state.phone)
+    if (this.state.email != '' && this.state.password != '' && this.state.firstname != '' && this.state.lastname != '' &&  this.state.email.length >= 5 && this.state.password.length >= 5){
+    const formData = new FormData()
+    formData.append('username', this.state.email)
+    formData.append('password', this.state.password)
+    formData.append('first_name', this.state.firstname)
+    formData.append('last_name', this.state.lastname)
 
-      
-    Redirect() {            //ф-ия перехода на другую старцу
-        console.log("redirection to coffee shop adding");
-        Alert.alert("Вы успешно создали аккаунт!","Теперь добавьте кофейню на карту")
-        this.props.navigation.navigate('Добавить', {
-            screen: 'AddShop',
-        })
-    }
+    const token = await fetch(apiurl + 'api/auth/register/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': "multipart/form-data"
+      },
+      body: formData
+    })
 
-  
-    async submitPressed() {             //ф-ия регестрации
-        console.log(this.state.email)
-        console.log(this.state.password)
-        console.log(this.state.firstname)
-        console.log(this.state.lastname)
-        console.log(this.state.Country)
-        console.log(this.state.address)
-        console.log(this.state.zip)
-        console.log(this.state.phone)
+    const json = await token.json()
+    console.log(token)
+    Auth.setToken(json.token)
+    EventRegister.emit('UserLogin', '')
+    EventRegister.emit('UpdateTab', '')
+    console.log('TOKEN:', Auth.getToken())
 
-        const formData = new FormData();
-        formData.append('username', this.state.email);
-        formData.append('password', this.state.password);
-        formData.append('first_name', this.state.firstname)
-        formData.append('last_name', this.state.lastname);
+    this.setState({
+      showEmailError: this.state.email.length < 4,
+      showPasswordError: this.state.password.length < 4,
+      showFirstnameError: this.state.firstname.length < 4,
+      showLastnameError: this.state.lastname.length < 4,
+      showCountryError: this.state.Country.length < 4,
+      showAddressError: this.state.address.length < 4,
+      showZipError: this.state.zip.length < 4,
+      showPhoneError: this.state.phone.length < 4
 
-        const token = await fetch('http://127.0.0.1:8000/api/auth/register/', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: formData,
-        });
-        
-        const json = await token.json();
-        console.log(token)
-        Auth.setToken(json.token)
-        EventRegister.emit('UserLogin', '')
-        console.log("TOKEN:", Auth.getToken())
-    
-        this.setState({
-            showEmailError: this.state.email.length < 4,
-            showPasswordError: this.state.password.length < 4,
-            showFirstnameError: this.state.firstname.length < 4,
-            showLastnameError: this.state.lastname.length < 4,
-            showCountryError: this.state.Country.length < 4,
-            showAddressError: this.state.address.length < 4,
-            showZipError: this.state.zip.length < 4,
-            showPhoneError: this.state.phone.length < 4,
-            
-        });
-        Keyboard.dismiss();
+    })
+    Keyboard.dismiss()
 
-        const formDataStatus = new FormData();
-        formDataStatus.append('username', this.state.email)
-        formDataStatus.append('is_Owner', 'True')
-        console.log(formDataStatus)
+    const formDataStatus = new FormData()
+    formDataStatus.append('username', this.state.email)
+    formDataStatus.append('is_Owner', 'True')
+    console.log(formDataStatus)
 
-        fetch('http://127.0.0.1:8000/setStatus/', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: formDataStatus,
-        });
+    fetch(apiurl + 'setStatus/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': "multipart/form-data"
+      },
+      body: formDataStatus
+    })
 
-        Login.setStatus('True');
+    Login.setStatus('True')
 
-        this.Redirect();
-    }
+    this.Redirect()
+  }else{
+    Alert.alert("Возможно вы ввели что-то не так", "Поля не должны быть пустые, а также почта и пароль должны иметь длину больше 4")
+  }
+  }
 
-    //рендер страницы
-    render() {
-        return (
+  // рендер страницы
+  render () {
+    return (
             <SafeAreaView style={styles.container}>
                 <ScrollView style={styles.scrollView}>
                     <KeyboardAvoidingView
-                        style={{flex: 1}}
+                        style={{ flex: 1 }}
                         keyboardVerticalOffset={100}
-                        behavior={"position"}
+                        behavior={'position'}
                     >
                         <View style={styles.row}>
                             <View style={styles.svg}>
                                 <Image
                                     style={styles.tinyLogo}
-                                    source={{uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png'}}
+                                    source={{ uri: 'https://cdn.icon-icons.com/icons2/2389/PNG/512/buy_me_a_coffee_logo_icon_145434.png' }}
                                 />
                             </View>
                             <View style={styles.headers}>
@@ -258,8 +257,8 @@ export default class RegistrationScreen extends Component {         //класс
                             </View>
                             <View
                                 style={{
-                                    borderBottomColor: 'black',
-                                    borderBottomWidth: 2,
+                                  borderBottomColor: 'black',
+                                  borderBottomWidth: 2
 
                                 }}
                             />
@@ -278,9 +277,9 @@ export default class RegistrationScreen extends Component {         //класс
                                 />
                                 <View
                                     style={{
-                                        borderBottomColor: 'black',
-                                        borderBottomWidth: 2,
-                                        borderBottomRadius: 10,
+                                      borderBottomColor: 'black',
+                                      borderBottomWidth: 2,
+                                      borderBottomRadius: 10
                                     }}
                                 />
                                 <View style={styles.names}>
@@ -296,9 +295,9 @@ export default class RegistrationScreen extends Component {         //класс
                                     />
                                     <View
                                         style={{
-                                            borderBottomColor: 'black',
-                                            borderBottomWidth: 2,
-                                            borderBottomRadius: 10,
+                                          borderBottomColor: 'black',
+                                          borderBottomWidth: 2,
+                                          borderBottomRadius: 10
                                         }}
                                     />
                                 </View>
@@ -315,9 +314,9 @@ export default class RegistrationScreen extends Component {         //класс
                                     />
                                     <View
                                         style={{
-                                            borderBottomColor: 'black',
-                                            borderBottomWidth: 2,
-                                            borderBottomRadius: 10,
+                                          borderBottomColor: 'black',
+                                          borderBottomWidth: 2,
+                                          borderBottomRadius: 10
                                         }}
                                     />
                                 </View>
@@ -332,113 +331,113 @@ export default class RegistrationScreen extends Component {         //класс
                     </KeyboardAvoidingView>
                 </ScrollView>
             </SafeAreaView>
-        );
-    }
+    )
+  }
 }
 
-
-//стили
+// стили
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white'
-    },
-    scrollView: {
-        // marginHorizontal: 20,
-        // backgroundColor: "#7cb48f",
-        height: '10%'
-    },
-    row: {
-        marginTop: '10%',
-        flex: 1,
-        position: 'relative',
-        justifyContent: 'center',
-        // alignItems: 'center',
-        flexDirection: 'row',
-    },
-    svg: {
-        // backgroundColor: "#7cb48f",
-        flex: 0,
-        width: 50 * (entireScreenWidth / 380),
-        height: 50 * (entireScreenWidth / 380),
-        margin: 4,
-    },
-    h1: {
-        fontSize: 19 * (entireScreenWidth / 380)
-    },
-    h2: {
-        fontSize: 30 * (entireScreenWidth / 380),
-        fontWeight: "500"
-    },
-    headers: {
-        flexDirection: 'column',
-        flex: 0
-    },
-    mainheader: {
-        marginTop: '15%',
-        flex: 1,
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    h3: {
-        fontSize: 42,
-        fontWeight: "600"
-        //   textDecorationLine: 'underline',
+  container: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
+  scrollView: {
+    // marginHorizontal: 20,
+    // backgroundColor: "#7cb48f",
+    height: '10%'
+  },
+  row: {
+    marginTop: '10%',
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'center',
+    // alignItems: 'center',
+    flexDirection: 'row'
+  },
+  svg: {
+    // backgroundColor: "#7cb48f",
+    flex: 0,
+    width: 50 * (entireScreenWidth / 380),
+    height: 50 * (entireScreenWidth / 380),
+    margin: 4
+  },
+  h1: {
+    fontSize: 19 * (entireScreenWidth / 380)
+  },
+  h2: {
+    fontSize: 30 * (entireScreenWidth / 380),
+    fontWeight: '500'
+  },
+  headers: {
+    flexDirection: 'column',
+    flex: 0
+  },
+  mainheader: {
+    marginTop: '15%',
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  h3: {
+    fontSize: 42,
+    fontWeight: '600',
+    //   textDecorationLine: 'underline',
+    textAlign: 'center',
 
-    },
-    tinyLogo: {
-        width: 50 * (entireScreenWidth / 380),
-        height: 50 * (entireScreenWidth / 380),
-    },
-    allinp: {
-        flex: 1,
-        flexDirection: 'column',
-        marginTop: '10%',
-        backgroundColor: "#7cb48f",
-        alignSelf: 'center',
-        // justifyContent: 'center',
-        width: 280 * (entireScreenWidth / 380),
-        height: 240 * (entireScreenWidth / 380),
-    },
-    names: {
-        marginTop: 7 * (entireScreenWidth / 380),
-        left: 0,
-        fontSize: 12 * (entireScreenWidth / 380)
-    },
-    inputs: {
-        marginTop: 5 * (entireScreenWidth / 380)
-    },
-    placeholder: {
-        fontSize: 9 * (entireScreenWidth / 380),
-        // textDecorationLine: 'underline',
-        alignSelf: 'flex-start',
-        // backgroundColor: 'green',
-        width: 280 * (entireScreenWidth / 380),
-    },
-    button_main: {
-        marginTop: 5 * (entireScreenWidth / 380),
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    button_opac: {
-        width: 280 * (entireScreenWidth / 380),
-        height: 20 * (entireScreenWidth / 380),
-        backgroundColor: "black",
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5 * (entireScreenWidth / 380),
-    },
-    button_text: {
-        fontSize: 10 * (entireScreenWidth / 380),
-        color: "rgba(255, 255, 255, 1)",
-    },
-    owner: {
-        marginTop: 210 * (entireScreenWidth / 380),
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    ownerreg: {
-        color: 'purple'
-    },
-});
+  },
+  tinyLogo: {
+    width: 50 * (entireScreenWidth / 380),
+    height: 50 * (entireScreenWidth / 380)
+  },
+  allinp: {
+    flex: 1,
+    flexDirection: 'column',
+    marginTop: '10%',
+    // backgroundColor: "#7cb48f",
+    alignSelf: 'center',
+    // justifyContent: 'center',
+    width: 280 * (entireScreenWidth / 380),
+    height: 260 * (entireScreenWidth / 380)
+  },
+  names: {
+    marginTop: 7 * (entireScreenWidth / 380),
+    left: 0,
+    fontSize: 12 * (entireScreenWidth / 380)
+  },
+  inputs: {
+    marginTop: 5 * (entireScreenWidth / 380)
+  },
+  placeholder: {
+    fontSize: 9 * (entireScreenWidth / 380),
+    // textDecorationLine: 'underline',
+    alignSelf: 'flex-start',
+    // backgroundColor: 'green',
+    width: 280 * (entireScreenWidth / 380)
+  },
+  button_main: {
+    marginTop: 5 * (entireScreenWidth / 380),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button_opac: {
+    width: 280 * (entireScreenWidth / 380),
+    height: 20 * (entireScreenWidth / 380),
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5 * (entireScreenWidth / 380)
+  },
+  button_text: {
+    fontSize: 10 * (entireScreenWidth / 380),
+    color: 'rgba(255, 255, 255, 1)'
+  },
+  owner: {
+    marginTop: 210 * (entireScreenWidth / 380),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ownerreg: {
+    color: 'purple'
+  }
+})

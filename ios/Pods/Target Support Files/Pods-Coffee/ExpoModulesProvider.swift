@@ -6,13 +6,12 @@
  */
 
 import ExpoModulesCore
-import ExpoLinearGradient
+import EXUpdates
 
 @objc(ExpoModulesProvider)
 public class ExpoModulesProvider: ModulesProvider {
   public override func getModuleClasses() -> [AnyModule.Type] {
     return [
-      LinearGradientModule.self
     ]
   }
 
@@ -23,6 +22,7 @@ public class ExpoModulesProvider: ModulesProvider {
 
   public override func getReactDelegateHandlers() -> [ExpoReactDelegateHandlerTupleType] {
     return [
+      (packageName: "expo-updates", handler: ExpoUpdatesReactDelegateHandler.self)
     ]
   }
 }
