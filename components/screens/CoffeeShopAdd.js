@@ -14,7 +14,8 @@ const entireScreenWidth = Dimensions.get('window').width // получение �
 
 
 async function _addMarker (pin, text, text2) { // функция добавления маркера на карту
-  const response = await fetch(apiurl + 'api/status/', {
+
+  const response2 = await fetch(apiurl + 'api/status/', {
     method: 'GET',
     headers: {
       Authorization: 'Token ' + Auth.getToken(),
@@ -22,8 +23,8 @@ async function _addMarker (pin, text, text2) { // функция добавле�
       'Content-Type': 'application/json'
     }
   })
-  const json2 = await response.json()
-  console.log(response)
+  const json2 = await response2.json()
+  console.log(response2)
 
   console.log(pin.latitude)
   console.log(pin.longitude)
@@ -35,9 +36,21 @@ async function _addMarker (pin, text, text2) { // функция добавле�
   formData.append('latitude', pin.latitude)
   formData.append('longitude', pin.longitude)
   if (json2[0].fields.is_Owner == 'True'){
-  formData.append('hasOwner', 'True')
+    const response = await fetch(apiurl + 'api/me/', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Token ' + Auth.getToken(),
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+    console.log(json)
+    formData.append('hasOwner', 'True')
+    formData.append('OwnerName', json[0].fields.username )
   }else{
     formData.append('hasOwner', 'False')
+    formData.append('OwnerName', 'no' )
   }
 
   fetch(apiurl + 'requests/', { // post завпрос к бэку

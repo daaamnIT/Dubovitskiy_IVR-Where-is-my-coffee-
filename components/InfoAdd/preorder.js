@@ -28,46 +28,7 @@ const entireScreenWidth = Dimensions.get('window').width			// получение
 const res = (entireScreenWidth / 380)
 
 
-const items = [
-  {
-    title: 'Что бы вы хотели...',
-    id: 0,
-
-    children: [
-      {
-        title: 'Капучино',
-        id: 10
-      },
-      {
-        title: 'Латте',
-        id: 11
-      },
-      {
-        title: 'Раф',
-        id: 12
-      },
-    ]
-  },
-  {
-  title: 'Через сколько вы придете?',
-  id: 1,
-
-  children: [
-    {
-      title: '10 минут',
-      id: 19
-    },
-    {
-      title: '15 минут',
-      id: 20
-    },
-    {
-        title: '20 минут',
-        id: 21
-      },
-  ]
-  }
-]
+var items = []
 console.log(items)
 
 const items2 = []
@@ -185,7 +146,8 @@ export default class Preorder extends Component {
       hasErrored: false,
       isDarkMode: false,
       shop_id: props.route.params.shop_id,
-      shop_info: props.route.params.info
+      shop_info: props.route.params.info,
+      menuarray: []
     }
     this.termId = 100
     this.maxItems = 5
@@ -193,6 +155,7 @@ export default class Preorder extends Component {
   }
 
   componentDidMount () {
+    this._getMenu()
     this.pretendToLoad()
     const colorScheme = Appearance.getColorScheme()
     if (colorScheme === 'dark') {
@@ -282,6 +245,64 @@ export default class Preorder extends Component {
         break
     }
     return <View style={styles}>{iconComponent}</View>
+  }
+
+  async _getMenu () { // функция получения комментов
+    try {
+        items.push({
+            // title: "Что бы вы хотели?",
+            // id: 1,
+            // children: []
+            title: 'Через сколько вы придете?',
+            id: 0,
+          
+            children: [
+              {
+                title: '10 минут',
+                id: 19
+              },
+              {
+                title: '15 минут',
+                id: 20
+              },
+              {
+                  title: '20 минут',
+                  id: 21
+                },
+            ]
+            })
+      const response = await fetch(apiurl + 'get_menu/' + this.props.route.params.shop_id + '/', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': "multipart/form-data"
+        }
+      })
+      let json = await response.json()
+      console.log(items[0]['id'])
+      var dataset = []
+      console.log(json.length)
+      console.log("DATASET", dataset)
+      items.push({
+          title: "Что бы вы хотели?",
+          id: 2,
+          children: []
+      })
+      for (let i = 0; i < json.length; i++) {
+        items[1]['children'].push({
+            title: json[i].fields.position,
+            id: i+100
+        });
+      }
+      console.log("ITIETIEITIEIT", items[1]['children'])
+      this.setState({ menuarray: json })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      this.setState({ isLoading: false })
+    }
+
+
   }
 
   SubmitPressed () {

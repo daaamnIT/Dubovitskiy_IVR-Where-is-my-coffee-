@@ -293,12 +293,12 @@ export default class AddMenu extends Component {
     console.log(this.state.selectedItemObjects)
 
     const formData = new FormData()
-    formData.append('shop_id', this.state.shop_id)
+    formData.append('owner_name', this.props.route.params.username)
     for (let i = 0; i < this.state.selectedItemObjects.length; i++) {
-      formData.append(`info_${i}`, this.state.selectedItemObjects[i].title)
+      formData.append(`position_${i}`, this.state.selectedItemObjects[i].title)
     }
     console.log(formData)
-    fetch(apiurl + 'add_info/', {
+    fetch(apiurl + 'add_menu/', {
       method: 'POST',
       headers: {
         Authorization: 'Token ' + Auth.getToken()
@@ -662,7 +662,7 @@ export default class AddMenu extends Component {
           // cancelIconComponent={<Icon size={20} name="close" style={{ color: 'white' }} />}
         />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Button color={'#7154E0'} title="Добавить свойства" onPress={() => this.SubmitPressed()} />
+          <Button color={'#7154E0'} title="Добавить меню" onPress={() => this.SubmitPressed()} />
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20*res }}>
           <Button color={'#7154E0'} title="Вернуться назад" onPress={() => this.props.navigation.goBack()} />
