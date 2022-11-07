@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import Profile_page from './Profile2'
+import Profile_page from '../Profiles/Profile2'
 import LoginScreen from './Login'
 import { Component, useEffect, useState } from 'react'
 import Full_About_Coffee from '../InfoAdd/FullCoffeeInfo'
@@ -21,6 +21,7 @@ import ShopNav from '../InfoAdd/navigation'
 import Path from './Path'
 import * as Location from 'expo-location'
 import { apiurl } from '../../URL'
+import ProfileNav from '../Profiles/navigation'
 
 LogBox.ignoreAllLogs()// Ignore all log notifications
 
@@ -145,6 +146,7 @@ function HomeStack () { // инициализация экранов
             <Stack.Screen name="MapComponent" component={HomeScreen}/>
             <Stack.Screen name="FullInfo" component={Full_About_Coffee}/>
             <Stack.Screen name="Информация" component={ShopNav}/>
+            <Stack.Screen name="Profile" component={ProfileNav}/>
         </Stack.Navigator>
 
   )
