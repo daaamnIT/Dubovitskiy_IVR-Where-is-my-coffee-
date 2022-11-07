@@ -157,6 +157,7 @@ export default class Preorder extends Component {
   }
 
   componentDidMount () {
+    Alert.alert("Приносим свои извинения", "В данный момент заказать можно только один пункт за один раз")
     items = []
     this.getUserInfo()
     this._getMenu()
