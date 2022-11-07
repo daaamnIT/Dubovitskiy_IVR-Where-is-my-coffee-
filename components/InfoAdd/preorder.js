@@ -147,16 +147,20 @@ export default class Preorder extends Component {
       isDarkMode: false,
       shop_id: props.route.params.shop_id,
       shop_info: props.route.params.info,
-      menuarray: []
+      menuarray: [],
+      firstname: '',
+      ownername: '',
     }
     this.termId = 100
-    this.maxItems = 5
+    this.maxItems = 2
     this.SubmitPressed = this.SubmitPressed.bind(this)
   }
 
   componentDidMount () {
     items = []
+    this.getUserInfo()
     this._getMenu()
+    this.getOwnerName()
     this.pretendToLoad()
     const colorScheme = Appearance.getColorScheme()
     if (colorScheme === 'dark') {
@@ -302,29 +306,59 @@ export default class Preorder extends Component {
     } finally {
       this.setState({ isLoading: false })
     }
+  }
+
+  async getOwnerName () {											// ф-ия получения информации о юзере
+    const response = await fetch(apiurl + 'get_name/' + this.props.route.params.shop_id + '/', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+    this.setState({ ownername: json[0].fields.OwnerName })
+    console.log(this.state.ownername)
+  }
 
 
+  async getUserInfo () {											// ф-ия получения информации о юзере
+    const response = await fetch(apiurl + 'api/me/', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Token ' + Auth.getToken(),
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+    this.setState({ firstname: json[0].fields.first_name })
   }
 
   SubmitPressed () {
-    console.log('SUBMIT PRESSED')
-    console.log(this.state.selectedItemObjects)
+    if (this.state.selectedItems.length == 2){
+        console.log('SUBMIT PRESSED')
+        console.log(this.state.selectedItemObjects)
 
-    const formData = new FormData()
-    formData.append('shop_id', this.state.shop_id)
-    for (let i = 0; i < this.state.selectedItemObjects.length; i++) {
-      formData.append(`info_${i}`, this.state.selectedItemObjects[i].title)
+        const formData = new FormData()
+        formData.append('position', this.state.selectedItemObjects[1].title)
+        formData.append('time', this.state.selectedItemObjects[0].title)
+        formData.append('username', this.state.firstname)
+        formData.append('owner_name', this.state.ownername)
+        console.log(formData)
+        fetch(apiurl + 'makeorder/', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': "multipart/form-data"
+        },
+        body: formData
+        }).then(() => EventRegister.emit('FullCoffeeInfo', ''))
+
+        Alert.alert("Предзаказ оформлен. Ждем вас в кофейне")
+    }else{
+        Alert.alert("Возможно вы что-то не выбрали", "Проверьте, пожалуйста, что вы выбрали и время, и напиток")
     }
-    console.log(formData)
-    fetch(apiurl + 'add_info/', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Token ' + Auth.getToken()
-      },
-      body: formData
-    }).then(() => EventRegister.emit('FullCoffeeInfo', ''))
-
-    Alert.alert("Свойства добавлены!", "Спасибо вам за развитие нашего приложения!")
   }
 
   getProp = (object, key) => object && this.removerAcentos(object[key])
@@ -374,18 +408,18 @@ export default class Preorder extends Component {
   onSelectedItemsChange = (selectedItems) => {
     console.log(selectedItems, selectedItems.length)
 
-    // if (selectedItems.length >= this.maxItems) {
-    //   if (selectedItems.length === this.maxItems) {
-    //     this.setState({ selectedItems })
-    //   }
-    //   this.setState({
-    //     maxItems: true
-    //   })
-    //   return
-    // }
-    // this.setState({
-    //   maxItems: false
-    // })
+    if (selectedItems.length >= this.maxItems) {
+      if (selectedItems.length === this.maxItems) {
+        this.setState({ selectedItems })
+      }
+      this.setState({
+        maxItems: true
+      })
+      return
+    }
+    this.setState({
+      maxItems: false
+    })
 
     const filteredItems = selectedItems.filter(
       (val) => !this.state.selectedItems2.includes(val)
@@ -633,12 +667,12 @@ export default class Preorder extends Component {
           onSelectedItemObjectsChange={this.onSelectedItemObjectsChange}
           onCancel={this.onCancel}
           onConfirm={this.onConfirm}
-          // confirmText={`${this.state.selectedItems.length}/${this.maxItems} - ${
-          //   this.state.maxItems ? 'Max selected' : 'Confirm'
-          // }`}
-          confirmText={`${this.state.selectedItems.length} - ${
+          confirmText={`${this.state.selectedItems.length}/${this.maxItems} - ${
             this.state.maxItems ? 'Max selected' : 'Confirm'
           }`}
+        //   confirmText={`${this.state.selectedItems.length} - ${
+        //     this.state.maxItems ? 'Max selected' : 'Confirm'
+        //   }`}
           selectedItems={this.state.selectedItems}
           colors={{
             primary: '#5c3a9e',
