@@ -24,6 +24,9 @@ import { EventRegister } from 'react-native-event-listeners'
 import { apiurl } from '../../URL'
 
 // Sorry for the mess
+const entireScreenWidth = Dimensions.get('window').width			// получение разрешения экрана
+const res = (entireScreenWidth / 380)
+
 
 const items = [
   {
@@ -102,7 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-    color: '#333'
+    color: '#333',
+    marginTop: 30 * res,
+    textDecorationColor: 'black',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
   },
   border: {
     borderBottomWidth: 1,
@@ -691,11 +698,10 @@ export default class DropDown extends Component {
           // cancelIconComponent={<Icon size={20} name="close" style={{ color: 'white' }} />}
         />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Button title="Добавить свойства" onPress={() => this.SubmitPressed()} />
+          <Button color={'#7154E0'} title="Добавить свойства" onPress={() => this.SubmitPressed()} />
         </View>
-
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Button title="Go back" onPress={() => this.props.navigation.goBack()} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20*res }}>
+          <Button color={'#7154E0'} title="Вернуться к кофейне" onPress={() => this.props.navigation.goBack()} />
         </View>
       </ScrollView>
     )

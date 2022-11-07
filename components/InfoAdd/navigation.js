@@ -17,10 +17,10 @@ export default class ShopNav extends Component { // класс отдельно�
                 <Stack3.Screen
                     name="FullInfo"
                     component={Full_About_Coffee}
-                    options={{ headerShown: false }}
+                    options={{ headerShown: true }}
                 />
                 <Stack3.Screen name="AddInfo" component={DropDown}
-                    options={{ headerShown: true }}
+                      options={{ headerShown: false,}}
                 />
             </Stack3.Navigator>
     )

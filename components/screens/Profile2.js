@@ -133,16 +133,19 @@ export default class Profile_page extends Component {				// класс проф�
   ShopList = () => {			// обработка статуса пользователя
     if (Auth.getToken() != 'noToken') {
       return (
-			<FlatList
-				data={this.state.favourite}
-				renderItem={({ item }) => (
-					<Text style={styles.textinfo}>{item.fields.shop_name}</Text>
-				)}
-				keyExtractor={item => item.pk}
-			/>
+      <View>
+        <Text style={styles.hinfo}>Ибранные кофейни</Text>
+        <FlatList
+          data={this.state.favourite}
+          renderItem={({ item }) => (
+            <Text style={styles.textinfo}>{item.fields.shop_name}</Text>
+          )}
+          keyExtractor={item => item.pk}
+        />
+      </View>
       )
     } else {
-      return <Text>Авторизуйтесь для просмотра подробной информации</Text>
+      return <Text style={styles.infonot}>Авторизуйтесь для просмотра подробной информации</Text>
     }
   }
 
@@ -319,7 +322,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // justifyContent: 'center',
     width: 280 * (entireScreenWidth / 380),
-    height: 200 * (entireScreenWidth / 380)
+    height: 500 * (entireScreenWidth / 380)
 	  },
 	  names: {
     marginTop: 7 * (entireScreenWidth / 380),
@@ -352,5 +355,24 @@ const styles = StyleSheet.create({
 	  button_text: {
     fontSize: 10 * (entireScreenWidth / 380),
     color: 'rgba(255, 255, 255, 1)'
-	  }
+	  },
+    infonot:{
+      alignContent:'center',
+      textAlign: 'center',
+      marginTop: '5%',
+    },
+    textinfo:{
+      borderRadius:10,
+      borderWidth:2,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      marginTop: '2%'
+    },
+    hinfo:{
+      fontSize: 24 * (entireScreenWidth / 380),
+      marginTop: 15 * (entireScreenWidth / 380),
+      textAlign: 'center',
+      textDecorationLine: 'underline',
+      marginBottom: 5 * (entireScreenWidth / 380)
+    }
 })

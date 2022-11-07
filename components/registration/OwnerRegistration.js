@@ -153,7 +153,7 @@ export default class RegistrationScreen extends Component { // класс рег
     console.log(this.state.address)
     console.log(this.state.zip)
     console.log(this.state.phone)
-
+    if (this.state.email != '' && this.state.password != '' && this.state.firstname != '' && this.state.lastname != '' &&  this.state.email.length >= 5 && this.state.password.length >= 5){
     const formData = new FormData()
     formData.append('username', this.state.email)
     formData.append('password', this.state.password)
@@ -164,7 +164,7 @@ export default class RegistrationScreen extends Component { // класс рег
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formData
     })
@@ -197,7 +197,7 @@ export default class RegistrationScreen extends Component { // класс рег
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formDataStatus
     })
@@ -205,6 +205,9 @@ export default class RegistrationScreen extends Component { // класс рег
     Login.setStatus('True')
 
     this.Redirect()
+  }else{
+    Alert.alert("Возможно вы ввели что-то не так", "Поля не должны быть пустые, а также почта и пароль должны иметь длину больше 4")
+  }
   }
 
   // рендер страницы
@@ -234,7 +237,7 @@ export default class RegistrationScreen extends Component { // класс рег
                             </View>
                         </View>
                         <View style={styles.mainheader}>
-                            <Text style={styles.h3}>Регистрация</Text>
+                            <Text style={styles.h3}>Регистрация Владельца</Text>
                         </View>
 
                         <View style={styles.allinp}>
@@ -377,8 +380,9 @@ const styles = StyleSheet.create({
   },
   h3: {
     fontSize: 42,
-    fontWeight: '600'
+    fontWeight: '600',
     //   textDecorationLine: 'underline',
+    textAlign: 'center',
 
   },
   tinyLogo: {
@@ -393,7 +397,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // justifyContent: 'center',
     width: 280 * (entireScreenWidth / 380),
-    height: 240 * (entireScreenWidth / 380)
+    height: 260 * (entireScreenWidth / 380)
   },
   names: {
     marginTop: 7 * (entireScreenWidth / 380),

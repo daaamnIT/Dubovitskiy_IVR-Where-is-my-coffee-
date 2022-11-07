@@ -69,10 +69,10 @@ export default class LoginScreen extends Component {				// класс стран
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formData
-    })
+    }).then(console.log(token))
     const jsonToken = await token.json()
     console.log(jsonToken)
     Auth.setToken(jsonToken.token)
@@ -156,8 +156,13 @@ export default class LoginScreen extends Component {				// класс стран
 								/>
 							</View>
 						</View>
-						<View style = {styles.button_main}>
+						{/* <View style = {styles.button_main}>
 							<TouchableOpacity style = {styles.button_opac} onPress= {() => this.submitPressed()}>
+								<Text style = {styles.button_text}>Войти</Text>
+							</TouchableOpacity>
+						</View> */}
+						<View style = {styles.button_main}>
+							<TouchableOpacity style = {styles.button_opac}  onPress= {()=>this.submitPressed()}>
 								<Text style = {styles.button_text}>Войти</Text>
 							</TouchableOpacity>
 						</View>
@@ -226,7 +231,7 @@ const styles = StyleSheet.create({
 	  allinp: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: '15%',
+    marginTop: '20%',
     // backgroundColor: "#7cb48f",
     alignSelf: 'center',
     // justifyContent: 'center',
@@ -249,6 +254,7 @@ const styles = StyleSheet.create({
     width: 280 * (entireScreenWidth / 380)
 	  },
 	  button_main: {
+    marginTop: '5%',
     justifyContent: 'center',
     alignItems: 'center'
 	  },

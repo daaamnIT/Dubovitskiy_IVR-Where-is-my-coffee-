@@ -94,6 +94,7 @@ function HomeScreen ({ navigation }) { // Функция домашней стр
 
   const listener = EventRegister.addEventListener('UpdateMarker', (data) => { // принятие сигнала на обновление информации
     getCoffeeList()
+    EventRegister.emit('Rate', '')
   })
 
   return ( // функция рендера информации на странице

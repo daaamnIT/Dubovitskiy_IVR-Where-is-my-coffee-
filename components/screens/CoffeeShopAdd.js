@@ -25,7 +25,7 @@ function _addMarker (pin, text, text2) { // функция добавления 
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': "multipart/form-data"
     },
     body: formData
   }).then(() => EventRegister.emit('UpdateMarker', ''))

@@ -96,7 +96,7 @@ export default class Rating extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.pk}
                     extraData={this.selectedId}
                 />
             </SafeAreaView>

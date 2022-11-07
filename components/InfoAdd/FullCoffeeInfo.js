@@ -24,11 +24,31 @@ import { apiurl } from '../../URL'
 
 LogBox.ignoreAllLogs()// Ignore all log notifications
 
+const entireScreenWidth = Dimensions.get('window').width			// получение разрешения экрана
+const res = (entireScreenWidth / 380)
+
 function reportPostNotExist (coffee_id_1) { // useless
   console.log(coffee_id_1)
 }
 
 let rate = null // переменная рейтинга
+
+  const Grid_Header = () => {
+    return (
+      <View style={{
+        height: 0*res,
+        width: 300*res,
+
+        // backgroundColor: "#FF6F00",
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+ 
+        <Text style={{ fontSize: 10*res, color: 'white' }}> В кофейне:</Text>
+ 
+      </View>
+    );
+  }
 
 export default class Full_About_Coffee extends Component { // класс экрана
   commentInputRef = React.createRef()
@@ -44,11 +64,6 @@ export default class Full_About_Coffee extends Component { // класс экр�
       isLoading: true,
       reportReason: '',
       username: '',
-      infodata: [
-        { id: 1, name: 'WiFi' },
-        { id: 1, name: 'Еда' },
-        { id: 1, name: 'Dog friendly' }
-      ],
       selectedItems: [],
       infodata: []
     }
@@ -60,6 +75,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
     this.AddInfo = this.AddInfo.bind(this)
     this.addToFavourite = this.addToFavourite.bind(this)
     this.getUserInfo = this.getUserInfo.bind(this)
+    this.InfoList = this.InfoList.bind(this)
   }
 
   async getComments () { // функция получения комментов
@@ -105,7 +121,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': "multipart/form-data"
         }
       })
       let json = await response.json()
@@ -155,7 +171,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formData
     }).then(() => this.getComments())
@@ -176,7 +192,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formData
     }).then(() => EventRegister.emit('Rate', ''))
@@ -235,7 +251,7 @@ export default class Full_About_Coffee extends Component { // класс экр�
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': "multipart/form-data"
         },
         body: formData
       }).then(
@@ -248,9 +264,34 @@ export default class Full_About_Coffee extends Component { // класс экр�
     }
   }
 
+  InfoList = () => {			// обработка статуса пользователя
+    const { infodata, isLoading2 } = this.state
+    if (this.state.infodata != []) {
+      return (
+        <View style={styles.info}>
+            {isLoading2
+              ? <ActivityIndicator/>
+              : (
+                <FlatList
+                  style={styles.list}
+                  data={infodata}
+                  renderItem={({ item }) => (
+                    <Text style={styles.textinfo}>• {item.fields.info}</Text>
+                  )}
+                  keyExtractor={item => item.pk}
+                  numColumns={2}
+                  key={item => item.pk}
+                  ListHeaderComponent={Grid_Header}
+              />
+                )}
+          </View>
+      )
+    } else {
+      return <Text>Информации пока нет</Text>
+    }
+  }
   render () { // рендер страницы
     const { data, isLoading } = this.state
-    const { infodata, isLoading2 } = this.state
     return (
         <View style={{ flex: 1, padding: 24, backgroundColor: 'white' }}>
           <View style={styles.upBut}>
@@ -262,7 +303,6 @@ export default class Full_About_Coffee extends Component { // класс экр�
                 <Text style={styles.Txt265}>Report</Text>
               </View>
             </TouchableOpacity>
-
             <TouchableOpacity
               onPress={this.addToFavourite}
               style={styles.Button}
@@ -272,34 +312,25 @@ export default class Full_About_Coffee extends Component { // класс экр�
               </View>
             </TouchableOpacity>
           </View>
-          <Text style={styles.header}>{this.props.route.params.info.name}</Text>
-          <Text style={styles.text}>{this.props.route.params.info.description}</Text>
-          <View style={styles.info}>
-          {isLoading2
-            ? <ActivityIndicator/>
-            : (
-            <FlatList
-              data={infodata}
-              renderItem={({ item }) => (
-                <Text style={styles.textinfo}>{item.fields.info}</Text>
-              )}
-              keyExtractor={item => item.pk}
-            />
-              )}
+          <View style={styles.maininfo}>
+            <Text style={styles.header}>{this.props.route.params.info.name}</Text>
+            <Text style={styles.text}>{this.props.route.params.info.description}</Text>
           </View>
+          <View style={styles.button_main}>
+            <Button style={styles.btnContainer1} color='#000' title="Добавить информацию" onPress={this.AddInfo} />
+          </View>
+          <this.InfoList />
           <Rating
-            showRating
+            type='custom'
+            ratingColor='#7154E0'
+            ratingBackgroundColor='#fff'
             onFinishRating={this.ratingCompleted}
-            // style={{ paddingVertical: 10 }}
             imageSize={30}
           />
+          <View style={styles.btnContainer}>
+            <Button color='#000' title="Оставить оценку" onPress={this.ratingPas} />
+          </View>
           <Text style={styles.postComment}>Оставьте свой комментарий</Text>
-          <View style={styles.btnContainer}>
-            <Button color='#000' title="Подтвердить" onPress={this.ratingPas} />
-          </View>
-          <View style={styles.btnContainer}>
-            <Button color='#000' title="Add Info" onPress={this.AddInfo} />
-          </View>
            <View style={styles.inputTextWrapper}>
               <TextInput
                   placeholder="Ваш комментарий"
@@ -339,11 +370,11 @@ export default class Full_About_Coffee extends Component { // класс экр�
 const styles = StyleSheet.create({
   postComment: {
     textAlign: 'center',
-    margin: 20,
-    fontSize: 20
+    margin: 10 * res,
+    fontSize: 20 * res,
   },
   main: {
-    margin: 10
+    margin: 10 * res,
   },
   author: {
     textAlign: 'center',
@@ -351,104 +382,136 @@ const styles = StyleSheet.create({
   },
   coment: {
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10 * res
   },
   container: {
     flex: 1,
-    padding: 16,
-    paddingBottom: 100
+    padding: 16 * res,
+    paddingBottom: 100 * res
   },
   header: {
-    fontSize: 36,
-    padding: 24,
-    margin: 12,
+    fontSize: 36 * res,
+    margin: 6 * res,
     textAlign: 'center',
     fontWeight: 'bold'
   },
   text: {
-    fontSize: 14,
+    fontSize: 14 * res,
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30 * res
   },
   inputTextWrapper: {
-    marginBottom: 24
+    marginBottom: 24 * res
   },
   h2: {
-    marginTop: 40,
-    fontSize: 30,
+    marginTop: 10 * res,
+    fontSize: 30 * res,
     textDecorationLine: 'underline',
     textAlign: 'center'
   },
   textInput: {
-    height: 40,
+    height: 40 * res,
     borderColor: '#000000',
     borderBottomWidth: 1,
-    paddingRight: 30
+    paddingRight: 30 * res
   },
   errorText: {
-    fontSize: 10
+    fontSize: 10 * res
   },
-  btnContainer: {
+  btnContainer1: {
     backgroundColor: 'white',
-    marginTop: 5
+    marginTop: 5 * res,
+    borderRadius:30,
+    backgroundColor:'red',
+    width: 300*res,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderBottomColor: 'black',
   },
+  button_main: {
+    justifyContent: 'center',
+    alignItems: 'center'
+	  },
   Component1: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingTop: 8,
-    paddingBottom: 6,
-    paddingLeft: 19,
-    paddingRight: 18,
-    borderRadius: 15,
-    backgroundColor: 'rgba(223,223,223,1)',
+    paddingTop: 8 * res,
+    paddingBottom: 6 * res,
+    paddingLeft: 19 * res,
+    paddingRight: 18 * res,
+    borderRadius: 15 * res,
+    backgroundColor: 'rgba(148,155,255, 0.5)',
     shadowColor: 'rgba(0,0,0,0.25)',
     elevation: 0,
     shadowOffset: { width: 3, height: 5 },
-    width: 78,
-    height: 32
+    width: 78 * res,
+    height: 32 * res
   },
   Txt265: {
-    fontSize: 12,
+    fontSize: 12 * res,
     fontWeight: '200',
     color: '#000'
   },
   Button: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginTop: 30
+    marginTop: 10 * res,
+    backgroundColor: 'white',
+    marginRight: 10*res
   },
   starStyle: {
-    width: 100,
-    height: 20,
-    marginBottom: 20
+    width: 100 * res,
+    height: 20 * res,
+    marginBottom: 20 * res
   },
   MainContainer: {
     flex: 1,
-    padding: 12,
+    padding: 12 * res,
     backgroundColor: 'white'
   },
 
   text: {
-    padding: 12,
-    fontSize: 15,
+    padding: 12 * res,
+    fontSize: 15 * res,
     textAlign: 'center',
     color: 'black'
   },
   info: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    // marginTop: 5*res,
+    // marginBottom: 5*res,
+    // backgroundColor: 'green',
+    height:100*res,
   },
   textinfo: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderColor: 'rgba(148,155,255, 1)',
+    borderRadius: 20,
+    borderWidth:1,
+    padding:5*res
   },
   upBut: {
     flex: 1,
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+    // marginBottom: 15 * res,
+    marginTop: -20*res,
+    marginRight: 0
+  },
+  maininfo:{
+    borderWidth: 1,
+    borderColor: 'purple',
+    // backgroundColor:'green',
+    borderRadius: 50,
+  },
+  list: {
+    // backgroundColor: 'green',
+    height: 300*res
+  },
 })

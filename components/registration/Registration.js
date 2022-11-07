@@ -11,7 +11,8 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Button
 } from 'react-native'
 import FormData from 'form-data'
 import { EventRegister } from 'react-native-event-listeners'
@@ -127,7 +128,7 @@ export default class RegistrationScreen extends Component { // класс рег
     console.log(this.state.address)
     console.log(this.state.zip)
     console.log(this.state.phone)
-
+    if (this.state.email != '' && this.state.password != '' && this.state.firstname != '' && this.state.lastname != '' &&  this.state.email.length >= 5 && this.state.password.length >= 5){
     const formData = new FormData()
     formData.append('username', this.state.email)
     formData.append('password', this.state.password)
@@ -172,12 +173,15 @@ export default class RegistrationScreen extends Component { // класс рег
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': "multipart/form-data"
       },
       body: formDataStatus
     })
 
     Login.setStatus('False')
+  }else{
+    Alert.alert("Возможно вы ввели что-то не так", "Поля не должны быть пустые, а также почта и пароль должны иметь длину больше 4")
+  }
   }
 
   // рендер страницы
@@ -303,18 +307,17 @@ export default class RegistrationScreen extends Component { // класс рег
                                 {/* </View> */}
 
                             </View>
-
-                            <View style={styles.owner}>
-                                <TouchableOpacity onPress={this.Redirect}>
-                                    <Text style={styles.ownerreg}>↓ Вы владелец? Зарагеструйтесь тут ↓</Text>
-                                </TouchableOpacity>
-                            </View>
                         </View>
                         <View style={styles.button_main}>
                             <TouchableOpacity style={styles.button_opac} onPress={this.submitPressed}>
                                 <Text style={styles.button_text}>Зарегестрироваться</Text>
                             </TouchableOpacity>
                         </View>
+                      <View style={styles.owner}>
+                                <TouchableOpacity onPress={this.Redirect}>
+                                    <Text style={styles.ownerreg}>↓ Вы владелец? Зарагеструйтесь тут ↓</Text>
+                                </TouchableOpacity>
+                            </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
             </SafeAreaView>
@@ -384,7 +387,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // justifyContent: 'center',
     width: 280 * (entireScreenWidth / 380),
-    height: 240 * (entireScreenWidth / 380)
+    height: 260 * (entireScreenWidth / 380)
   },
   names: {
     marginTop: 7 * (entireScreenWidth / 380),
@@ -402,7 +405,7 @@ const styles = StyleSheet.create({
     width: 280 * (entireScreenWidth / 380)
   },
   button_main: {
-    marginTop: 5 * (entireScreenWidth / 380),
+    // marginTop: 20 * (entireScreenWidth / 380),
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 1)'
   },
   owner: {
-    marginTop: 210 * (entireScreenWidth / 380),
+    marginTop: 130 * (entireScreenWidth / 380),
     justifyContent: 'center',
     alignItems: 'center'
   },
