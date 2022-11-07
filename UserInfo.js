@@ -2,6 +2,7 @@ var email = '';
 var firstname = '';
 var lastname = '';
 var date_joined = '';
+var is_Owner = '';
 
 export default class Login {
     static getInfoEmail(){
@@ -22,6 +23,14 @@ export default class Login {
 
     static setFirstname(name){
         firstname = name;
+    }
+
+    static getStatus(){
+        return is_Owner;
+    }
+
+    static setStatus(status){
+        is_Owner = status
     }
 
     static setInfo(_email, _firstname, _lastname, _datejoined){

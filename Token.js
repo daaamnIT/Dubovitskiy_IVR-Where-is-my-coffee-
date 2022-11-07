@@ -1,4 +1,4 @@
-var Token = '';
+var Token = 'noToken';
 
 export default class Auth {
     static getToken(){
