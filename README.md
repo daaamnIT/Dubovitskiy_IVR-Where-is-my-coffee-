@@ -1,3 +1,11 @@
-# Dubovitskiy's HSE IT project
+# Дубовицкий Алексей – “Where’s my coffee?”
 
-# Where's my coffee
+**[ НАЗВАНИЕ ПРОЕКТА ]**
+
+“Where’s my coffee?”
+
+**[ ТЕХНОЛОГИЧЕСКИЙ СТЕК ]**
+
+- React Native
+- Django
+- MySQL
