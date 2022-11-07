@@ -155,6 +155,7 @@ export default class Preorder extends Component {
   }
 
   componentDidMount () {
+    items = []
     this._getMenu()
     this.pretendToLoad()
     const colorScheme = Appearance.getColorScheme()
@@ -679,7 +680,7 @@ export default class Preorder extends Component {
           // cancelIconComponent={<Icon size={20} name="close" style={{ color: 'white' }} />}
         />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Button color={'#7154E0'} title="Добавить свойства" onPress={() => this.SubmitPressed()} />
+          <Button color={'#7154E0'} title="Заказать" onPress={() => this.SubmitPressed()} />
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20*res }}>
           <Button color={'#7154E0'} title="Вернуться к кофейне" onPress={() => this.props.navigation.goBack()} />
