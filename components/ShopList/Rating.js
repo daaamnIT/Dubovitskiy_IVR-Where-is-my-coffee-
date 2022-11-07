@@ -56,7 +56,7 @@ export default class Rating extends Component {
     this.setState({ selectedId: id.pk })
     console.log(id)
     this.props.navigation.navigate('Рейтинг', {
-      screen: 'ShopOnMap',
+      screen: 'Кофейня на карте',
       params: {
         info: id,
         shop_id: id.pk
@@ -77,7 +77,7 @@ export default class Rating extends Component {
     )
 
     const renderItem = ({ item }) => {
-      const backgroundColor = item.id === this.selectedId ? '#6e3b6e' : '#f9c2ff'
+      const backgroundColor = item.id === this.selectedId ? '#949bff' : '#7154e0'
       const color = item.id === this.selectedId ? 'white' : 'black'
 
       return (
@@ -108,12 +108,14 @@ export default class Rating extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0
+    marginTop: '5%'
   },
   item: {
     padding: 20,
     marginVertical: 8,
-    marginHorizontal: 16
+    marginHorizontal: 16,
+    borderRadius: 10,
+    borderWidth: 2,
   },
   title: {
     fontSize: 20 * (entireScreenWidth / 380)

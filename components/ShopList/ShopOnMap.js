@@ -83,17 +83,17 @@ export default class ShopOnMap extends Component {
                     <View style={styles.allinp}>
                         <Text style={styles.h1}>{this.state.info.fields.name}</Text>
                         <Text style={styles.desc}>{this.state.info.fields.description}</Text>
-                        <Text style={styles.rating}>Рейтинг: {this.state.info.fields.rating}</Text>
+                        <Text style={styles.rating}>Рейтинг: {this.state.info.fields.rating.toFixed(1)}</Text>
                         <View>
-                        <TouchableOpacity onPress={() => this.traceRoute()}>
-                            <Text>Trace Root</Text>
+                        <TouchableOpacity style={styles.trace} onPress={() => this.traceRoute()}>
+                            <Text style={styles.tracetext}>Trace Root</Text>
                         </TouchableOpacity>
                     </View>
                     {this.state.distance && this.state.duration
                       ? (
-                    <View>
-                        <Text>Дистанция: {this.state.distance.toFixed(2)} км</Text>
-                        <Text>Длительность: {Math.ceil(this.state.duration)} минут</Text>
+                    <View style={styles.infb}>
+                        <Text style={styles.inf}>Дистанция: {this.state.distance.toFixed(2)} км</Text>
+                        <Text style={styles.inf}>Длительность: {Math.ceil(this.state.duration)} минут</Text>
                     </View>
                         )
                       : null}
@@ -135,8 +135,8 @@ export default class ShopOnMap extends Component {
 const styles = StyleSheet.create({
   Map: {
     width: entireScreenWidth,
-    height: 200 * (entireScreenWidth / 380),
-    marginTop: 50 * (entireScreenWidth / 380)
+    height: 300 * (entireScreenWidth / 380),
+    // marginTop: 50 * (entireScreenWidth / 380)
   },
   h1: {
     textAlign: 'center',
@@ -158,5 +158,26 @@ const styles = StyleSheet.create({
   },
   allinp: {
     height: 425 * (entireScreenWidth / 380)
+  }, 
+  trace:{
+    borderWidth: 2,
+    borderRadius:10,
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(71,150,194, 0.3)'
+  },
+  tracetext:{
+    fontWeight:'bold',
+    fontSize:20,
+    textAlign: 'center',
+  },
+  inf:{
+    textAlign: 'center',
+    color: '#01757A'
+  },
+  infb:{
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: '5%'
   }
 })

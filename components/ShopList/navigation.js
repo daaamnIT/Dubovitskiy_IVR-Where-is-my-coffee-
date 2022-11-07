@@ -17,9 +17,9 @@ export default class ListNav extends Component { // класс отдельно�
                 <Stack2.Screen
                     name="Rating"
                     component={Rating}
-                    options={{ headerShown: true }}
+                    options={{ headerShown: false }}
                 />
-                <Stack2.Screen name="ShopOnMap" component={ShopOnMap}/>
+                <Stack2.Screen name="Кофейня на карте" component={ShopOnMap}/>
             </Stack2.Navigator>
     )
   }
