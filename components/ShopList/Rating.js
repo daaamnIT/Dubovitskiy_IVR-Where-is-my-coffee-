@@ -22,7 +22,7 @@ import { apiurl } from '../../URL'
 
 const entireScreenWidth = Dimensions.get('window').width // получение разрешения экрана
 
-export default class Rating extends Component {
+export default class Rating extends Component {     //класс экрана
   state = {
     data: [],
     selectedId: null,
@@ -48,7 +48,7 @@ export default class Rating extends Component {
     console.log(this.state.data)
   }
 
-  componentDidMount () {
+  componentDidMount () {    // Ф-ия, которая запускается при запуске экрана
     this.getRateInfo()
   }
 
@@ -64,7 +64,7 @@ export default class Rating extends Component {
     })
   }
 
-  componentDidMount () {
+  componentDidMount () {    // Ф-ия, которая запускается при запуске экрана
     this.getRateInfo()
     this.listener = EventRegister.addEventListener('Rate', (data) => this.getRateInfo())
   }

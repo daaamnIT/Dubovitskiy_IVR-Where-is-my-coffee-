@@ -13,7 +13,7 @@ const entireScreenWidth = Dimensions.get('window').width // получение �
 const mapRef = React.useRef < MapView > (null)
 
 export default class ShopOnMap extends Component {
-  constructor (props) { // конструктор
+  constructor (props) { // конструктор класса
     super(props)
     const { navigation } = this.props
     this.state = {
@@ -29,7 +29,7 @@ export default class ShopOnMap extends Component {
     }
   }
 
-  async _getLocation () {
+  async _getLocation () {  //Функция, которая получает координаты пользователя
     const { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
       this.setState({ errorMsg: 'Permission to access location was denied' })
@@ -50,11 +50,11 @@ export default class ShopOnMap extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount () {    // Ф-ия, которая запускается при запуске экрана
     this._getLocation()
   }
 
-  traceRoute () {
+  traceRoute () {     //Ф-ия отображения маршрута
     const origin = [{ latitude: this.state.originLatitude, longitude: this.state.originLongitude }]
     const destination = [{ latitude: this.state.info.fields.latitude, longitude: this.state.info.fields.longitude }]
     const edhePaddingValue = 20
@@ -68,7 +68,7 @@ export default class ShopOnMap extends Component {
     mapRef.current?.fit
   }
 
-  traceRouteOnReady = (args) => {
+  traceRouteOnReady = (args) => {     //Получение дистанции и времени
     if (args) {
       this.setState({ distance: args.distance })
       this.setState({ duration: args.duration })

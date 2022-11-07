@@ -7,7 +7,10 @@ import GetLocation from 'react-native-get-location'
 
 export var text2 = ''
 
-export default function Path () {
+
+//Эксперементальная функция получения координат пользователя
+//Нигде не используется
+export default function  () {
   const [location, setLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
 

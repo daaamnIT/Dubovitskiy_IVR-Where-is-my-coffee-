@@ -15,7 +15,7 @@ const entireScreenWidth = Dimensions.get('window').width // получение �
 
 async function _addMarker (pin, text, text2) { // функция добавления маркера на карту
 
-  const response2 = await fetch(apiurl + 'api/status/', {
+  const response2 = await fetch(apiurl + 'api/status/', {   //запрос на получения статуса пользователя
     method: 'GET',
     headers: {
       Authorization: 'Token ' + Auth.getToken(),
